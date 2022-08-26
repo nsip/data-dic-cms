@@ -1,6 +1,8 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
+        <br>
+        <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
@@ -22,7 +24,9 @@ export default defineComponent({
         QuillEditor
     },
     setup() {
-        let label = "Meta:"
+
+        const label = "Meta:"
+        const hint = "list of [Identifier, Type, Superclass, CrossrefEntities(list)]"
         const holder = "[Identifier, Type, Superclass, CrossrefEntities(list)] are accepted"
         let thisQuill: Quill
         let visEditor = ref(false)
@@ -49,6 +53,7 @@ export default defineComponent({
 
         return {
             label,
+            hint,
             holder,
             visEditor,
             textChange,

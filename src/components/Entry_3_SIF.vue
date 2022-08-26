@@ -1,6 +1,8 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
+        <br>
+        <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
@@ -24,6 +26,7 @@ export default defineComponent({
     setup() {
 
         const label = "SIF:"
+        const hint = "list of [XPath(list), Definition, Commentary, Datestamp]"
         const holder = "[XPath(list), Definition, Commentary, Datestamp] are accepted"
         let thisQuill: Quill
         let visEditor = ref(false)
@@ -50,6 +53,7 @@ export default defineComponent({
 
         return {
             label,
+            hint,
             holder,
             visEditor,
             textChange,

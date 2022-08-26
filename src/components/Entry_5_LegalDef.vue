@@ -1,6 +1,8 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
+        <br>
+        <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
         <button class="more-editor" @click="onMoreLessClick('+')">+</button>
@@ -25,7 +27,8 @@ export default defineComponent({
     },
     setup() {
 
-        let label = "Legal Definitions:"
+        const label = "Legal Definitions:"
+        const hint = "list of [LegislationName, Citation, Link, Definition, Commentary, Datestamp]"
         const holder = "[LegislationName, Citation, Link, Definition, Commentary, Datestamp] are accepted"
         let thisQuills: Quill[] = []
         let idxQuill = 0
@@ -69,6 +72,7 @@ export default defineComponent({
 
         return {
             label,
+            hint,
             holder,
             editorCount,
             visEditor,

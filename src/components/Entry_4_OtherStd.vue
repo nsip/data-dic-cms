@@ -1,6 +1,8 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
+        <br>
+        <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
         <button class="more-editor" @click="onMoreLessClick('+')">+</button>
@@ -26,6 +28,7 @@ export default defineComponent({
     setup() {
 
         const label = "Other Standards:"
+        const hint = "list of [Standard, Link(list), Path(list), Definition, Commentary]"
         const holder = "[Standard, Link(list), Path(list), Definition, Commentary] are accepted"
         let thisQuills: Quill[] = []
         let idxQuill = 0
@@ -70,6 +73,7 @@ export default defineComponent({
 
         return {
             label,
+            hint,
             holder,
             editorCount,
             visEditor,

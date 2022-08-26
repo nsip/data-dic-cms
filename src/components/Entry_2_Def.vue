@@ -1,6 +1,7 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
+        <span class="hint1">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
@@ -24,6 +25,7 @@ export default defineComponent({
     setup() {
 
         const label = "Definition:"
+        const hint = "entity definition"
         const holder = "entity definition value"
         let thisQuill: Quill
         let visEditor = ref(false)
@@ -50,6 +52,7 @@ export default defineComponent({
 
         return {
             label,
+            hint,
             holder,
             visEditor,
             textChange,

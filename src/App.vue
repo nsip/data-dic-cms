@@ -147,6 +147,27 @@ export default defineComponent({
   display: inline-block; /* set span */
 }
 
+.hint1 {
+  font-weight: bold;
+  font-size: small;
+  font-style: italic;
+  color: rgb(120, 120, 120);
+  position: absolute;
+  left: 120px;
+  margin-bottom: 10px;
+  display: inline-block; /* set span */
+}
+
+.hint2 {
+  font-weight: bold;
+  font-size: small;
+  font-style: italic;
+  color: rgb(120, 120, 120);
+  margin-left: 4%;
+  margin-bottom: 10px;
+  display: inline-block; /* set span */
+}
+
 .more-editor {
   font-size: medium;
   color: red;
