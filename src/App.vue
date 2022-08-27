@@ -156,6 +156,7 @@ export default defineComponent({
   left: 120px;
   margin-bottom: 10px;
   display: inline-block; /* set span */
+  cursor: pointer;
 }
 
 .hint2 {
@@ -163,9 +164,10 @@ export default defineComponent({
   font-size: small;
   font-style: italic;
   color: rgb(120, 120, 120);
-  margin-left: 4%;
+  margin-left: 2%;
   margin-bottom: 10px;
   display: inline-block; /* set span */
+  cursor: pointer;
 }
 
 .more-editor {

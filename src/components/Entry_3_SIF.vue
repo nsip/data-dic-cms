@@ -6,7 +6,10 @@
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='list of xpath' @ready="onReady" @textChange="textChange(0)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(1)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(2)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='datestamp' @ready="onReady" @textChange="textChange(3)" />
         </div>
     </div>
 </template>
@@ -26,21 +29,37 @@ export default defineComponent({
     setup() {
 
         const label = "SIF:"
-        const hint = "list of [XPath(list), Definition, Commentary, Datestamp]"
-        const holder = "[XPath(list), Definition, Commentary, Datestamp] are accepted"
-        let thisQuill: Quill
+        const hint = "list of [xpath(list), definition, commentary, datestamp]"
+        let thisQuills: Quill[] = []
+        let idxQuill = 0
         let visEditor = ref(false)
 
         const onReady = (quill: Quill) => {
-            thisQuill = quill
+            thisQuills[idxQuill++] = quill
         }
 
-        const textChange = () => {
-            const html = thisQuill.root.innerHTML; // get html from quill
-            sharedHTML.setSIF(html)
+        const textChange = (idx: number) => {
+            const html = thisQuills[idx].root.innerHTML; // get html from quill
+            const text = thisQuills[idx].getText(0, 100000)
 
-            const text = thisQuill.getText(0, 100000)
-            sharedTEXT.setSIF(text)
+            switch (idx) {
+                case 0:
+                    sharedHTML.setSIFXPaths(html)
+                    sharedTEXT.setSIFXPaths(text)
+                    break
+                case 1:
+                    sharedHTML.setSIFDefinition(html)
+                    sharedTEXT.setSIFDefinition(text)
+                    break
+                case 2:
+                    sharedHTML.setSIFCommentary(html)
+                    sharedTEXT.setSIFCommentary(text)
+                    break
+                case 3:
+                    sharedHTML.setSIFDatestamp(html)
+                    sharedTEXT.setSIFDatestamp(text)
+                    break
+            }
         }
 
         const onToggleVisible = () => {
@@ -54,7 +73,6 @@ export default defineComponent({
         return {
             label,
             hint,
-            holder,
             visEditor,
             textChange,
             onReady,

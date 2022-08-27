@@ -1,85 +1,92 @@
 import { reactive } from 'vue';
 
-export const sharedTEXT = reactive({
+class shared {
 
-    entity: "",
+    entity = "";
     setEntity(val: string) {
-        this.entity = val;
-    },
+        this.entity = val
+    }
 
-    definition: "",
+    // 
+
+    definition = "";
     setDefinition(val: string) {
         this.definition = val;
-    },
+    }
 
-    sif: "",
-    setSIF(val: string) {
-        this.sif = val;
-    },
+    // 
 
-    otherStd: [""],
-    setOtherStd(val: string, idx: number) {
-        this.otherStd[idx] = val;
-    },    
+    sif_xpaths = "";
+    setSIFXPaths(val: string) {
+        this.sif_xpaths = val
+    }
+    sif_definition = "";
+    setSIFDefinition(val: string) {
+        this.sif_definition = val
+    }
+    sif_commentary = "";
+    setSIFCommentary(val: string) {
+        this.sif_commentary = val
+    }
+    sif_datestamp = "";
+    setSIFDatestamp(val: string) {
+        this.sif_datestamp = val
+    }
 
-    legalDef: [""],
+    // 
+
+    otherStd_std: string[] = [];
+    setOtherStd(val: string, i: number) {
+        this.otherStd_std[i] = val;
+    }
+    otherStd_link: string[] = [];
+    setOtherStdLink(val: string, i: number) {
+        this.otherStd_link[i] = val;
+    }
+    otherStd_path: string[] = [];
+    setOtherStdPath(val: string, i: number) {
+        this.otherStd_path[i] = val;
+    }
+    otherStd_definition: string[] = [];
+    setOtherStdDefinition(val: string, i: number) {
+        this.otherStd_definition[i] = val;
+    }
+    otherStd_commentary: string[] = [];
+    setOtherStdCommentary(val: string, i: number) {
+        this.otherStd_commentary[i] = val;
+    }
+
+    // 
+
+    legalDef: string[] = [];
     setLegalDef(val: string, idx: number) {
         this.legalDef[idx] = val;
-    },
+    }
 
-    collections: [""],
+    // 
+
+    collections: string[] = [];
     setCollection(val: string, idx: number) {
         this.collections[idx] = val;
-    },
+    }
 
-    meta: "",
+    // 
+
+    meta = "";
     setMeta(val: string) {
         this.meta = val;
-    },
+    }
+}
 
-})
+const gSharedTEXT = new shared()
+const gSharedHTML = new shared()
 
-export const sharedHTML = reactive({
+export const sharedTEXT = reactive(gSharedTEXT)
+export const sharedHTML = reactive(gSharedHTML)
 
-    entity: "",
-    setEntity(val: string) {
-        this.entity = val;
-    },
-
-    definition: "",
-    setDefinition(val: string) {
-        this.definition = val;
-    },
-
-    sif: "",
-    setSIF(val: string) {
-        this.sif = val;
-    },
-
-    otherStd: [""],
-    setOtherStd(val: string, idx: number) {
-        this.otherStd[idx] = val;
-    },
-
-    legalDef: [""],
-    setLegalDef(val: string, idx: number) {
-        this.legalDef[idx] = val;
-    },
-
-    collections: [""],
-    setCollection(val: string, idx: number) {
-        this.collections[idx] = val;
-    },
-
-    meta: "",
-    setMeta(val: string) {
-        this.meta = val;
-    },
-
-})
 
 export const jsonTemplate = reactive({
-    
+
 })
 
 const pad2 = (n: number) => { return n < 10 ? '0' + n : n }

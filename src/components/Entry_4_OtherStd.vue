@@ -6,9 +6,13 @@
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
         <button class="more-editor" @click="onMoreLessClick('+')">+</button>
-        <div :hidden=!visEditor v-for="(n, i) in editorCount" :key="i">
-            <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange(i)" />
-            <br>
+        <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
+            <br>&nbsp;# {{ iGrp }}
+            <QuillEditor theme="snow" toolbar="essential" placeholder='standard' @ready="onReady" @textChange="textChange(iGrp, 0)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='link list' @ready="onReady" @textChange="textChange(iGrp, 1)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='path list' @ready="onReady" @textChange="textChange(iGrp, 2)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(iGrp, 3)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(iGrp, 4)" />
         </div>
     </div>
 </template>
@@ -28,24 +32,69 @@ export default defineComponent({
     setup() {
 
         const label = "Other Standards:"
-        const hint = "list of [Standard, Link(list), Path(list), Definition, Commentary]"
-        const holder = "[Standard, Link(list), Path(list), Definition, Commentary] are accepted"
+        const hint = "list of [standard, link(list), path(list), definition, commentary]"
         let thisQuills: Quill[] = []
         let idxQuill = 0
         let visEditor = ref(false)
         let editorCount = ref(1)
 
         const onReady = (quill: Quill) => {
-            thisQuills[idxQuill] = quill
-            // console.log('onQuillReady@ ' + timestamp())
+            thisQuills[idxQuill++] = quill
+            console.log('onQuillReady@ ' + timestamp())
+            // console.log('idxQuill:', idxQuill)
         }
 
-        const textChange = (idx: number) => {
-            const html = thisQuills[idx].root.innerHTML; // get html from quill
-            sharedHTML.setOtherStd(html, idx)
+        // *** doesn't work as expected using map ***
 
-            const text = thisQuills[idx].getText(0, 100000)
-            sharedTEXT.setOtherStd(text, idx)
+        // const mIdxFnHTML = new Map<number, (val: string, idx: number) => void>()
+        // mIdxFnHTML.set(0, sharedHTML.setOtherStd)
+        // mIdxFnHTML.set(1, sharedHTML.setOtherStdLink)
+        // mIdxFnHTML.set(2, sharedHTML.setOtherStdPath)
+        // mIdxFnHTML.set(3, sharedHTML.setOtherStdDefinition)
+        // mIdxFnHTML.set(4, sharedHTML.setOtherStdCommentary)
+
+        // const mIdxFnTEXT = new Map<number, (val: string, idx: number) => void>()
+        // mIdxFnTEXT.set(0, sharedTEXT.setOtherStd)
+        // mIdxFnTEXT.set(1, sharedTEXT.setOtherStdLink)
+        // mIdxFnTEXT.set(2, sharedTEXT.setOtherStdPath)
+        // mIdxFnTEXT.set(3, sharedTEXT.setOtherStdDefinition)
+        // mIdxFnTEXT.set(4, sharedTEXT.setOtherStdCommentary)
+
+        // 
+
+        const textChange = (idxGrp: number, idx: number) => {
+            const html = thisQuills[idxGrp * 5 + idx].root.innerHTML; // get html from quill
+            const text = thisQuills[idxGrp * 5 + idx].getText(0, 100000) // get text from quill
+
+            // *** doesn't work as expected using map ***
+
+            // mIdxFnHTML.get(idx)?.(html, idxGrp)
+            // mIdxFnTEXT.get(idx)?.(text, idxGrp)
+
+            //
+
+            switch (idx) {
+                case 0:
+                    sharedHTML.setOtherStd(html, idxGrp)
+                    sharedTEXT.setOtherStd(text, idxGrp)
+                    break
+                case 1:
+                    sharedHTML.setOtherStdLink(html, idxGrp)
+                    sharedTEXT.setOtherStdLink(text, idxGrp)
+                    break
+                case 2:
+                    sharedHTML.setOtherStdPath(html, idxGrp)
+                    sharedTEXT.setOtherStdPath(text, idxGrp)
+                    break
+                case 3:
+                    sharedHTML.setOtherStdDefinition(html, idxGrp)
+                    sharedTEXT.setOtherStdDefinition(text, idxGrp)
+                    break
+                case 4:
+                    sharedHTML.setOtherStdCommentary(html, idxGrp)
+                    sharedTEXT.setOtherStdCommentary(text, idxGrp)
+                    break
+            }
         }
 
         const onToggleVisible = () => {
@@ -59,22 +108,22 @@ export default defineComponent({
         const onMoreLessClick = (type: string) => {
             switch (type) {
                 case "+":
-                    idxQuill++
+                    // idxQuill += 5
                     editorCount.value++
                     break
                 case "-":
-                    sharedHTML.setOtherStd("", idxQuill) // clear preview
-                    idxQuill--
+                    // sharedHTML.setOtherStd("", idxQuill) // clear preview
+                    // idxQuill -= 5
                     editorCount.value--
                     break
                 default:
             }
+            // console.log('editor count:', editorCount.value)
         }
 
         return {
             label,
             hint,
-            holder,
             editorCount,
             visEditor,
             textChange,

@@ -28,8 +28,8 @@ export default defineComponent({
     setup() {
         
         const label = "Collections:"
-        const hint = "list of [Name, Description, Standard, Elements(list), DefinitionModification]"
-        const holder = "[Name, Description, Standard, Elements(list), DefinitionModification] are accepted"
+        const hint = "list of [name, description, standard, elements(list), definitionModification]"
+        const holder = "[name, description, standard, elements(list), definitionModification] are accepted"
         let thisQuills: Quill[] = []
         let idxQuill = 0
         let visEditor = ref(false)

@@ -1,12 +1,16 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
-        <br>
+        <span class="label">{{ label }}</span>   
+        <br>     
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='identifier' @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='type' @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='expected attributes' @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='superclasses' @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='cross ref entities' @ready="onReady" @textChange="textChange" />
         </div>
     </div>
 </template>
@@ -26,8 +30,7 @@ export default defineComponent({
     setup() {
 
         const label = "Meta:"
-        const hint = "list of [Identifier, Type, Superclass, CrossrefEntities(list)]"
-        const holder = "[Identifier, Type, Superclass, CrossrefEntities(list)] are accepted"
+        const hint = "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]"
         let thisQuill: Quill
         let visEditor = ref(false)
 
@@ -54,7 +57,6 @@ export default defineComponent({
         return {
             label,
             hint,
-            holder,
             visEditor,
             textChange,
             onReady,

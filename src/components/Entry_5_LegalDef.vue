@@ -28,8 +28,8 @@ export default defineComponent({
     setup() {
 
         const label = "Legal Definitions:"
-        const hint = "list of [LegislationName, Citation, Link, Definition, Commentary, Datestamp]"
-        const holder = "[LegislationName, Citation, Link, Definition, Commentary, Datestamp] are accepted"
+        const hint = "list of [legislationName, citation, link, definition, commentary, datestamp]"
+        const holder = "[legislationName, citation, link, definition, commentary, datestamp] are accepted"
         let thisQuills: Quill[] = []
         let idxQuill = 0
         let visEditor = ref(false)
