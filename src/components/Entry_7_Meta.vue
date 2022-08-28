@@ -1,16 +1,16 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>   
-        <br>     
+        <span class="label">{{ label }}</span>
+        <br>
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" placeholder='identifier' @ready="onReady" @textChange="textChange" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder='type' @ready="onReady" @textChange="textChange" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder='expected attributes' @ready="onReady" @textChange="textChange" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder='superclasses' @ready="onReady" @textChange="textChange" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder='cross ref entities' @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='identifier' @ready="onReady" @textChange="textChange(0)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='type' @ready="onReady" @textChange="textChange(1)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='expected attributes' @ready="onReady" @textChange="textChange(2)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='superclasses' @ready="onReady" @textChange="textChange(3)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='cross ref entities' @ready="onReady" @textChange="textChange(4)" />
         </div>
     </div>
 </template>
@@ -31,19 +31,40 @@ export default defineComponent({
 
         const label = "Meta:"
         const hint = "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]"
-        let thisQuill: Quill
+        let thisQuills: Quill[] = []
+        let idxQuill = 0
         let visEditor = ref(false)
 
         const onReady = (quill: Quill) => {
-            thisQuill = quill
+            thisQuills[idxQuill++] = quill
         }
 
-        const textChange = () => {
-            const html = thisQuill.root.innerHTML;
-            sharedHTML.setMeta(html)
+        const textChange = (idx: number) => {
+            const html = thisQuills[idx].root.innerHTML; // get html from quill
+            const text = thisQuills[idx].getText(0, 100000)
 
-            const text = thisQuill.getText(0, 100000)
-            sharedTEXT.setMeta(text)
+            switch (idx) {
+                case 0:
+                    sharedHTML.setMetaId(html)
+                    sharedTEXT.setMetaId(text)
+                    break
+                case 1:
+                    sharedHTML.setMetaType(html)
+                    sharedTEXT.setMetaType(text)
+                    break
+                case 2:
+                    sharedHTML.setMetaAttr(html)
+                    sharedTEXT.setMetaAttr(text)
+                    break
+                case 3:
+                    sharedHTML.setMetaSuperclass(html)
+                    sharedTEXT.setMetaSuperclass(text)
+                    break
+                case 4:
+                    sharedHTML.setMetaRefentities(html)
+                    sharedTEXT.setMetaRefentities(text)
+                    break
+            }
         }
 
         const onToggleVisible = () => {

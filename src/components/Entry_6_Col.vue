@@ -30,7 +30,7 @@ export default defineComponent({
         QuillEditor
     },
     setup() {
-        
+
         const label = "Collections:"
         const hint = "list of [name, description, standard, elements(list), definitionModification]"
         let thisQuills: Quill[] = []
@@ -85,7 +85,11 @@ export default defineComponent({
                     editorCount.value++
                     break
                 case "-":
-                    // sharedHTML.setCollection("", idxQuill) // clear preview
+                    // clear preview
+                    idxQuill -= 5
+                    sharedHTML.rmColLast()
+                    sharedTEXT.rmColLast()
+
                     editorCount.value--
                     break
                 default:

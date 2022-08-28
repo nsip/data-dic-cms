@@ -111,7 +111,11 @@ export default defineComponent({
                     editorCount.value++
                     break
                 case "-":
-                    // sharedHTML.setOtherStd("", idxQuill) // clear preview
+                    // clear preview
+                    idxQuill -= 5
+                    sharedHTML.rmOtherStdLast()
+                    sharedTEXT.rmOtherStdLast()
+
                     editorCount.value--
                     break
                 default:

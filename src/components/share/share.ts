@@ -52,6 +52,30 @@ class shared {
     setOtherStdCommentary(val: string, i: number) {
         this.otherStd_commentary[i] = val;
     }
+    rmOtherStdLast() {
+        const m = Math.max(
+            this.otherStd_std.length,
+            this.otherStd_link.length,
+            this.otherStd_path.length,
+            this.otherStd_definition.length,
+            this.otherStd_commentary.length,
+        )
+        if (this.otherStd_std.length == m) {
+            this.otherStd_std.splice(-1)
+        }
+        if (this.otherStd_link.length == m) {
+            this.otherStd_link.splice(-1)
+        }
+        if (this.otherStd_path.length == m) {
+            this.otherStd_path.splice(-1)
+        }
+        if (this.otherStd_definition.length == m) {
+            this.otherStd_definition.splice(-1)
+        }
+        if (this.otherStd_commentary.length == m) {
+            this.otherStd_commentary.splice(-1)
+        }
+    }
 
     // 
     legalDef_name: string[] = [];
@@ -59,11 +83,11 @@ class shared {
         this.legalDef_name[idx] = val;
     }
     legalDef_citation: string[] = [];
-    setLegalCitation(val: string, idx: number) {
+    setLegalDefCitation(val: string, idx: number) {
         this.legalDef_citation[idx] = val;
     }
     legalDef_link: string[] = [];
-    setLegalLink(val: string, idx: number) {
+    setLegalDefLink(val: string, idx: number) {
         this.legalDef_link[idx] = val;
     }
     legalDef_definition: string[] = [];
@@ -71,12 +95,40 @@ class shared {
         this.legalDef_definition[idx] = val;
     }
     legalDef_commentary: string[] = [];
-    setLegalCommentary(val: string, idx: number) {
+    setLegalDefCommentary(val: string, idx: number) {
         this.legalDef_commentary[idx] = val;
     }
     legalDef_datestamp: string[] = [];
-    setLegalDateStamp(val: string, idx: number) {
+    setLegalDefDateStamp(val: string, idx: number) {
         this.legalDef_datestamp[idx] = val;
+    }
+    rmLegalDefLast() {
+        const m = Math.max(
+            this.legalDef_name.length,
+            this.legalDef_citation.length,
+            this.legalDef_link.length,
+            this.legalDef_definition.length,
+            this.legalDef_commentary.length,
+            this.legalDef_datestamp.length,
+        )
+        if (this.legalDef_name.length == m) {
+            this.legalDef_name.splice(-1)
+        }
+        if (this.legalDef_citation.length == m) {
+            this.legalDef_citation.splice(-1)
+        }
+        if (this.legalDef_link.length == m) {
+            this.legalDef_link.splice(-1)
+        }
+        if (this.legalDef_definition.length == m) {
+            this.legalDef_definition.splice(-1)
+        }
+        if (this.legalDef_commentary.length == m) {
+            this.legalDef_commentary.splice(-1)
+        }
+        if (this.legalDef_datestamp.length == m) {
+            this.legalDef_datestamp.splice(-1)
+        }
     }
 
     // 
@@ -100,12 +152,51 @@ class shared {
     setColDefmod(val: string, idx: number) {
         this.collection_defmod[idx] = val
     }
+    rmColLast() {
+        const m = Math.max(
+            this.collection_name.length,
+            this.collection_description.length,
+            this.collection_standard.length,
+            this.collection_elements.length,
+            this.collection_defmod.length,
+        )
+        if (this.collection_name.length == m) {
+            this.collection_name.splice(-1)
+        }
+        if (this.collection_description.length == m) {
+            this.collection_description.splice(-1)
+        }
+        if (this.collection_standard.length == m) {
+            this.collection_standard.splice(-1)
+        }
+        if (this.collection_elements.length == m) {
+            this.collection_elements.splice(-1)
+        }
+        if (this.collection_defmod.length == m) {
+            this.collection_defmod.splice(-1)
+        }
+    }
 
-    // 
-
-    meta = "";
-    setMeta(val: string) {
-        this.meta = val;
+    //
+    meta_id = ""
+    setMetaId(val: string) {
+        this.meta_id = val
+    }
+    meta_type = ""
+    setMetaType(val: string) {
+        this.meta_type = val
+    }
+    meta_attr = ""
+    setMetaAttr(val: string) {
+        this.meta_attr = val
+    }
+    meta_superclass = ""
+    setMetaSuperclass(val: string) {
+        this.meta_superclass = val
+    }
+    meta_refentities = ""
+    setMetaRefentities(val: string) {
+        this.meta_refentities = val
     }
 }
 

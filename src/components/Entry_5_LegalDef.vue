@@ -54,24 +54,24 @@ export default defineComponent({
                     sharedTEXT.setLegalDefName(text, idxGrp)
                     break
                 case 1:
-                    sharedHTML.setLegalCitation(html, idxGrp)
-                    sharedTEXT.setLegalCitation(text, idxGrp)
+                    sharedHTML.setLegalDefCitation(html, idxGrp)
+                    sharedTEXT.setLegalDefCitation(text, idxGrp)
                     break
                 case 2:
-                    sharedHTML.setLegalLink(html, idxGrp)
-                    sharedTEXT.setLegalLink(text, idxGrp)
+                    sharedHTML.setLegalDefLink(html, idxGrp)
+                    sharedTEXT.setLegalDefLink(text, idxGrp)
                     break
                 case 3:
                     sharedHTML.setLegalDefinition(html, idxGrp)
                     sharedTEXT.setLegalDefinition(text, idxGrp)
                     break
                 case 4:
-                    sharedHTML.setLegalCommentary(html, idxGrp)
-                    sharedTEXT.setLegalCommentary(text, idxGrp)
+                    sharedHTML.setLegalDefCommentary(html, idxGrp)
+                    sharedTEXT.setLegalDefCommentary(text, idxGrp)
                     break
                 case 5:
-                    sharedHTML.setLegalDateStamp(html, idxGrp)
-                    sharedTEXT.setLegalDateStamp(text, idxGrp)
+                    sharedHTML.setLegalDefDateStamp(html, idxGrp)
+                    sharedTEXT.setLegalDefDateStamp(text, idxGrp)
                     break
             }
         }
@@ -90,6 +90,11 @@ export default defineComponent({
                     editorCount.value++
                     break
                 case "-":
+                    // clear preview
+                    idxQuill -= 6
+                    sharedHTML.rmLegalDefLast()
+                    sharedTEXT.rmLegalDefLast()
+
                     editorCount.value--
                     break
                 default:

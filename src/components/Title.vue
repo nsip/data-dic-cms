@@ -11,7 +11,7 @@ export default defineComponent({
     //     msg: String,
     // },
     setup() {
-        let title = "New Entry for Data Dictionary"
+        let title = "Data Dictionary New Entry"
         return {
             title
         }
