@@ -40,7 +40,7 @@ export default defineComponent({
 
         const onReady = (quill: Quill) => {
             thisQuills[idxQuill++] = quill
-            console.log('onQuillReady@ ' + timestamp())
+            // console.log('onQuillReady@ ' + timestamp())
             // console.log('idxQuill:', idxQuill)
         }
 
@@ -108,12 +108,10 @@ export default defineComponent({
         const onMoreLessClick = (type: string) => {
             switch (type) {
                 case "+":
-                    // idxQuill += 5
                     editorCount.value++
                     break
                 case "-":
                     // sharedHTML.setOtherStd("", idxQuill) // clear preview
-                    // idxQuill -= 5
                     editorCount.value--
                     break
                 default:

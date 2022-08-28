@@ -8,14 +8,12 @@ class shared {
     }
 
     // 
-
     definition = "";
     setDefinition(val: string) {
         this.definition = val;
     }
 
     // 
-
     sif_xpaths = "";
     setSIFXPaths(val: string) {
         this.sif_xpaths = val
@@ -34,7 +32,6 @@ class shared {
     }
 
     // 
-
     otherStd_std: string[] = [];
     setOtherStd(val: string, i: number) {
         this.otherStd_std[i] = val;
@@ -57,17 +54,51 @@ class shared {
     }
 
     // 
-
-    legalDef: string[] = [];
-    setLegalDef(val: string, idx: number) {
-        this.legalDef[idx] = val;
+    legalDef_name: string[] = [];
+    setLegalDefName(val: string, idx: number) {
+        this.legalDef_name[idx] = val;
+    }
+    legalDef_citation: string[] = [];
+    setLegalCitation(val: string, idx: number) {
+        this.legalDef_citation[idx] = val;
+    }
+    legalDef_link: string[] = [];
+    setLegalLink(val: string, idx: number) {
+        this.legalDef_link[idx] = val;
+    }
+    legalDef_definition: string[] = [];
+    setLegalDefinition(val: string, idx: number) {
+        this.legalDef_definition[idx] = val;
+    }
+    legalDef_commentary: string[] = [];
+    setLegalCommentary(val: string, idx: number) {
+        this.legalDef_commentary[idx] = val;
+    }
+    legalDef_datestamp: string[] = [];
+    setLegalDateStamp(val: string, idx: number) {
+        this.legalDef_datestamp[idx] = val;
     }
 
     // 
-
-    collections: string[] = [];
-    setCollection(val: string, idx: number) {
-        this.collections[idx] = val;
+    collection_name: string[] = []
+    setColName(val: string, idx: number) {
+        this.collection_name[idx] = val
+    }
+    collection_description: string[] = []
+    setColDescription(val: string, idx: number) {
+        this.collection_description[idx] = val
+    }
+    collection_standard: string[] = []
+    setColStandard(val: string, idx: number) {
+        this.collection_standard[idx] = val
+    }
+    collection_elements: string[] = []
+    setColElements(val: string, idx: number) {
+        this.collection_elements[idx] = val
+    }
+    collection_defmod: string[] = []
+    setColDefmod(val: string, idx: number) {
+        this.collection_defmod[idx] = val
     }
 
     // 

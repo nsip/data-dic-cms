@@ -1,5 +1,5 @@
 <template>
-    <div v-html="otherStandardsContent()"></div>
+    <div v-html="collectionsContent()"></div>
 </template>
 
 <script lang="ts">
@@ -14,24 +14,12 @@ export default defineComponent({
     setup() {
 
         const nonEmptyHtml = (label4: string, text: string, html: string) => {
-            if (text.trim().length == 0) {
+            if (text == undefined || text.trim().length == 0) {
                 return ""
             }
+            // console.log("text:", text)
+            // console.log("html:", html)
             return "<h4 style='margin-left:10px;'>" + label4 + "</h4>" + html
-        }
-
-        const nonEmptyArrayHtml = (text: string[], html: string[]) => {
-
-            let ret = ""
-            for (let i = 0; i < text.length; i++) {
-                if (text[i].trim().length != 0) {
-                    ret += html[i]
-                }
-            }
-            if (ret.length == 0) {
-                return ""
-            }
-            return ret
         }
 
         const entityContent = () => {
@@ -53,22 +41,61 @@ export default defineComponent({
         }
 
         const otherStandardsContent = () => {
-            return "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Other Standards</h3>" +
-                nonEmptyArrayHtml(sharedTEXT.otherStd_std, sharedHTML.otherStd_std) +
-                nonEmptyArrayHtml(sharedTEXT.otherStd_link, sharedHTML.otherStd_link) +
-                nonEmptyArrayHtml(sharedTEXT.otherStd_path, sharedHTML.otherStd_path) +
-                nonEmptyArrayHtml(sharedTEXT.otherStd_definition, sharedHTML.otherStd_definition) +
-                nonEmptyArrayHtml(sharedTEXT.otherStd_commentary, sharedHTML.otherStd_commentary)
+            const head = "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Other Standards</h3>"
+            const n = sharedTEXT.otherStd_std.length
+            let eles: string[] = []
+            for (let i = 0; i < n; i++) {
+                eles[i] = ""
+                eles[i] += nonEmptyHtml("standard:", sharedTEXT.otherStd_std[i], sharedHTML.otherStd_std[i])
+                eles[i] += nonEmptyHtml("link:", sharedTEXT.otherStd_link[i], sharedHTML.otherStd_link[i])
+                eles[i] += nonEmptyHtml("path:", sharedTEXT.otherStd_path[i], sharedHTML.otherStd_path[i])
+                eles[i] += nonEmptyHtml("definition:", sharedTEXT.otherStd_definition[i], sharedHTML.otherStd_definition[i])
+                eles[i] += nonEmptyHtml("commentary:", sharedTEXT.otherStd_commentary[i], sharedHTML.otherStd_commentary[i])
+            }
+            const body = "<hr>" + eles.join("<hr>")
+            if (body.length > 0) {
+                return head + body
+            }
+            return head
         }
 
         const legalDefinitionContent = () => {
-            return "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Legal Definitions</h3>" +
-                nonEmptyArrayHtml(sharedTEXT.legalDef, sharedHTML.legalDef)
+            const head = "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Legal Definitions</h3>"
+            const n = sharedTEXT.legalDef_name.length
+            let eles: string[] = []
+            for (let i = 0; i < n; i++) {
+                eles[i] = ""
+                eles[i] += nonEmptyHtml("legislationName:", sharedTEXT.legalDef_name[i], sharedHTML.legalDef_name[i])
+                eles[i] += nonEmptyHtml("citation:", sharedTEXT.legalDef_citation[i], sharedHTML.legalDef_citation[i])
+                eles[i] += nonEmptyHtml("link:", sharedTEXT.legalDef_link[i], sharedHTML.legalDef_link[i])
+                eles[i] += nonEmptyHtml("definition:", sharedTEXT.legalDef_definition[i], sharedHTML.legalDef_definition[i])
+                eles[i] += nonEmptyHtml("commentary:", sharedTEXT.legalDef_commentary[i], sharedHTML.legalDef_commentary[i])
+                eles[i] += nonEmptyHtml("datestamp:", sharedTEXT.legalDef_datestamp[i], sharedHTML.legalDef_datestamp[i])
+            }
+            const body = "<hr>" + eles.join("<hr>")
+            if (body.length > 0) {
+                return head + body
+            }
+            return head
         }
 
         const collectionsContent = () => {
-            return "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Collections</h3>" +
-                nonEmptyArrayHtml(sharedTEXT.collections, sharedHTML.collections)
+            const head = "<h3 style='font-size:medium; font-style:italic; text-decoration: underline'>Collections</h3>"
+            const n = sharedTEXT.collection_name.length
+            let eles: string[] = []
+            for (let i = 0; i < n; i++) {
+                eles[i] = ""
+                eles[i] += nonEmptyHtml("name:", sharedTEXT.collection_name[i], sharedHTML.collection_name[i])
+                eles[i] += nonEmptyHtml("description:", sharedTEXT.collection_description[i], sharedHTML.collection_description[i])
+                eles[i] += nonEmptyHtml("standard:", sharedTEXT.collection_standard[i], sharedHTML.collection_standard[i])
+                eles[i] += nonEmptyHtml("elements:", sharedTEXT.collection_elements[i], sharedHTML.collection_elements[i])
+                eles[i] += nonEmptyHtml("definition modification:", sharedTEXT.collection_defmod[i], sharedHTML.collection_defmod[i])
+            }
+            const body = "<hr>" + eles.join("<hr>")
+            if (body.length > 0) {
+                return head + body
+            }
+            return head
         }
 
         const metaContent = () => {
@@ -77,7 +104,13 @@ export default defineComponent({
         }
 
         const combineContent = () => {
-            return entityContent() + definitionContent() + sifContent() + otherStandardsContent() + legalDefinitionContent() + collectionsContent() + metaContent()
+            return entityContent() +
+                definitionContent() +
+                sifContent() +
+                otherStandardsContent() +
+                legalDefinitionContent() +
+                collectionsContent() +
+                metaContent()
         }
 
         return {
