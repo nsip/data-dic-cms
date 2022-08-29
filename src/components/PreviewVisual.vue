@@ -42,7 +42,7 @@ export default defineComponent({
 
         const otherStandardsContent = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Other Standards ---</h3>"
-            const n = sharedTEXT.otherStd_std.length
+            const n = sharedTEXT.cntOtherStd()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 eles[i] = ""
@@ -61,7 +61,7 @@ export default defineComponent({
 
         const legalDefinitionContent = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Legal Definitions ---</h3>"
-            const n = sharedTEXT.legalDef_name.length
+            const n = sharedTEXT.cntLegalDef()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 eles[i] = ""
@@ -81,7 +81,7 @@ export default defineComponent({
 
         const collectionsContent = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Collections ---</h3>"
-            const n = sharedTEXT.collection_name.length
+            const n = sharedTEXT.cntCol()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 eles[i] = ""

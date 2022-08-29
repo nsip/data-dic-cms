@@ -53,13 +53,7 @@ class shared {
         this.otherStd_commentary[i] = val;
     }
     rmOtherStdLast() {
-        const m = Math.max(
-            this.otherStd_std.length,
-            this.otherStd_link.length,
-            this.otherStd_path.length,
-            this.otherStd_definition.length,
-            this.otherStd_commentary.length,
-        )
+        const m = this.cntOtherStd()
         if (this.otherStd_std.length == m) {
             this.otherStd_std.splice(-1)
         }
@@ -75,6 +69,15 @@ class shared {
         if (this.otherStd_commentary.length == m) {
             this.otherStd_commentary.splice(-1)
         }
+    }
+    cntOtherStd() {
+        return Math.max(
+            this.otherStd_std.length,
+            this.otherStd_link.length,
+            this.otherStd_path.length,
+            this.otherStd_definition.length,
+            this.otherStd_commentary.length,
+        )
     }
 
     // 
@@ -103,14 +106,7 @@ class shared {
         this.legalDef_datestamp[idx] = val;
     }
     rmLegalDefLast() {
-        const m = Math.max(
-            this.legalDef_name.length,
-            this.legalDef_citation.length,
-            this.legalDef_link.length,
-            this.legalDef_definition.length,
-            this.legalDef_commentary.length,
-            this.legalDef_datestamp.length,
-        )
+        const m = this.cntLegalDef()
         if (this.legalDef_name.length == m) {
             this.legalDef_name.splice(-1)
         }
@@ -129,6 +125,16 @@ class shared {
         if (this.legalDef_datestamp.length == m) {
             this.legalDef_datestamp.splice(-1)
         }
+    }
+    cntLegalDef() {
+        return Math.max(
+            this.legalDef_name.length,
+            this.legalDef_citation.length,
+            this.legalDef_link.length,
+            this.legalDef_definition.length,
+            this.legalDef_commentary.length,
+            this.legalDef_datestamp.length,
+        )
     }
 
     // 
@@ -153,13 +159,7 @@ class shared {
         this.collection_defmod[idx] = val
     }
     rmColLast() {
-        const m = Math.max(
-            this.collection_name.length,
-            this.collection_description.length,
-            this.collection_standard.length,
-            this.collection_elements.length,
-            this.collection_defmod.length,
-        )
+        const m = this.cntCol()
         if (this.collection_name.length == m) {
             this.collection_name.splice(-1)
         }
@@ -175,6 +175,15 @@ class shared {
         if (this.collection_defmod.length == m) {
             this.collection_defmod.splice(-1)
         }
+    }
+    cntCol() {
+        return Math.max(
+            this.collection_name.length,
+            this.collection_description.length,
+            this.collection_standard.length,
+            this.collection_elements.length,
+            this.collection_defmod.length,
+        )
     }
 
     //
