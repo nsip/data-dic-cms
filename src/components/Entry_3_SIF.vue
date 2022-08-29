@@ -19,7 +19,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity } from './share/share'
 
 export default defineComponent({
     name: 'EntrySIF',
@@ -46,18 +46,22 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setSIFXPaths(html)
                     sharedTEXT.setSIFXPaths(text)
+                    jsonEntity.SetSIF(html, "", "", "")
                     break
                 case 1:
                     sharedHTML.setSIFDefinition(html)
                     sharedTEXT.setSIFDefinition(text)
+                    jsonEntity.SetSIF("", html, "", "")
                     break
                 case 2:
                     sharedHTML.setSIFCommentary(html)
                     sharedTEXT.setSIFCommentary(text)
+                    jsonEntity.SetSIF("", "", html, "")
                     break
                 case 3:
                     sharedHTML.setSIFDatestamp(html)
                     sharedTEXT.setSIFDatestamp(text)
+                    jsonEntity.SetSIF("", "", "", html)
                     break
             }
         }

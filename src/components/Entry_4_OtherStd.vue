@@ -22,7 +22,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, timestamp } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity, timestamp } from './share/share'
 
 export default defineComponent({
     name: 'EntryOtherStd',
@@ -72,27 +72,31 @@ export default defineComponent({
             // mIdxFnTEXT.get(idx)?.(text, idxGrp)
 
             //
-
             switch (idx) {
                 case 0:
                     sharedHTML.setOtherStd(html, idxGrp)
-                    sharedTEXT.setOtherStd(text, idxGrp)
+                    sharedTEXT.setOtherStd(text, idxGrp)                    
+                    jsonEntity.SetOtherStd(idxGrp, html, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setOtherStdLink(html, idxGrp)
                     sharedTEXT.setOtherStdLink(text, idxGrp)
+                    jsonEntity.SetOtherStd(idxGrp, "", html, "", "", "")
                     break
                 case 2:
                     sharedHTML.setOtherStdPath(html, idxGrp)
                     sharedTEXT.setOtherStdPath(text, idxGrp)
+                    jsonEntity.SetOtherStd(idxGrp, "", "", html, "", "")
                     break
                 case 3:
                     sharedHTML.setOtherStdDefinition(html, idxGrp)
                     sharedTEXT.setOtherStdDefinition(text, idxGrp)
+                    jsonEntity.SetOtherStd(idxGrp, "", "", "", html, "")
                     break
                 case 4:
                     sharedHTML.setOtherStdCommentary(html, idxGrp)
                     sharedTEXT.setOtherStdCommentary(text, idxGrp)
+                    jsonEntity.SetOtherStd(idxGrp, "", "", "", "", html)
                     break
             }
         }
@@ -108,6 +112,9 @@ export default defineComponent({
         const onMoreLessClick = (type: string) => {
             switch (type) {
                 case "+":
+                    // add new OtherStandard element in json
+                    jsonEntity.AddOtherStd()
+
                     editorCount.value++
                     break
                 case "-":
@@ -115,6 +122,9 @@ export default defineComponent({
                     idxQuill -= 5
                     sharedHTML.rmOtherStdLast()
                     sharedTEXT.rmOtherStdLast()
+
+                    // remove last OtherStandard element in json
+                    jsonEntity.RmOtherStdLast()
 
                     editorCount.value--
                     break

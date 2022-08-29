@@ -15,7 +15,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity } from './share/share'
 
 export default defineComponent({
     name: 'EntryDef',
@@ -36,10 +36,12 @@ export default defineComponent({
 
         const textChange = () => {
             const html = thisQuill.root.innerHTML; // get html from quill
-            sharedHTML.setDefinition(html)
-
             const text = thisQuill.getText(0, 100000)
+
+            sharedHTML.setDefinition(html)
             sharedTEXT.setDefinition(text)
+
+            jsonEntity.SetDefinition(html)
         }
 
         const onToggleVisible = () => {

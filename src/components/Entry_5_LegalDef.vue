@@ -23,7 +23,7 @@ import { defineComponent, ref } from 'vue'
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css'
-import { sharedHTML, sharedTEXT, timestamp } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity, timestamp } from './share/share'
 
 export default defineComponent({
     name: 'EntryLegalDef',
@@ -52,26 +52,32 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setLegalDefName(html, idxGrp)
                     sharedTEXT.setLegalDefName(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, html, "", "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setLegalDefCitation(html, idxGrp)
                     sharedTEXT.setLegalDefCitation(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, "", html, "", "", "", "")
                     break
                 case 2:
                     sharedHTML.setLegalDefLink(html, idxGrp)
                     sharedTEXT.setLegalDefLink(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, "", "", html, "", "", "")
                     break
                 case 3:
                     sharedHTML.setLegalDefinition(html, idxGrp)
                     sharedTEXT.setLegalDefinition(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, "", "", "", html, "", "")
                     break
                 case 4:
                     sharedHTML.setLegalDefCommentary(html, idxGrp)
                     sharedTEXT.setLegalDefCommentary(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, "", "", "", "", html, "")
                     break
                 case 5:
                     sharedHTML.setLegalDefDateStamp(html, idxGrp)
                     sharedTEXT.setLegalDefDateStamp(text, idxGrp)
+                    jsonEntity.SetLegalDef(idxGrp, "", "", "", "", "", html)
                     break
             }
         }
@@ -87,6 +93,9 @@ export default defineComponent({
         const onMoreLessClick = (type: string) => {
             switch (type) {
                 case "+":
+                    // add new LegalDefinition element in json
+                    jsonEntity.AddLegalDef()
+
                     editorCount.value++
                     break
                 case "-":
@@ -94,6 +103,9 @@ export default defineComponent({
                     idxQuill -= 6
                     sharedHTML.rmLegalDefLast()
                     sharedTEXT.rmLegalDefLast()
+
+                    // remove last LegalDefinition element in json
+                    jsonEntity.RmLegalDefLast()
 
                     editorCount.value--
                     break

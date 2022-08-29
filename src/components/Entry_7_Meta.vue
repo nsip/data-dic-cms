@@ -20,7 +20,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity } from './share/share'
 
 export default defineComponent({
     name: 'EntryMeta',
@@ -47,22 +47,27 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setMetaId(html)
                     sharedTEXT.setMetaId(text)
+                    jsonEntity.SetMeta(html, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setMetaType(html)
                     sharedTEXT.setMetaType(text)
+                    jsonEntity.SetMeta("", html, "", "", "")
                     break
                 case 2:
                     sharedHTML.setMetaAttr(html)
                     sharedTEXT.setMetaAttr(text)
+                    jsonEntity.SetMeta("", "", html, "", "")
                     break
                 case 3:
                     sharedHTML.setMetaSuperclass(html)
                     sharedTEXT.setMetaSuperclass(text)
+                    jsonEntity.SetMeta("", "", "", html, "")
                     break
                 case 4:
                     sharedHTML.setMetaRefentities(html)
                     sharedTEXT.setMetaRefentities(text)
+                    jsonEntity.SetMeta("", "", "", "", html)
                     break
             }
         }

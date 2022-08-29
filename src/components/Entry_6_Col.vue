@@ -22,7 +22,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, timestamp } from './share/share'
+import { sharedHTML, sharedTEXT, jsonEntity, timestamp } from './share/share'
 
 export default defineComponent({
     name: 'EntryCol',
@@ -51,22 +51,27 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setColName(html, idxGrp)
                     sharedTEXT.setColName(text, idxGrp)
+                    jsonEntity.SetCol(idxGrp, html, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setColDescription(html, idxGrp)
                     sharedTEXT.setColDescription(text, idxGrp)
+                    jsonEntity.SetCol(idxGrp, "", html, "", "", "")
                     break
                 case 2:
                     sharedHTML.setColStandard(html, idxGrp)
                     sharedTEXT.setColStandard(text, idxGrp)
+                    jsonEntity.SetCol(idxGrp, "", "", html, "", "")
                     break
                 case 3:
                     sharedHTML.setColElements(html, idxGrp)
                     sharedTEXT.setColElements(text, idxGrp)
+                    jsonEntity.SetCol(idxGrp, "", "", "", html, "")
                     break
                 case 4:
                     sharedHTML.setColDefmod(html, idxGrp)
                     sharedTEXT.setColDefmod(text, idxGrp)
+                    jsonEntity.SetCol(idxGrp, "", "", "", "", html)
                     break
             }
         }
@@ -82,13 +87,20 @@ export default defineComponent({
         const onMoreLessClick = (type: string) => {
             switch (type) {
                 case "+":
+                    // add new Collection element in json
+                    jsonEntity.AddCol()
+
                     editorCount.value++
                     break
+
                 case "-":
                     // clear preview
                     idxQuill -= 5
                     sharedHTML.rmColLast()
                     sharedTEXT.rmColLast()
+                    
+                    // remove last Collection element in json
+                    jsonEntity.RmColLast()
 
                     editorCount.value--
                     break

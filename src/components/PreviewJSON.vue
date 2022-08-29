@@ -1,25 +1,23 @@
 <template>
-    <div v-html="genJSON()"></div>
+    <pre>{{ genJSON() }}</pre>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { sharedHTML } from './share/share'
+import { jsonEntity } from './share/share'
 
 export default defineComponent({
     name: 'PreviewJSON',
     // props: {
     //     msg: String,
     // },
-    setup() {        
+    setup() {
         const genJSON = () => {
-
-            
-
-
-            return sharedHTML.entity
+            const json = jsonEntity.GenJSON()
+            // console.log(json)
+            return json
         }
-        return {            
+        return {
             genJSON
         }
     }
@@ -29,3 +27,4 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
+ 
