@@ -9,9 +9,13 @@
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <br>&nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder='standard' @ready="onReady" @textChange="textChange(iGrp, 0)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='link list' @ready="onReady" @textChange="textChange(iGrp, 1)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='path list' @ready="onReady" @textChange="textChange(iGrp, 2)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(iGrp, 3)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(iGrp, 4)" />
         </div>
     </div>
@@ -106,7 +110,7 @@ export default defineComponent({
         }
 
         const vBtnTxt = () => {
-            return visEditor.value ? "⏫" : "⏬"
+            return visEditor.value ? "⤴" : "⤵"
         }
 
         const onMoreLessClick = (type: string) => {

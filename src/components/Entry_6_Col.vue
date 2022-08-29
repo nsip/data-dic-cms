@@ -8,9 +8,13 @@
         <button class="more-editor" @click="onMoreLessClick('+')">+</button>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <QuillEditor theme="snow" toolbar="essential" placeholder="name" @ready="onReady" @textChange="textChange(iGrp, 0)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="description" @ready="onReady" @textChange="textChange(iGrp, 1)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="standard" @ready="onReady" @textChange="textChange(iGrp, 2)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="elements" @ready="onReady" @textChange="textChange(iGrp, 3)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReady" @textChange="textChange(iGrp, 4)" />
             <br>
         </div>
@@ -81,7 +85,7 @@ export default defineComponent({
         }
 
         const vBtnTxt = () => {
-            return visEditor.value ? "⏫" : "⏬"
+            return visEditor.value ? "⤴" : "⤵"
         }
 
         const onMoreLessClick = (type: string) => {

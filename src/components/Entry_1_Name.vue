@@ -49,7 +49,7 @@ export default defineComponent({
         }
 
         const vBtnTxt = () => {
-            return visEditor.value ? "⏫" : "⏬"
+            return visEditor.value ? "⤴" : "⤵"
         }
 
         return {

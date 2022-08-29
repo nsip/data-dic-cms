@@ -7,8 +7,11 @@
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" placeholder='list of xpath' @ready="onReady" @textChange="textChange(0)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(1)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(2)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='datestamp' @ready="onReady" @textChange="textChange(3)" />
         </div>
     </div>
@@ -71,7 +74,7 @@ export default defineComponent({
         }
 
         const vBtnTxt = () => {
-            return visEditor.value ? "⏫" : "⏬"
+            return visEditor.value ? "⤴" : "⤵"
         }
 
         return {

@@ -7,9 +7,13 @@
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" placeholder='identifier' @ready="onReady" @textChange="textChange(0)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='type' @ready="onReady" @textChange="textChange(1)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='expected attributes' @ready="onReady" @textChange="textChange(2)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='superclasses' @ready="onReady" @textChange="textChange(3)" />
+            <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='cross ref entities' @ready="onReady" @textChange="textChange(4)" />
         </div>
     </div>
@@ -77,7 +81,7 @@ export default defineComponent({
         }
 
         const vBtnTxt = () => {
-            return visEditor.value ? "⏫" : "⏬"
+            return visEditor.value ? "⤴" : "⤵"
         }
 
         return {

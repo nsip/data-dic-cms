@@ -305,7 +305,9 @@ class entity {
     ////
 
     GenJSON() {
-        return JSON.stringify(this, null, 2)
+        let json = JSON.stringify(this, null, 2)
+        json = json.replaceAll("<p><br></p>", "")
+        return json
     }
 }
 
@@ -370,7 +372,31 @@ const validString = (val: string, defaultVal: string) => {
 
 const validStrArray = (val: string, defaultArray: string[]) => {
     if (val.trim().length > 0) {
-        return val.split("\n")
+        const arr = val.split(/<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/)
+
+        for (let i = 0; i < arr.length; i++) {
+            const s = arr[i]
+            const re = /^(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>)/
+            if (s.match(re)) {
+                if (s[2] == '>') {
+                    arr[i] += "</p>"
+                } else if (s[3] == '>') {
+                    arr[i] += "</" + s.slice(1, 4)
+                }
+            }
+        }
+
+        const rt: string[] = []
+        for (let i = 0; i < arr.length; i++) {
+            const s = arr[i]
+            const re = /^(<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>)$/
+            if (s == "" || s.match(re)) {
+                continue
+            }
+            rt.push(s)
+        }
+
+        return rt
     }
     return defaultArray
 }

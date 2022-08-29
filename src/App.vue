@@ -140,7 +140,7 @@ export default defineComponent({
 
 .label {
   font-weight: bold;
-  font-size: medium;
+  font-size: 16px;
   color: rgb(60, 60, 60);
   margin-left: 1%;
   margin-bottom: 10px;
@@ -149,7 +149,7 @@ export default defineComponent({
 
 .hint1 {
   font-weight: bold;
-  font-size: small;
+  font-size: 13px;
   font-style: italic;
   color: rgb(120, 120, 120);
   position: absolute;
@@ -161,7 +161,7 @@ export default defineComponent({
 
 .hint2 {
   font-weight: bold;
-  font-size: small;
+  font-size: 13px;
   font-style: italic;
   color: rgb(120, 120, 120);
   margin-left: 2%;
@@ -176,6 +176,8 @@ export default defineComponent({
   float: right;
   margin-right: 5px;
   margin-bottom: 5px;
+  width: 22px;
+  border: none;
 }
 
 .less-editor {
@@ -184,12 +186,20 @@ export default defineComponent({
   float: right;
   margin-right: 5px;
   margin-bottom: 5px;
+  width: 22px;
+  border: none;
 }
 
 .hide-editor {
   font-size: medium;
   float: right;
+  color: blue;
   margin-bottom: 5px;
-  width: 30px;
+  width: 22px;
+  border: none;
+}
+
+.subline {
+  color: rgb(227, 240, 245);
 }
 </style>
