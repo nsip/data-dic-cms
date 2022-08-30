@@ -1,10 +1,10 @@
 <template>
-    <pre>{{ genJSON() }}</pre>
+    <pre>{{ genJSON(jsonTYPE) }}</pre>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { jsonEntity } from './share/share'
+import { defineComponent, ref } from 'vue';
+import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
     name: 'PreviewJSON',
@@ -12,12 +12,17 @@ export default defineComponent({
     //     msg: String,
     // },
     setup() {
-        const genJSON = () => {
-            const json = jsonEntity.GenJSON()
-            // console.log(json)
-            return json
+        let jsonTYPE = ref("html")
+        const genJSON = (TYPE: string) => {
+            switch (TYPE) {
+                case "html":
+                    return jsonHTML.GenJSON(true)                    
+                default:
+                    return jsonTEXT.GenJSON(false)
+            }           
         }
         return {
+            jsonTYPE,
             genJSON
         }
     }

@@ -1,19 +1,36 @@
 import { reactive } from 'vue';
+import { validStrHTMLArray, validStrTEXTArray } from './util'
 
 class shared {
 
+    // Entity
     entity = "";
     setEntity(val: string) {
         this.entity = val
     }
 
-    // 
+    // OtherNames
+    otherNames: string[] = [];
+    setOtherName(TYPE: string, val: string) {
+        switch (TYPE) {
+            case "html":
+                this.otherNames = validStrHTMLArray(val, this.otherNames)
+                break
+            default:
+                this.otherNames = validStrTEXTArray(val, this.otherNames)
+        }
+    }
+    cntOtherNames() {
+        return this.otherNames.length // return (ons.match(/\n/g) || []).length        
+    }
+
+    // Definition
     definition = "";
     setDefinition(val: string) {
         this.definition = val;
     }
 
-    // 
+    // SIF
     sif_xpaths = "";
     setSIFXPaths(val: string) {
         this.sif_xpaths = val
@@ -31,7 +48,7 @@ class shared {
         this.sif_datestamp = val
     }
 
-    // 
+    // OtherStandards
     otherStd_std: string[] = [];
     setOtherStd(val: string, i: number) {
         this.otherStd_std[i] = val;
@@ -80,7 +97,7 @@ class shared {
         )
     }
 
-    // 
+    // LegalDefinitions
     legalDef_name: string[] = [];
     setLegalDefName(val: string, idx: number) {
         this.legalDef_name[idx] = val;
@@ -137,7 +154,7 @@ class shared {
         )
     }
 
-    // 
+    // Collections
     collection_name: string[] = []
     setColName(val: string, idx: number) {
         this.collection_name[idx] = val
@@ -186,7 +203,7 @@ class shared {
         )
     }
 
-    //
+    // Metadata
     meta_id = ""
     setMetaId(val: string) {
         this.meta_id = val
@@ -214,189 +231,3 @@ const gSharedHTML = new shared()
 
 export const sharedTEXT = reactive(gSharedTEXT)
 export const sharedHTML = reactive(gSharedHTML)
-
-/////////////////////////////////////////////
-
-class entity {
-    Name = "";
-    Definition = "";
-    SIF: sif = new sif()
-    OtherStds: otherStd[] = [new otherStd()]
-    LegalDefs: legalDef[] = [new legalDef()]
-    Cols: col[] = [new col()]
-    Meta: meta = new meta()
-
-    // Name
-    SetName(name: string) {
-        this.Name = name
-    }
-
-    // Definition
-    SetDefinition(definition: string) {
-        this.Definition = definition
-    }
-
-    // SIF
-    SetSIF(xpathstr: string, definition: string, commentary: string, datestamp: string) {
-        this.SIF.XPath = validStrArray(xpathstr, this.SIF.XPath)
-        this.SIF.Definition = validString(definition, this.SIF.Definition)
-        this.SIF.Commentary = validString(commentary, this.SIF.Commentary)
-        this.SIF.Datestamp = validString(datestamp, this.SIF.Datestamp)
-    }
-
-    // Other Standards
-    AddOtherStd() {
-        this.OtherStds.push(new otherStd())
-    }
-    RmOtherStdLast() {
-        this.OtherStds.splice(-1)
-    }
-    SetOtherStd(idx: number, std: string, linkstr: string, pathstr: string, definition: string, commentary: string) {
-        const os = this.OtherStds[idx]
-        os.Standard = validString(std, os.Standard)
-        os.Links = validStrArray(linkstr, os.Links)
-        os.Paths = validStrArray(pathstr, os.Paths)
-        os.Definition = validString(definition, os.Definition)
-        os.Commentary = validString(commentary, os.Commentary)
-    }
-
-    // Legal Definitions
-    AddLegalDef() {
-        this.LegalDefs.push(new legalDef())
-    }
-    RmLegalDefLast() {
-        this.LegalDefs.splice(-1)
-    }
-    SetLegalDef(idx: number, legislationName: string, citation: string, linkstr: string, definition: string, commentary: string, datestamp: string) {
-        const ld = this.LegalDefs[idx]
-        ld.LegislationName = validString(legislationName, ld.LegislationName)
-        ld.Citation = validString(citation, ld.Citation)
-        ld.Links = validStrArray(linkstr, ld.Links)
-        ld.Definition = validString(definition, ld.Definition)
-        ld.Commentary = validString(commentary, ld.Commentary)
-        ld.Datestamp = validString(datestamp, ld.Datestamp)
-    }
-
-    // Collections
-    AddCol() {
-        this.Cols.push(new col())
-    }
-    RmColLast() {
-        this.Cols.splice(-1)
-    }
-    SetCol(idx: number, name: string, description: string, standard: string, elementstr: string, defmod: string) {
-        const c = this.Cols[idx]
-        c.Name = validString(name, c.Name)
-        c.Description = validString(description, c.Description)
-        c.Standard = validString(standard, c.Standard)
-        c.Elements = validStrArray(elementstr, c.Elements)
-        c.DefMod = validString(defmod, c.DefMod)
-    }
-
-    // Meta
-    SetMeta(id: string, type: string, attrstr: string, superclass: string, crossref: string) {
-        this.Meta.Id = validString(id, this.Meta.Id)
-        this.Meta.Type = validString(type, this.Meta.Type)
-        this.Meta.Attr = validStrArray(attrstr, this.Meta.Attr)
-        this.Meta.SuperClass = validString(superclass, this.Meta.SuperClass)
-        this.Meta.Crossref = validStrArray(crossref, this.Meta.Crossref)
-    }
-
-    ////
-
-    GenJSON() {
-        let json = JSON.stringify(this, null, 2)
-        json = json.replaceAll("<p><br></p>", "")
-        return json
-    }
-}
-
-class sif {
-    XPath: string[] = []
-    Definition = ""
-    Commentary = ""
-    Datestamp = ""
-}
-
-class otherStd {
-    Standard = ""
-    Links: string[] = []
-    Paths: string[] = []
-    Definition = ""
-    Commentary = ""
-}
-
-class legalDef {
-    LegislationName = ""
-    Citation = ""
-    Links: string[] = []
-    Definition = ""
-    Commentary = ""
-    Datestamp = ""
-}
-
-class col {
-    Name = ""
-    Description = ""
-    Standard = ""
-    Elements: string[] = []
-    DefMod = ""
-}
-
-class meta {
-    Id = ""
-    Type = ""
-    Attr: string[] = []
-    SuperClass = ""
-    Crossref: string[] = []
-}
-
-const gEntity = new entity()
-
-export const jsonEntity = reactive(gEntity)
-
-/////////////////////////////////////////////
-
-const pad2 = (n: number) => { return n < 10 ? '0' + n : n }
-export const timestamp = () => {
-    const date = new Date()
-    return date.getFullYear().toString() + "-" + pad2(date.getMonth() + 1) + "-" + pad2(date.getDate()) + " " + pad2(date.getHours()) + ":" + pad2(date.getMinutes()) + ":" + pad2(date.getSeconds())
-}
-
-const validString = (val: string, defaultVal: string) => {
-    if (val.trim().length > 0) {
-        return val
-    }
-    return defaultVal
-}
-
-const validStrArray = (val: string, defaultArray: string[]) => {
-    if (val.trim().length > 0) {
-        const arr = val.split(/<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/)
-
-        for (let i = 0; i < arr.length; i++) {
-            const s = arr[i]
-            const re = /^(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>)/
-            if (s.match(re)) {
-                if (s[2] == '>') {
-                    arr[i] += "</p>"
-                } else if (s[3] == '>') {
-                    arr[i] += "</" + s.slice(1, 4)
-                }
-            }
-        }
-
-        const rt: string[] = []
-        for (let i = 0; i < arr.length; i++) {
-            const s = arr[i]
-            const re = /^(<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>)$/
-            if (s == "" || s.match(re)) {
-                continue
-            }
-            rt.push(s)
-        }
-
-        return rt
-    }
-    return defaultArray
-}

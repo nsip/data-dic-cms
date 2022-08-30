@@ -26,7 +26,8 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, jsonEntity, timestamp } from './share/share'
+import { sharedHTML, sharedTEXT } from './share/share'
+import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
     name: 'EntryOtherStd',
@@ -80,27 +81,32 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setOtherStd(html, idxGrp)
                     sharedTEXT.setOtherStd(text, idxGrp)                    
-                    jsonEntity.SetOtherStd(idxGrp, html, "", "", "", "")
+                    jsonHTML.SetOtherStd("html", idxGrp, html, "", "", "", "")
+                    jsonTEXT.SetOtherStd("", idxGrp, text, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setOtherStdLink(html, idxGrp)
                     sharedTEXT.setOtherStdLink(text, idxGrp)
-                    jsonEntity.SetOtherStd(idxGrp, "", html, "", "", "")
+                    jsonHTML.SetOtherStd("html", idxGrp, "", html, "", "", "")
+                    jsonTEXT.SetOtherStd("", idxGrp, "", text, "", "", "")
                     break
                 case 2:
                     sharedHTML.setOtherStdPath(html, idxGrp)
                     sharedTEXT.setOtherStdPath(text, idxGrp)
-                    jsonEntity.SetOtherStd(idxGrp, "", "", html, "", "")
+                    jsonHTML.SetOtherStd("html", idxGrp, "", "", html, "", "")
+                    jsonTEXT.SetOtherStd("", idxGrp, "", "", text, "", "")
                     break
                 case 3:
                     sharedHTML.setOtherStdDefinition(html, idxGrp)
                     sharedTEXT.setOtherStdDefinition(text, idxGrp)
-                    jsonEntity.SetOtherStd(idxGrp, "", "", "", html, "")
+                    jsonHTML.SetOtherStd("html", idxGrp, "", "", "", html, "")
+                    jsonTEXT.SetOtherStd("", idxGrp, "", "", "", text, "")
                     break
                 case 4:
                     sharedHTML.setOtherStdCommentary(html, idxGrp)
                     sharedTEXT.setOtherStdCommentary(text, idxGrp)
-                    jsonEntity.SetOtherStd(idxGrp, "", "", "", "", html)
+                    jsonHTML.SetOtherStd("html", idxGrp, "", "", "", "", html)
+                    jsonTEXT.SetOtherStd("", idxGrp, "", "", "", "", text)
                     break
             }
         }
@@ -117,7 +123,8 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     // add new OtherStandard element in json
-                    jsonEntity.AddOtherStd()
+                    jsonHTML.AddOtherStd()
+                    jsonTEXT.AddOtherStd()
 
                     editorCount.value++
                     break
@@ -128,7 +135,8 @@ export default defineComponent({
                     sharedTEXT.rmOtherStdLast()
 
                     // remove last OtherStandard element in json
-                    jsonEntity.RmOtherStdLast()
+                    jsonHTML.RmOtherStdLast()
+                    jsonTEXT.RmOtherStdLast()
 
                     editorCount.value--
                     break

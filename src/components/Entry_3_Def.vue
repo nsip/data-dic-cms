@@ -1,8 +1,8 @@
 <template>
     <div class="com">
-        <span class="label">{{  label  }}</span>
-        <span class="hint1">{{  hint  }}</span>
-        <button class="hide-editor" @click="onToggleVisible()"> {{  vBtnTxt()  }} </button>
+        <span class="label">{{ label }}</span>
+        <span class="hint1">{{ hint }}</span>
+        <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange" />
@@ -19,17 +19,17 @@ import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
-    name: 'EntryName',
+    name: 'EntryDef',
     components: {
         QuillEditor
     },
     setup() {
 
-        const label = "Entity:"
-        const hint = "entity name"
-        const holder = "entity name value"
+        const label = "Definition:"
+        const hint = "entity definition"
+        const holder = "entity definition value"
         let thisQuill: Quill
-        let visEditor = ref(true)
+        let visEditor = ref(false)
 
         const onReady = (quill: Quill) => {
             thisQuill = quill
@@ -39,11 +39,11 @@ export default defineComponent({
             const html = thisQuill.root.innerHTML; // get html from quill
             const text = thisQuill.getText(0, 100000)
 
-            sharedHTML.setEntity(html)
-            sharedTEXT.setEntity(text)
+            sharedHTML.setDefinition(html)
+            sharedTEXT.setDefinition(text)
 
-            jsonHTML.SetName(html)
-            jsonTEXT.SetName(text)
+            jsonHTML.SetDefinition(html)
+            jsonTEXT.SetDefinition(text)
         }
 
         const onToggleVisible = () => {
@@ -70,7 +70,4 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h4 {
-    margin-left: 5px;
-}
 </style>

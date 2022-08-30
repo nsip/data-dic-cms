@@ -8,6 +8,8 @@
     <div id="left">
       <EntryName />
       <br>
+      <EntryOtherNames />
+      <br>
       <EntryDef />
       <br>
       <EntrySIF />
@@ -37,31 +39,33 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import MainTitle from './components/Title.vue';
-import EntryExport from './components/BtnExport.vue';
 import EntryName from './components/Entry_1_Name.vue';
-import EntryDef from './components/Entry_2_Def.vue';
-import EntrySIF from './components/Entry_3_SIF.vue';
-import EntryOtherStd from './components/Entry_4_OtherStd.vue';
-import EntryLegalDef from './components/Entry_5_LegalDef.vue';
-import EntryCol from './components/Entry_6_Col.vue';
-import EntryMeta from './components/Entry_7_Meta.vue';
+import EntryOtherNames from './components/Entry_2_OtherName.vue';
+import EntryDef from './components/Entry_3_Def.vue';
+import EntrySIF from './components/Entry_4_SIF.vue';
+import EntryOtherStd from './components/Entry_5_OtherStd.vue';
+import EntryLegalDef from './components/Entry_6_LegalDef.vue';
+import EntryCol from './components/Entry_7_Col.vue';
+import EntryMeta from './components/Entry_8_Meta.vue';
 import PreviewVisual from './components/PreviewVisual.vue'
 import PreviewJSON from './components/PreviewJSON.vue'
+import EntryExport from './components/BtnExport.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     MainTitle,
     EntryName,
+    EntryOtherNames,
     EntryDef,
     EntrySIF,
     EntryOtherStd,
     EntryLegalDef,
-    EntryCol,
-    EntryExport,
+    EntryCol,    
     EntryMeta,
     PreviewVisual,
-    PreviewJSON
+    PreviewJSON,
+    EntryExport
 }
 });
 </script>
@@ -141,26 +145,27 @@ export default defineComponent({
 .label {
   font-weight: bold;
   font-size: 16px;
-  color: rgb(60, 60, 60);
+  font-style: italic;
+  color: rgb(90, 90, 90);
   margin-left: 1%;
   margin-bottom: 10px;
   display: inline-block; /* set span */
 }
 
 .hint1 {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 13px;
   font-style: italic;
   color: rgb(120, 120, 120);
   position: absolute;
-  left: 120px;
-  margin-bottom: 10px;
+  left: 140px;
+  margin-top: 3px;
   display: inline-block; /* set span */
   cursor: pointer;
 }
 
 .hint2 {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 13px;
   font-style: italic;
   color: rgb(120, 120, 120);

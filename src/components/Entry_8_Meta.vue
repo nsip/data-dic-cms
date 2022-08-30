@@ -1,7 +1,7 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
-        <br>
+        <span class="label">{{ label }}</span>   
+        <br>     
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <div :hidden=!visEditor>
@@ -24,7 +24,8 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, jsonEntity } from './share/share'
+import { sharedHTML, sharedTEXT } from './share/share'
+import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
     name: 'EntryMeta',
@@ -33,7 +34,7 @@ export default defineComponent({
     },
     setup() {
 
-        const label = "Meta:"
+        const label = "Meta Data:"
         const hint = "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]"
         let thisQuills: Quill[] = []
         let idxQuill = 0
@@ -51,27 +52,32 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setMetaId(html)
                     sharedTEXT.setMetaId(text)
-                    jsonEntity.SetMeta(html, "", "", "", "")
+                    jsonHTML.SetMeta("html", html, "", "", "", "")
+                    jsonTEXT.SetMeta("", text, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setMetaType(html)
                     sharedTEXT.setMetaType(text)
-                    jsonEntity.SetMeta("", html, "", "", "")
+                    jsonHTML.SetMeta("html", "", html, "", "", "")
+                    jsonTEXT.SetMeta("", "", text, "", "", "")
                     break
                 case 2:
                     sharedHTML.setMetaAttr(html)
                     sharedTEXT.setMetaAttr(text)
-                    jsonEntity.SetMeta("", "", html, "", "")
+                    jsonHTML.SetMeta("html", "", "", html, "", "")
+                    jsonTEXT.SetMeta("", "", "", text, "", "")
                     break
                 case 3:
                     sharedHTML.setMetaSuperclass(html)
                     sharedTEXT.setMetaSuperclass(text)
-                    jsonEntity.SetMeta("", "", "", html, "")
+                    jsonHTML.SetMeta("html", "", "", "", html, "")
+                    jsonTEXT.SetMeta("", "", "", "", text, "")
                     break
                 case 4:
                     sharedHTML.setMetaRefentities(html)
                     sharedTEXT.setMetaRefentities(text)
-                    jsonEntity.SetMeta("", "", "", "", html)
+                    jsonHTML.SetMeta("html", "", "", "", "", html)
+                    jsonTEXT.SetMeta("", "", "", "", "", text)
                     break
             }
         }

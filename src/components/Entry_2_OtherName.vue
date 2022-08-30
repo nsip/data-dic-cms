@@ -3,7 +3,7 @@
         <span class="label">{{ label }}</span>
         <span class="hint1">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
-        <div :hidden=!visEditor>
+        <div :hidden=!visEditor >
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange" />
         </div>
@@ -15,18 +15,19 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, jsonEntity } from './share/share'
+import { sharedHTML, sharedTEXT } from './share/share'
+import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
-    name: 'EntryDef',
+    name: 'EntryOtherNames',
     components: {
         QuillEditor
     },
     setup() {
 
-        const label = "Definition:"
-        const hint = "entity definition"
-        const holder = "entity definition value"
+        const label = "Other Name:"
+        const hint = "entity other names"
+        const holder = "entity other names"
         let thisQuill: Quill
         let visEditor = ref(false)
 
@@ -38,10 +39,11 @@ export default defineComponent({
             const html = thisQuill.root.innerHTML; // get html from quill
             const text = thisQuill.getText(0, 100000)
 
-            sharedHTML.setDefinition(html)
-            sharedTEXT.setDefinition(text)
-
-            jsonEntity.SetDefinition(html)
+            sharedHTML.setOtherName("html", html)         
+            sharedTEXT.setOtherName("", text) 
+           
+            jsonHTML.SetOtherName("html", html)
+            jsonTEXT.SetOtherName("", text)
         }
 
         const onToggleVisible = () => {
@@ -68,4 +70,7 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h4 {
+    margin-left: 5px;
+}
 </style>

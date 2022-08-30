@@ -14,25 +14,53 @@ export default defineComponent({
     setup() {
 
         const nonEmptyHtml = (label4: string, text: string, html: string) => {
+            
+            // if (label4 == "-- xpath:") {
+            //     console.log("text:", text)
+            //     console.log("html:", html)
+            // }
+            
             if (text == undefined || text.trim().length == 0) {
                 return ""
             }
-            // console.log("text:", text)
-            // console.log("html:", html)
+
+            html = html.replaceAll("<p><br></p>", "")
+            html = html.replaceAll(/<h\d><br><\/h\d>/g, "")
+
+            if (label4 == undefined || label4.length == 0) {
+                return html
+            }
             return "<h4 style='margin-left:10px; font-style:italic'>" + label4 + "</h4>" + html
         }
 
-        const entityContent = () => {
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Name ---</h3>" +
+        /////////////////////////////////////////////////
+
+        const entityPreviewHTML = () => {
+            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Entity ---</h3>" +
                 nonEmptyHtml("", sharedTEXT.entity, sharedHTML.entity)
         }
 
-        const definitionContent = () => {
+        const otherNamesPreviewHTML = () => {
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Other Names ---</h3>"
+            const n = sharedTEXT.cntOtherNames()            
+            const eles: string[] = []
+            for (let i = 0; i < n; i++) {
+                const ele = nonEmptyHtml("", sharedTEXT.otherNames[i], sharedHTML.otherNames[i])
+                eles.push(ele)
+            }            
+            const body = eles.join("")
+            if (body.length > 0) {
+                return head + body
+            }
+            return head
+        }
+
+        const definitionPreviewHTML = () => {
             return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Definition ---</h3>" +
                 nonEmptyHtml("", sharedTEXT.definition, sharedHTML.definition)
         }
 
-        const sifContent = () => {
+        const sifPreviewHTML = () => {
             return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- SIF ---</h3>" +
                 nonEmptyHtml("-- xpath:", sharedTEXT.sif_xpaths, sharedHTML.sif_xpaths) +
                 nonEmptyHtml("-- definition:", sharedTEXT.sif_definition, sharedHTML.sif_definition) +
@@ -40,7 +68,7 @@ export default defineComponent({
                 nonEmptyHtml("-- datestamp:", sharedTEXT.sif_datestamp, sharedHTML.sif_datestamp)
         }
 
-        const otherStandardsContent = () => {
+        const otherStandardsPreviewHTML = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Other Standards ---</h3>"
             const n = sharedTEXT.cntOtherStd()
             let eles: string[] = []
@@ -59,7 +87,7 @@ export default defineComponent({
             return head
         }
 
-        const legalDefinitionContent = () => {
+        const legalDefinitionPreviewHTML = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Legal Definitions ---</h3>"
             const n = sharedTEXT.cntLegalDef()
             let eles: string[] = []
@@ -79,7 +107,7 @@ export default defineComponent({
             return head
         }
 
-        const collectionsContent = () => {
+        const collectionsPreviewHTML = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Collections ---</h3>"
             const n = sharedTEXT.cntCol()
             let eles: string[] = []
@@ -98,8 +126,8 @@ export default defineComponent({
             return head
         }
 
-        const metaContent = () => {
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Meta ---</h3>" +
+        const metaPreviewHTML = () => {
+            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Meta Data ---</h3>" +
                 nonEmptyHtml("-- identifier:", sharedTEXT.meta_id, sharedHTML.meta_id) +
                 nonEmptyHtml("-- type:", sharedTEXT.meta_type, sharedHTML.meta_type) +
                 nonEmptyHtml("-- expected attributes:", sharedTEXT.meta_attr, sharedHTML.meta_attr) +
@@ -107,25 +135,20 @@ export default defineComponent({
                 nonEmptyHtml("-- cross ref entities:", sharedTEXT.meta_refentities, sharedHTML.meta_refentities)
         }
 
+        //////////
+
         const wholeContent = () => {
-            return entityContent() +
-                definitionContent() +
-                sifContent() +
-                otherStandardsContent() +
-                legalDefinitionContent() +
-                collectionsContent() +
-                metaContent()
+            return entityPreviewHTML() +
+                otherNamesPreviewHTML() +
+                definitionPreviewHTML() +
+                sifPreviewHTML() +
+                otherStandardsPreviewHTML() +
+                legalDefinitionPreviewHTML() +
+                collectionsPreviewHTML() +
+                metaPreviewHTML()
         }
 
         return {
-            // entityContent,
-            // definitionContent,
-            // sifContent,
-            // otherStandardsContent,
-            // legalDefinitionContent,
-            // collectionsContent,
-            // metaContent,
-            //
             wholeContent
         }
     }

@@ -26,7 +26,8 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT, jsonEntity, timestamp } from './share/share'
+import { sharedHTML, sharedTEXT } from './share/share'
+import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
     name: 'EntryCol',
@@ -55,27 +56,32 @@ export default defineComponent({
                 case 0:
                     sharedHTML.setColName(html, idxGrp)
                     sharedTEXT.setColName(text, idxGrp)
-                    jsonEntity.SetCol(idxGrp, html, "", "", "", "")
+                    jsonHTML.SetCol("html", idxGrp, html, "", "", "", "")
+                    jsonTEXT.SetCol("", idxGrp, text, "", "", "", "")
                     break
                 case 1:
                     sharedHTML.setColDescription(html, idxGrp)
                     sharedTEXT.setColDescription(text, idxGrp)
-                    jsonEntity.SetCol(idxGrp, "", html, "", "", "")
+                    jsonHTML.SetCol("html", idxGrp, "", html, "", "", "")
+                    jsonTEXT.SetCol("", idxGrp, "", text, "", "", "")
                     break
                 case 2:
                     sharedHTML.setColStandard(html, idxGrp)
                     sharedTEXT.setColStandard(text, idxGrp)
-                    jsonEntity.SetCol(idxGrp, "", "", html, "", "")
+                    jsonHTML.SetCol("html", idxGrp, "", "", html, "", "")
+                    jsonTEXT.SetCol("", idxGrp, "", "", text, "", "")
                     break
                 case 3:
                     sharedHTML.setColElements(html, idxGrp)
                     sharedTEXT.setColElements(text, idxGrp)
-                    jsonEntity.SetCol(idxGrp, "", "", "", html, "")
+                    jsonHTML.SetCol("html", idxGrp, "", "", "", html, "")
+                    jsonTEXT.SetCol("", idxGrp, "", "", "", text, "")
                     break
                 case 4:
                     sharedHTML.setColDefmod(html, idxGrp)
                     sharedTEXT.setColDefmod(text, idxGrp)
-                    jsonEntity.SetCol(idxGrp, "", "", "", "", html)
+                    jsonHTML.SetCol("html", idxGrp, "", "", "", "", html)
+                    jsonTEXT.SetCol("", idxGrp, "", "", "", "", text)
                     break
             }
         }
@@ -92,7 +98,8 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     // add new Collection element in json
-                    jsonEntity.AddCol()
+                    jsonHTML.AddCol()
+                    jsonTEXT.AddCol()
 
                     editorCount.value++
                     break
@@ -104,7 +111,8 @@ export default defineComponent({
                     sharedTEXT.rmColLast()
                     
                     // remove last Collection element in json
-                    jsonEntity.RmColLast()
+                    jsonHTML.RmColLast()
+                    jsonTEXT.RmColLast()
 
                     editorCount.value--
                     break
