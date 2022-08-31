@@ -10,7 +10,7 @@ export const validString = (val: string, defaultVal: string) => {
     if (val.length == 0) {
         return defaultVal
     }
-    return val
+    return val.trimEnd()
 }
 
 export const validStrHTMLArray = (val: string, defaultArray: string[]) => {
@@ -59,3 +59,5 @@ export const validStrTEXTArray = (val: string, defaultArray: string[]) => {
     });
     return rt
 }
+
+// return (ons.match(/\n/g) || []).length    

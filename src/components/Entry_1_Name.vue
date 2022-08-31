@@ -15,7 +15,6 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
@@ -38,10 +37,6 @@ export default defineComponent({
         const textChange = () => {
             const html = thisQuill.root.innerHTML; // get html from quill
             const text = thisQuill.getText(0, 100000)
-
-            sharedHTML.setEntity(html)
-            sharedTEXT.setEntity(text)
-
             jsonHTML.SetName(html)
             jsonTEXT.SetName(text)
         }

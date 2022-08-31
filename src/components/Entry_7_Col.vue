@@ -5,8 +5,9 @@
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
-        <button class="more-editor" @click="onMoreLessClick('+')">+</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastColEmpty()">+</button>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
+            <hr>&nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder="name" @ready="onReady" @textChange="textChange(iGrp, 0)" />
             <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="description" @ready="onReady" @textChange="textChange(iGrp, 1)" />
@@ -26,7 +27,6 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
@@ -54,32 +54,22 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    sharedHTML.setColName(html, idxGrp)
-                    sharedTEXT.setColName(text, idxGrp)
                     jsonHTML.SetCol("html", idxGrp, html, "", "", "", "")
                     jsonTEXT.SetCol("", idxGrp, text, "", "", "", "")
                     break
                 case 1:
-                    sharedHTML.setColDescription(html, idxGrp)
-                    sharedTEXT.setColDescription(text, idxGrp)
                     jsonHTML.SetCol("html", idxGrp, "", html, "", "", "")
                     jsonTEXT.SetCol("", idxGrp, "", text, "", "", "")
                     break
                 case 2:
-                    sharedHTML.setColStandard(html, idxGrp)
-                    sharedTEXT.setColStandard(text, idxGrp)
                     jsonHTML.SetCol("html", idxGrp, "", "", html, "", "")
                     jsonTEXT.SetCol("", idxGrp, "", "", text, "", "")
                     break
                 case 3:
-                    sharedHTML.setColElements(html, idxGrp)
-                    sharedTEXT.setColElements(text, idxGrp)
                     jsonHTML.SetCol("html", idxGrp, "", "", "", html, "")
                     jsonTEXT.SetCol("", idxGrp, "", "", "", text, "")
                     break
                 case 4:
-                    sharedHTML.setColDefmod(html, idxGrp)
-                    sharedTEXT.setColDefmod(text, idxGrp)
                     jsonHTML.SetCol("html", idxGrp, "", "", "", "", html)
                     jsonTEXT.SetCol("", idxGrp, "", "", "", "", text)
                     break
@@ -107,8 +97,6 @@ export default defineComponent({
                 case "-":
                     // clear preview
                     idxQuill -= 5
-                    sharedHTML.rmColLast()
-                    sharedTEXT.rmColLast()
                     
                     // remove last Collection element in json
                     jsonHTML.RmColLast()
@@ -129,7 +117,8 @@ export default defineComponent({
             onReady,
             onMoreLessClick,
             onToggleVisible,
-            vBtnTxt
+            vBtnTxt,
+            jsonTEXT
         }
     }
 });

@@ -21,7 +21,6 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
@@ -47,26 +46,18 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    sharedHTML.setSIFXPaths(html)
-                    sharedTEXT.setSIFXPaths(text)
                     jsonHTML.SetSIF("html", html, "", "", "")
                     jsonTEXT.SetSIF("", text, "", "", "")
                     break
                 case 1:
-                    sharedHTML.setSIFDefinition(html)
-                    sharedTEXT.setSIFDefinition(text)
                     jsonHTML.SetSIF("html", "", html, "", "")
                     jsonTEXT.SetSIF("", "", text, "", "")
                     break
                 case 2:
-                    sharedHTML.setSIFCommentary(html)
-                    sharedTEXT.setSIFCommentary(text)
                     jsonHTML.SetSIF("html", "", "", html, "")
                     jsonTEXT.SetSIF("", "", "", text, "")
                     break
                 case 3:
-                    sharedHTML.setSIFDatestamp(html)
-                    sharedTEXT.setSIFDatestamp(text)
                     jsonHTML.SetSIF("html", "", "", "", html)
                     jsonTEXT.SetSIF("", "", "", "", text)
                     break

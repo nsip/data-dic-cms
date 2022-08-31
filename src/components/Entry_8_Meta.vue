@@ -24,7 +24,6 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
@@ -50,32 +49,22 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    sharedHTML.setMetaId(html)
-                    sharedTEXT.setMetaId(text)
                     jsonHTML.SetMeta("html", html, "", "", "", "")
                     jsonTEXT.SetMeta("", text, "", "", "", "")
                     break
                 case 1:
-                    sharedHTML.setMetaType(html)
-                    sharedTEXT.setMetaType(text)
                     jsonHTML.SetMeta("html", "", html, "", "", "")
                     jsonTEXT.SetMeta("", "", text, "", "", "")
                     break
                 case 2:
-                    sharedHTML.setMetaAttr(html)
-                    sharedTEXT.setMetaAttr(text)
                     jsonHTML.SetMeta("html", "", "", html, "", "")
                     jsonTEXT.SetMeta("", "", "", text, "", "")
                     break
                 case 3:
-                    sharedHTML.setMetaSuperclass(html)
-                    sharedTEXT.setMetaSuperclass(text)
                     jsonHTML.SetMeta("html", "", "", "", html, "")
                     jsonTEXT.SetMeta("", "", "", "", text, "")
                     break
                 case 4:
-                    sharedHTML.setMetaRefentities(html)
-                    sharedTEXT.setMetaRefentities(text)
                     jsonHTML.SetMeta("html", "", "", "", "", html)
                     jsonTEXT.SetMeta("", "", "", "", "", text)
                     break

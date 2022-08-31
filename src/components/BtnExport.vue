@@ -1,15 +1,15 @@
 <template>
     <div class="container">
         <div class="center">
-            <button class="btn" @click="genJSON()">{{ btnName }}</button>
+            <button class="btn" @click="saveJSON()">{{ btnName }}</button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { sharedHTML } from './share/share';
 import FileSaver from 'file-saver';
+import { jsonHTML, jsonTEXT } from './share/json'
 
 // npm install file-saver --save
 // npm install @types/file-saver --save-dev
@@ -18,23 +18,17 @@ export default defineComponent({
     name: 'EntryExport',
     setup() {
         const btnName = "export to dictionary"
-        const genJSON = () => {
+        const saveJSON = () => {
 
-            let output = {
-                Entity: sharedHTML.entity,
-                Definition: sharedHTML.definition,
-            }
+            var blobHTML = new Blob([jsonHTML.GenJSON(true)], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
 
-            let jsonstr = JSON.stringify(output)
-            var blob = new Blob([jsonstr], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blob, output.Entity + "_can.json");
-
-            alert(jsonstr)
+            var blobTEXT = new Blob([jsonTEXT.GenJSON(false)], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
         }
         return {
-            btnName,            
-            sharedHTML,
-            genJSON
+            btnName,
+            saveJSON          
         }
     }
 });

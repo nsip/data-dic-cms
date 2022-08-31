@@ -13,7 +13,7 @@ class entity {
 
     // Name
     SetName(name: string) {
-        this.Entity = name
+        this.Entity = validString(name, this.Entity)
     }
 
     // Other Names
@@ -26,10 +26,13 @@ class entity {
                 this.OtherNames = validStrTEXTArray(nameStr, this.OtherNames)                
         }
     }
+    CntOtherName() {
+        return this.OtherNames.length
+    }
 
     // Definition
     SetDefinition(definition: string) {
-        this.Definition = definition
+        this.Definition = validString(definition, this.Definition)
     }
 
     // SIF
@@ -53,25 +56,39 @@ class entity {
     RmOtherStdLast() {
         this.OtherStandards.splice(-1)
     }
-    SetOtherStd(TYPE: string, idx: number, std: string, linkStr: string, pathStr: string, definition: string, commentary: string) {
-        const os = this.OtherStandards[idx]
+    SetOtherStd(TYPE: string, i: number, std: string, linkStr: string, pathStr: string, definition: string, commentary: string) {
+        const ele = this.OtherStandards[i]
 
-        if (os == undefined) {
-            alert(this.OtherStandards.length)
-        }
-
-        os.Standard = validString(std, os.Standard)
-        os.Definition = validString(definition, os.Definition)
-        os.Commentary = validString(commentary, os.Commentary)
+        ele.Standard = validString(std, ele.Standard)
+        ele.Definition = validString(definition, ele.Definition)
+        ele.Commentary = validString(commentary, ele.Commentary)
         switch (TYPE) {
             case "html":
-                os.Link = validStrHTMLArray(linkStr, os.Link)
-                os.Path = validStrHTMLArray(pathStr, os.Path)
+                ele.Link = validStrHTMLArray(linkStr, ele.Link)
+                ele.Path = validStrHTMLArray(pathStr, ele.Path)
                 break
             default:
-                os.Link = validStrTEXTArray(linkStr, os.Link)
-                os.Path = validStrTEXTArray(pathStr, os.Path)
+                ele.Link = validStrTEXTArray(linkStr, ele.Link)
+                ele.Path = validStrTEXTArray(pathStr, ele.Path)
         }
+    }
+    CntOtherStd() {
+        return this.OtherStandards.length
+    }
+    IsOtherStdEmpty(i: number) {
+        const ele = this.OtherStandards[i]
+        if (ele == undefined) {
+            return true
+        }
+        return ele.Standard.trim().length == 0 && 
+        ele.Definition.trim().length == 0 && 
+        ele.Commentary.trim().length == 0 &&
+        ele.Link.length == 0 &&
+        ele.Path.length == 0
+    }
+    IsLastOtherStdEmpty() {
+        const n = this.CntOtherStd()
+        return this.IsOtherStdEmpty(n-1)
     }
 
     // Legal Definitions
@@ -81,20 +98,40 @@ class entity {
     RmLegalDefLast() {
         this.LegalDefinitions.splice(-1)
     }
-    SetLegalDef(TYPE: string, idx: number, legislationName: string, citation: string, linkStr: string, definition: string, commentary: string, datestamp: string) {
-        const ld = this.LegalDefinitions[idx]
-        ld.LegislationName = validString(legislationName, ld.LegislationName)
-        ld.Citation = validString(citation, ld.Citation)
-        ld.Definition = validString(definition, ld.Definition)
-        ld.Commentary = validString(commentary, ld.Commentary)
-        ld.Datestamp = validString(datestamp, ld.Datestamp)
+    SetLegalDef(TYPE: string, i: number, legislationName: string, citation: string, linkStr: string, definition: string, commentary: string, datestamp: string) {
+        const ele = this.LegalDefinitions[i]
+
+        ele.LegislationName = validString(legislationName, ele.LegislationName)
+        ele.Citation = validString(citation, ele.Citation)
+        ele.Definition = validString(definition, ele.Definition)
+        ele.Commentary = validString(commentary, ele.Commentary)
+        ele.Datestamp = validString(datestamp, ele.Datestamp)
         switch (TYPE) {
             case "html":
-                ld.Link = validStrHTMLArray(linkStr, ld.Link)
+                ele.Link = validStrHTMLArray(linkStr, ele.Link)
                 break
             default:
-                ld.Link = validStrTEXTArray(linkStr, ld.Link)
+                ele.Link = validStrTEXTArray(linkStr, ele.Link)
         }
+    }
+    CntLegalDef() {
+        return this.LegalDefinitions.length
+    }
+    IsLegalDefEmpty(i: number) {
+        const ele = this.LegalDefinitions[i]
+        if (ele == undefined) {
+            return true
+        }
+        return ele.LegislationName.trim().length == 0 && 
+        ele.Definition.trim().length == 0 && 
+        ele.Commentary.trim().length == 0 &&        
+        ele.Citation.trim().length == 0 &&
+        ele.Datestamp.trim().length == 0 &&
+        ele.Link.length == 0 
+    }
+    IsLastLegalDefEmpty() {
+        const n = this.CntLegalDef()
+        return this.IsLegalDefEmpty(n-1)
     }
 
     // Collections
@@ -104,19 +141,38 @@ class entity {
     RmColLast() {
         this.Collections.splice(-1)
     }
-    SetCol(TYPE: string, idx: number, name: string, description: string, standard: string, elementStr: string, defmod: string) {
-        const c = this.Collections[idx]
-        c.Name = validString(name, c.Name)
-        c.Description = validString(description, c.Description)
-        c.Standard = validString(standard, c.Standard)
-        c.DefinitionModification = validString(defmod, c.DefinitionModification)
+    SetCol(TYPE: string, i: number, name: string, description: string, standard: string, elementStr: string, defmod: string) {
+        const ele = this.Collections[i]
+
+        ele.Name = validString(name, ele.Name)
+        ele.Description = validString(description, ele.Description)
+        ele.Standard = validString(standard, ele.Standard)
+        ele.DefinitionModification = validString(defmod, ele.DefinitionModification)
         switch (TYPE) {
             case "html":
-                c.Elements = validStrHTMLArray(elementStr, c.Elements)
+                ele.Elements = validStrHTMLArray(elementStr, ele.Elements)
                 break
             default:
-                c.Elements = validStrTEXTArray(elementStr, c.Elements)
+                ele.Elements = validStrTEXTArray(elementStr, ele.Elements)
         }
+    }
+    CntCol() {
+        return this.Collections.length
+    }
+    IsColEmpty(i: number) {
+        const ele = this.Collections[i]
+        if (ele == undefined) {
+            return true
+        }
+        return ele.Standard.trim().length == 0 && 
+        ele.Name.trim().length == 0 && 
+        ele.Description.trim().length == 0 &&        
+        ele.DefinitionModification.trim().length == 0 &&
+        ele.Elements.length == 0 
+    }
+    IsLastColEmpty() {
+        const n = this.CntCol()
+        return this.IsColEmpty(n-1)
     }
 
     // Meta Data
@@ -137,13 +193,15 @@ class entity {
 
     ////
 
-    GenJSON(htmlType: boolean) {
+    GenJSON(htmlValue: boolean) {
         let json = JSON.stringify(this, null, 2)
-        if (htmlType) {
+        if (htmlValue) {
             json = json.replaceAll("<p><br></p>", "")
+            json = json.replaceAll(/<p>\s*<\/p>/g, "")
             json = json.replaceAll(/<h\d><br><\/h\d>/g, "")
+            json = json.replaceAll(/<h\d>\s*<\/h\d>/g, "")
         } else {
-            json = json.replaceAll("\"\\n\"", "\"\"")
+            json = json.replaceAll(/"\s*\\n"/g, "\"\"")
         }
         json = json.replaceAll(/\[\s*""\s*\]/g, "[]")
         return json
@@ -190,8 +248,5 @@ class meta {
     CrossrefEntities: string[] = []
 }
 
-const gEntityHTML = new entity()
-const gEntityTEXT = new entity()
-
-export const jsonHTML = reactive(gEntityHTML)
-export const jsonTEXT = reactive(gEntityTEXT)
+export const jsonHTML = reactive(new entity())
+export const jsonTEXT = reactive(new entity())

@@ -5,7 +5,7 @@
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
-        <button class="more-editor" @click="onMoreLessClick('+')">+</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastLegalDefEmpty()">+</button>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <br>&nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder="legislationName" @ready="onReady" @textChange="textChange(iGrp, 0)" />
@@ -28,7 +28,6 @@ import { defineComponent, ref } from 'vue'
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css'
-import { sharedHTML, sharedTEXT } from './share/share'
 import { jsonHTML, jsonTEXT } from './share/json'
 
 export default defineComponent({
@@ -56,38 +55,26 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    sharedHTML.setLegalDefName(html, idxGrp)
-                    sharedTEXT.setLegalDefName(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, html, "", "", "", "", "")
                     jsonTEXT.SetLegalDef("", idxGrp, text, "", "", "", "", "")
                     break
                 case 1:
-                    sharedHTML.setLegalDefCitation(html, idxGrp)
-                    sharedTEXT.setLegalDefCitation(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, "", html, "", "", "", "")
                     jsonTEXT.SetLegalDef("", idxGrp, "", text, "", "", "", "")
                     break
                 case 2:
-                    sharedHTML.setLegalDefLink(html, idxGrp)
-                    sharedTEXT.setLegalDefLink(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, "", "", html, "", "", "")
                     jsonTEXT.SetLegalDef("", idxGrp, "", "", text, "", "", "")
                     break
                 case 3:
-                    sharedHTML.setLegalDefinition(html, idxGrp)
-                    sharedTEXT.setLegalDefinition(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, "", "", "", html, "", "")
                     jsonTEXT.SetLegalDef("", idxGrp, "", "", "", text, "", "")
                     break
                 case 4:
-                    sharedHTML.setLegalDefCommentary(html, idxGrp)
-                    sharedTEXT.setLegalDefCommentary(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, "", "", "", "", html, "")
                     jsonTEXT.SetLegalDef("", idxGrp, "", "", "", "", text, "")
                     break
                 case 5:
-                    sharedHTML.setLegalDefDateStamp(html, idxGrp)
-                    sharedTEXT.setLegalDefDateStamp(text, idxGrp)
                     jsonHTML.SetLegalDef("html", idxGrp, "", "", "", "", "", html)
                     jsonTEXT.SetLegalDef("", idxGrp, "", "", "", "", "", text)
                     break
@@ -114,8 +101,6 @@ export default defineComponent({
                 case "-":
                     // clear preview
                     idxQuill -= 6
-                    sharedHTML.rmLegalDefLast()
-                    sharedTEXT.rmLegalDefLast()
 
                     // remove last LegalDefinition element in json
                     jsonHTML.RmLegalDefLast()
@@ -136,7 +121,8 @@ export default defineComponent({
             onReady,
             onMoreLessClick,
             onToggleVisible,
-            vBtnTxt
+            vBtnTxt,
+            jsonTEXT,
         }
     }
 });

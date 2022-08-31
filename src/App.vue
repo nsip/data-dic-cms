@@ -24,11 +24,11 @@
     </div>
 
     <div id="middle">
-      <PreviewVisual/>
+      <PreviewContent/>
     </div>
 
     <div id="right">
-      <PreviewJSON/>
+      <GenJSON/>
     </div>
 
   </div>
@@ -47,8 +47,8 @@ import EntryOtherStd from './components/Entry_5_OtherStd.vue';
 import EntryLegalDef from './components/Entry_6_LegalDef.vue';
 import EntryCol from './components/Entry_7_Col.vue';
 import EntryMeta from './components/Entry_8_Meta.vue';
-import PreviewVisual from './components/PreviewVisual.vue'
-import PreviewJSON from './components/PreviewJSON.vue'
+import PreviewContent from './components/Preview.vue'
+import GenJSON from './components/GenJSON.vue'
 import EntryExport from './components/BtnExport.vue';
 
 export default defineComponent({
@@ -63,8 +63,8 @@ export default defineComponent({
     EntryLegalDef,
     EntryCol,    
     EntryMeta,
-    PreviewVisual,
-    PreviewJSON,
+    PreviewContent,
+    GenJSON,
     EntryExport
 }
 });
