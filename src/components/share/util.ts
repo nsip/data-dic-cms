@@ -60,4 +60,4 @@ export const validStrTEXTArray = (val: string, defaultArray: string[]) => {
     return rt
 }
 
-// return (ons.match(/\n/g) || []).length    
+// return (ons.match(/\n/g) || []).length

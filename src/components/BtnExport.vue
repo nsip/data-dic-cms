@@ -10,6 +10,7 @@
 import { defineComponent } from 'vue';
 import FileSaver from 'file-saver';
 import { jsonHTML, jsonTEXT } from './share/json'
+import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, emptyM } from './share/fetch'
 
 // npm install file-saver --save
 // npm install @types/file-saver --save-dev
@@ -18,17 +19,31 @@ export default defineComponent({
     name: 'EntryExport',
     setup() {
         const btnName = "export to dictionary"
-        const saveJSON = () => {
+        const saveJSON = async () => {
 
-            var blobHTML = new Blob([jsonHTML.GenJSON(true)], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
+            // const htmlValData = jsonHTML.GenJSON(true)
+            // const textValData = jsonTEXT.GenJSON(false)
 
-            var blobTEXT = new Blob([jsonTEXT.GenJSON(false)], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
+            // var blobHTML = new Blob([htmlValData], { type: "text/plain;charset=utf-8" });
+            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
+
+            // var blobTEXT = new Blob([textValData], { type: "text/plain;charset=utf-8" });
+            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
+
+            //////////////////////////////////////////////////
+
+            const textValData = jsonTEXT.GenJSON(false)
+            let rt = await fetchBodyJsonStr("api/entity/upsert/text", "POST", emptyM, textValData)
+            console.log(rt)
+
+            const htmlValData = jsonHTML.GenJSON(true)
+            rt = await fetchBodyJsonStr("api/entity/upsert/html", "POST", emptyM, htmlValData)
+            console.log(rt)
+
         }
         return {
             btnName,
-            saveJSON          
+            saveJSON
         }
     }
 });
