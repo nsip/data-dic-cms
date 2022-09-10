@@ -19,16 +19,24 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
         payload = formData
     }
 
-    const resp = await fetch(url, {
-        method: method,
-        // headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'multipart/form-data'
-        // },
-        body: payload
-    });
-
-    return await resp.text()
+    try {
+        const resp = await fetch(url, {
+            method: method,
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'multipart/form-data'
+            // },
+            body: payload,
+            mode: 'cors',
+        });
+        if (!resp.ok) {
+            alert('Failed to fetch successfully, got status ' + resp.status)
+            return await resp.text()
+        }
+        return await resp.json()
+    } catch (e) {
+        alert(e + '\nnetwork error: ' + url)
+    }
 }
 
 // const mForm = new Map<string, any>()
@@ -46,16 +54,24 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
         url += "?" + qryParams
     }
 
-    const resp = await fetch(url, {
-        method: method,
-        // headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        // },
-        body: payload
-    });
-
-    return await resp.text()
+    try {
+        const resp = await fetch(url, {
+            method: method,
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json'
+            // },
+            body: payload,
+            mode: 'cors',
+        });
+        if (!resp.ok) {
+            alert('Failed to fetch successfully, got status ' + resp.status)
+            return await resp.text()
+        }
+        return await resp.json()
+    } catch (e) {
+        alert(e + '\nnetwork error: ' + url)
+    }
 }
 
 export const fetchBodyObject = async (path: string, method: string, mQuery: Map<string, any>, body: any) => {
@@ -75,14 +91,22 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
         }
     }
 
-    const resp = await fetch(url, {
-        method: method,
-        // headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        // },
-        body: payload
-    });
-
-    return await resp.text()
+    try {
+        const resp = await fetch(url, {
+            method: method,
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json'
+            // },
+            body: payload,
+            mode: 'cors',
+        });
+        if (!resp.ok) {
+            alert('Failed to fetch successfully, got status ' + resp.status)
+            return await resp.text()
+        }
+        return await resp.json()
+    } catch (e) {
+        alert(e + '\nnetwork error: ' + url)
+    }
 }

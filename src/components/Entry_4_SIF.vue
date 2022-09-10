@@ -1,17 +1,20 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>        
-        <span class="hint1">{{ hint }}</span>
+        <span class="label">{{ label }}</span>
+        <br>
+        <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
-        <div :hidden=!visEditor>
-            <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" placeholder='list of xpath' @ready="onReady" @textChange="textChange(0)" />
+        <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastOtherStdEmpty()">+</button>
+        <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
+            <br>&nbsp;# {{ iGrp }}
+            <QuillEditor theme="snow" toolbar="essential" placeholder='list of xpath' @ready="onReady" @textChange="textChange(iGrp, 0)" />
             <hr class="subline">
-            <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(1)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='definition' @ready="onReady" @textChange="textChange(iGrp, 1)" />
             <hr class="subline">
-            <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(2)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='commentary' @ready="onReady" @textChange="textChange(iGrp, 2)" />
             <hr class="subline">
-            <QuillEditor theme="snow" toolbar="essential" placeholder='datestamp' @ready="onReady" @textChange="textChange(3)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder='datestamp' @ready="onReady" @textChange="textChange(iGrp, 3)" />
         </div>
     </div>
 </template>
@@ -35,31 +38,32 @@ export default defineComponent({
         let thisQuills: Quill[] = []
         let idxQuill = 0
         let visEditor = ref(false)
+        let editorCount = ref(1)
 
         const onReady = (quill: Quill) => {
             thisQuills[idxQuill++] = quill
         }
 
-        const textChange = (idx: number) => {
-            const html = thisQuills[idx].root.innerHTML; // get html from quill
-            const text = thisQuills[idx].getText(0, 100000)
+        const textChange = (idxGrp: number, idx: number) => {
+            const html = thisQuills[idxGrp * 4 + idx].root.innerHTML; // get html from quill
+            const text = thisQuills[idxGrp * 4 + idx].getText(0, 100000) // get text from quill
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetSIF("html", html, "", "", "")
-                    jsonTEXT.SetSIF("", text, "", "", "")
+                    jsonHTML.SetSIF("html", idxGrp, html, "", "", "")
+                    jsonTEXT.SetSIF("", idxGrp, text, "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetSIF("html", "", html, "", "")
-                    jsonTEXT.SetSIF("", "", text, "", "")
+                    jsonHTML.SetSIF("html", idxGrp, "", html, "", "")
+                    jsonTEXT.SetSIF("", idxGrp, "", text, "", "")
                     break
                 case 2:
-                    jsonHTML.SetSIF("html", "", "", html, "")
-                    jsonTEXT.SetSIF("", "", "", text, "")
+                    jsonHTML.SetSIF("html", idxGrp, "", "", html, "")
+                    jsonTEXT.SetSIF("", idxGrp, "", "", text, "")
                     break
                 case 3:
-                    jsonHTML.SetSIF("html", "", "", "", html)
-                    jsonTEXT.SetSIF("", "", "", "", text)
+                    jsonHTML.SetSIF("html", idxGrp, "", "", "", html)
+                    jsonTEXT.SetSIF("", idxGrp, "", "", "", text)
                     break
             }
         }
@@ -72,14 +76,41 @@ export default defineComponent({
             return visEditor.value ? "⤴" : "⤵"
         }
 
+        const onMoreLessClick = (type: string) => {
+            switch (type) {
+                case "+":
+                    // add new OtherStandard element in json
+                    jsonHTML.AddSIF()
+                    jsonTEXT.AddSIF()
+
+                    editorCount.value++
+                    break
+                case "-":
+                    // clear preview
+                    idxQuill -= 4
+
+                    // remove last OtherStandard element in json
+                    jsonHTML.RmSIFLast()
+                    jsonTEXT.RmSIFLast()
+
+                    editorCount.value--
+                    break
+                default:
+            }
+            // console.log('editor count:', editorCount.value)
+        }
+
         return {
             label,
             hint,
+            editorCount,
             visEditor,
             textChange,
             onReady,
+            onMoreLessClick,
             onToggleVisible,
-            vBtnTxt
+            vBtnTxt,
+            jsonTEXT,
         }
     }
 });

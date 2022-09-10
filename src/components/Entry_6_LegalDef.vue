@@ -55,28 +55,28 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetLegalDef("html", idxGrp, html, "", "", "", "", "")
-                    jsonTEXT.SetLegalDef("", idxGrp, text, "", "", "", "", "")
+                    jsonHTML.SetLegalDef(idxGrp, html, "", "", "", "", "")
+                    jsonTEXT.SetLegalDef(idxGrp, text, "", "", "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetLegalDef("html", idxGrp, "", html, "", "", "", "")
-                    jsonTEXT.SetLegalDef("", idxGrp, "", text, "", "", "", "")
+                    jsonHTML.SetLegalDef(idxGrp, "", html, "", "", "", "")
+                    jsonTEXT.SetLegalDef(idxGrp, "", text, "", "", "", "")
                     break
                 case 2:
-                    jsonHTML.SetLegalDef("html", idxGrp, "", "", html, "", "", "")
-                    jsonTEXT.SetLegalDef("", idxGrp, "", "", text, "", "", "")
+                    jsonHTML.SetLegalDef(idxGrp, "", "", html, "", "", "")
+                    jsonTEXT.SetLegalDef(idxGrp, "", "", text, "", "", "")
                     break
                 case 3:
-                    jsonHTML.SetLegalDef("html", idxGrp, "", "", "", html, "", "")
-                    jsonTEXT.SetLegalDef("", idxGrp, "", "", "", text, "", "")
+                    jsonHTML.SetLegalDef(idxGrp, "", "", "", html, "", "")
+                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", text, "", "")
                     break
                 case 4:
-                    jsonHTML.SetLegalDef("html", idxGrp, "", "", "", "", html, "")
-                    jsonTEXT.SetLegalDef("", idxGrp, "", "", "", "", text, "")
+                    jsonHTML.SetLegalDef(idxGrp, "", "", "", "", html, "")
+                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", "", text, "")
                     break
                 case 5:
-                    jsonHTML.SetLegalDef("html", idxGrp, "", "", "", "", "", html)
-                    jsonTEXT.SetLegalDef("", idxGrp, "", "", "", "", "", text)
+                    jsonHTML.SetLegalDef(idxGrp, "", "", "", "", "", html)
+                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", "", "", text)
                     break
             }
         }

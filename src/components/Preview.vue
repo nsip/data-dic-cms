@@ -15,7 +15,7 @@ export default defineComponent({
 
         const nonEmptyHtml = (label4: string, text: string, html: string) => {
 
-            // if (label4 == "-- xpath:") {
+            // if (label4 == ">> xpath:") {
             //     console.log("text:", text)
             //     console.log("html:", html)
             // }
@@ -36,12 +36,12 @@ export default defineComponent({
         /////////////////////////////////////////////////
 
         const previewEntity = () => {
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Entity ---</h3>" +
+            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Entity</h3>" +
                 nonEmptyHtml("", jsonTEXT.Entity, jsonHTML.Entity)
         }
 
         const previewOtherNames = () => {
-            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Other Names ---</h3>"
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Names</h3>"
             const n = jsonTEXT.CntOtherName()
             const eles: string[] = []
             for (let i = 0; i < n; i++) {
@@ -56,33 +56,43 @@ export default defineComponent({
         }
 
         const previewDefinition = () => {
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Definition ---</h3>" +
+            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Definition</h3>" +
                 nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
         }
 
         const previewSIF = () => {
-            const jt = jsonTEXT.SIF
-            const jh = jsonHTML.SIF
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- SIF ---</h3>" +
-                nonEmptyHtml("-- xpath:", jt.XPath.join(""), jh.XPath.join("")) +
-                nonEmptyHtml("-- definition:", jt.Definition, jh.Definition) +
-                nonEmptyHtml("-- commentary:", jt.Commentary, jh.Commentary) +
-                nonEmptyHtml("-- datestamp:", jt.Datestamp, jh.Datestamp)
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> SIF</h3>"
+            const n = jsonTEXT.CntSIF()
+            let eles: string[] = []
+            for (let i = 0; i < n; i++) {
+                const jt = jsonTEXT.SIF[i]
+                const jh = jsonHTML.SIF[i]
+                eles[i] = ""
+                eles[i] += nonEmptyHtml(">> xpath:", jt.XPath.join(""), jh.XPath.join(""))
+                eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition)
+                eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary)
+                eles[i] += nonEmptyHtml(">> datestamp:", jt.Datestamp, jh.Datestamp)
+            }
+            const body = eles.join("<hr style='border-top: 1px dashed;'>")
+            if (body.length > 0) {
+                return head + body
+            }
+            return head
         }
 
         const previewOtherStandards = () => {
-            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Other Standards ---</h3>"
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Standards</h3>"
             const n = jsonTEXT.CntOtherStd()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 const jt = jsonTEXT.OtherStandards[i]
                 const jh = jsonHTML.OtherStandards[i]
                 eles[i] = ""
-                eles[i] += nonEmptyHtml("-- standard:", jt.Standard, jh.Standard)
-                eles[i] += nonEmptyHtml("-- link:", jt.Link.join(""), jh.Link.join(""))
-                eles[i] += nonEmptyHtml("-- path:", jt.Path.join(""), jh.Path.join(""))
-                eles[i] += nonEmptyHtml("-- definition:", jt.Definition, jh.Definition)
-                eles[i] += nonEmptyHtml("-- commentary:", jt.Commentary, jh.Commentary)
+                eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard)
+                eles[i] += nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join(""))
+                eles[i] += nonEmptyHtml(">> path:", jt.Path.join(""), jh.Path.join(""))
+                eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition)
+                eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary)
             }
             const body = eles.join("<hr style='border-top: 1px dashed;'>")
             if (body.length > 0) {
@@ -92,19 +102,19 @@ export default defineComponent({
         }
 
         const previewLegalDefinition = () => {
-            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Legal Definitions ---</h3>"
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Legal Definitions</h3>"
             const n = jsonTEXT.CntLegalDef()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 const jt = jsonTEXT.LegalDefinitions[i]
                 const jh = jsonHTML.LegalDefinitions[i]
                 eles[i] = ""
-                eles[i] += nonEmptyHtml("-- legislationName:", jt.LegislationName, jh.LegislationName)
-                eles[i] += nonEmptyHtml("-- citation:", jt.Citation, jh.Citation)
-                eles[i] += nonEmptyHtml("-- link:", jt.Link.join(""), jh.Link.join(""))
-                eles[i] += nonEmptyHtml("-- definition:", jt.Definition, jh.Definition)
-                eles[i] += nonEmptyHtml("-- commentary:", jt.Commentary, jh.Commentary)
-                eles[i] += nonEmptyHtml("-- datestamp:", jt.Datestamp, jh.Datestamp)
+                eles[i] += nonEmptyHtml(">> legislationName:", jt.LegislationName, jh.LegislationName)
+                eles[i] += nonEmptyHtml(">> citation:", jt.Citation, jh.Citation)
+                eles[i] += nonEmptyHtml(">> link:", jt.Link, jh.Link)
+                eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition)
+                eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary)
+                eles[i] += nonEmptyHtml(">> datestamp:", jt.Datestamp, jh.Datestamp)
             }
             const body = eles.join("<hr style='border-top: 1px dashed;'>")
             if (body.length > 0) {
@@ -114,18 +124,18 @@ export default defineComponent({
         }
 
         const previewCollections = () => {
-            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Collections ---</h3>"
+            const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Collections</h3>"
             const n = jsonTEXT.CntCol()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
                 const jt = jsonTEXT.Collections[i]
                 const jh = jsonHTML.Collections[i]
                 eles[i] = ""
-                eles[i] += nonEmptyHtml("-- name:", jt.Name, jh.Name)
-                eles[i] += nonEmptyHtml("-- description:", jt.Description, jh.Description)
-                eles[i] += nonEmptyHtml("-- standard:", jt.Standard, jh.Standard)
-                eles[i] += nonEmptyHtml("-- elements:", jt.Elements.join(""), jh.Elements.join(""))
-                eles[i] += nonEmptyHtml("-- definition modification:", jt.DefinitionModification, jh.DefinitionModification)
+                eles[i] += nonEmptyHtml(">> name:", jt.Name, jh.Name)
+                eles[i] += nonEmptyHtml(">> description:", jt.Description, jh.Description)
+                eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard)
+                eles[i] += nonEmptyHtml(">> elements:", jt.Elements.join(""), jh.Elements.join(""))
+                eles[i] += nonEmptyHtml(">> definition modification:", jt.DefinitionModification, jh.DefinitionModification)
             }
             const body = eles.join("<hr style='border-top: 1px dashed;'>")
             if (body.length > 0) {
@@ -137,12 +147,12 @@ export default defineComponent({
         const previewMetadata = () => {
             const jt = jsonTEXT.Metadata
             const jh = jsonHTML.Metadata
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>--- Meta Data ---</h3>" +
-                nonEmptyHtml("-- identifier:", jt.Identifier, jh.Identifier) +
-                nonEmptyHtml("-- type:", jt.Type, jh.Type) +
-                nonEmptyHtml("-- expected attributes:", jt.ExpectedAttributes.join(""), jh.ExpectedAttributes.join("")) +
-                nonEmptyHtml("-- superclass:", jt.Superclass, jh.Superclass) +
-                nonEmptyHtml("-- cross ref entities:", jt.CrossrefEntities.join(""), jh.CrossrefEntities.join(""))
+            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Meta Data</h3>" +
+                nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier) +
+                nonEmptyHtml(">> type:", jt.Type, jh.Type) +
+                nonEmptyHtml(">> expected attributes:", jt.ExpectedAttributes.join(""), jh.ExpectedAttributes.join("")) +
+                nonEmptyHtml(">> superclass:", jt.Superclass.join(""), jh.Superclass.join("")) +
+                nonEmptyHtml(">> cross ref entities:", jt.CrossrefEntities.join(""), jh.CrossrefEntities.join(""))
         }
 
         //////////

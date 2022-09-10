@@ -35,10 +35,16 @@ export default defineComponent({
             const textValData = jsonTEXT.GenJSON(false)
             let rt = await fetchBodyJsonStr("api/entity/upsert/text", "POST", emptyM, textValData)
             console.log(rt)
+            if (rt == undefined) {
+                return
+            }
 
             const htmlValData = jsonHTML.GenJSON(true)
             rt = await fetchBodyJsonStr("api/entity/upsert/html", "POST", emptyM, htmlValData)
             console.log(rt)
+            if (rt == undefined) {
+                return
+            }
 
         }
         return {

@@ -6,14 +6,14 @@ export const timestamp = () => {
     return date.getFullYear().toString() + "-" + pad2(date.getMonth() + 1) + "-" + pad2(date.getDate()) + " " + pad2(date.getHours()) + ":" + pad2(date.getMinutes()) + ":" + pad2(date.getSeconds())
 }
 
-export const validString = (val: string, defaultVal: string) => {
+export const validStr = (val: string, defaultVal: string) => {
     if (val.length == 0) {
         return defaultVal
     }
     return val.trimEnd()
 }
 
-export const validStrHTMLArray = (val: string, defaultArray: string[]) => {
+export const validStrHTMLArr = (val: string, defaultArray: string[]) => {
     if (val.length == 0) {
         return defaultArray
     }
@@ -45,7 +45,7 @@ export const validStrHTMLArray = (val: string, defaultArray: string[]) => {
     return rt
 }
 
-export const validStrTEXTArray = (val: string, defaultArray: string[]) => {
+export const validStrTEXTArr = (val: string, defaultArray: string[]) => {
     if (val.length == 0) {
         return defaultArray
     }
