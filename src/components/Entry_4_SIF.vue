@@ -5,7 +5,7 @@
         <span class="hint2">{{ hint }}</span>
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
-        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastOtherStdEmpty()">+</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastSIFEmpty()">+</button>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <br>&nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder='list of xpath' @ready="onReady" @textChange="textChange(iGrp, 0)" />

@@ -20,6 +20,7 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
     }
 
     try {
+
         const resp = await fetch(url, {
             method: method,
             // headers: {
@@ -29,11 +30,20 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
             body: payload,
             mode: 'cors',
         });
+
         if (!resp.ok) {
-            alert('Failed to fetch successfully, got status ' + resp.status)
-            return await resp.text()
+            // alert('Failed to fetch successfully, got status ' + resp.status)
+            const text = await resp.text()
+            return new Promise((resolve, reject) => {
+                resolve([text, resp.status]);
+            })
         }
-        return await resp.json()
+
+        const json = await resp.json()
+        return new Promise((resolve, reject) => {
+            resolve([json, resp.status]);
+        })
+
     } catch (e) {
         alert(e + '\nnetwork error: ' + url)
     }
@@ -46,6 +56,7 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
 // console.log(rt)
 
 export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map<string, any>, payload: string) => {
+    
     let url = ip + path.replace(/^\/+/, "")
 
     if (mQuery.size > 0) {
@@ -55,6 +66,7 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
     }
 
     try {
+
         const resp = await fetch(url, {
             method: method,
             // headers: {
@@ -64,17 +76,27 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
             body: payload,
             mode: 'cors',
         });
+
         if (!resp.ok) {
-            alert('Failed to fetch successfully, got status ' + resp.status)
-            return await resp.text()
+            // alert('Failed to fetch successfully, got status ' + resp.status)
+            const text = await resp.text()
+            return new Promise((resolve, reject) => {
+                resolve([text, resp.status]);
+            })
         }
-        return await resp.json()
+
+        const json = await resp.json()
+        return new Promise((resolve, reject) => {
+            resolve([json, resp.status]);
+        })
+
     } catch (e) {
         alert(e + '\nnetwork error: ' + url)
     }
 }
 
 export const fetchBodyObject = async (path: string, method: string, mQuery: Map<string, any>, body: any) => {
+    
     let url = ip + path.replace(/^\/+/, "")
     let payload: any
 
@@ -92,6 +114,7 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
     }
 
     try {
+
         const resp = await fetch(url, {
             method: method,
             // headers: {
@@ -101,11 +124,20 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
             body: payload,
             mode: 'cors',
         });
+
         if (!resp.ok) {
-            alert('Failed to fetch successfully, got status ' + resp.status)
-            return await resp.text()
+            // alert('Failed to fetch successfully, got status ' + resp.status)
+            const text = await resp.text()
+            return new Promise((resolve, reject) => {
+                resolve([text, resp.status]);
+            })
         }
-        return await resp.json()
+
+        const json = await resp.json()
+        return new Promise((resolve, reject) => {
+            resolve([json, resp.status]);
+        })
+
     } catch (e) {
         alert(e + '\nnetwork error: ' + url)
     }

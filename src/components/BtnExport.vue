@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FileSaver from 'file-saver';
+// import FileSaver from 'file-saver';
 import { jsonHTML, jsonTEXT } from './share/json'
 import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, emptyM } from './share/fetch'
 
@@ -33,19 +33,20 @@ export default defineComponent({
             //////////////////////////////////////////////////
 
             const textValData = jsonTEXT.GenJSON(false)
-            let rt = await fetchBodyJsonStr("api/entity/upsert/text", "POST", emptyM, textValData)
-            console.log(rt)
-            if (rt == undefined) {
+            const rtText = (await fetchBodyJsonStr("api/entity/upsert/text", "POST", emptyM, textValData)) as any[]
+            if (rtText[1] != 200) {
+                alert(rtText[0])
                 return
             }
 
             const htmlValData = jsonHTML.GenJSON(true)
-            rt = await fetchBodyJsonStr("api/entity/upsert/html", "POST", emptyM, htmlValData)
-            console.log(rt)
-            if (rt == undefined) {
+            const rtHtml = (await fetchBodyJsonStr("api/entity/upsert/html", "POST", emptyM, htmlValData)) as any[]
+            if (rtHtml[1] != 200) {
+                alert(rtHtml[0])
                 return
             }
 
+            alert(`[${jsonTEXT.Entity}] has been uploaded, please refresh main page`)
         }
         return {
             btnName,
