@@ -1,16 +1,18 @@
 <template>
     <div class="container">
         <div class="center">
-            <button class="btn" @click="saveJSON()">{{ btnName }}</button>
+            <a @click="saveJSON()" class="float">
+                <i class="fa fa-check floating"></i>
+            </a>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import FileSaver from 'file-saver';
 import { jsonHTML, jsonTEXT } from './share/json'
 import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, emptyM } from './share/fetch'
+// import FileSaver from 'file-saver';
 
 // npm install file-saver --save
 // npm install @types/file-saver --save-dev
@@ -19,6 +21,11 @@ export default defineComponent({
     name: 'EntryExport',
     setup() {
         const btnName = "export to dictionary"
+
+        const ckeditor = document.createElement('script');
+        ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
+        document.head.appendChild(ckeditor);
+
         const saveJSON = async () => {
 
             // const htmlValData = jsonHTML.GenJSON(true)
@@ -50,6 +57,7 @@ export default defineComponent({
         }
         return {
             btnName,
+            ckeditor,
             saveJSON
         }
     }
@@ -73,15 +81,27 @@ export default defineComponent({
     transform: translateY(-50%);
 }
 
-.btn {
-    background-color: #058f05;
-    /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:50px;
+	right:20px;
+	background-color:#BBB;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.float:hover {
+    background-color:#0C9;
+    cursor: pointer;
+}
+
+.floating{
+	margin-top:16px;
+    font-size:32px;
+    color:white;
 }
 </style>
