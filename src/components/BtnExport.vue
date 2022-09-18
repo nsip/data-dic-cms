@@ -40,14 +40,14 @@ export default defineComponent({
             //////////////////////////////////////////////////
 
             const textValData = jsonTEXT.GenJSON(false)
-            const rtText = (await fetchBodyJsonStr("api/entity/upsert/text", "POST", emptyM, textValData)) as any[]
+            const rtText = (await fetchBodyJsonStr("api/dictionary/upsert", "POST", emptyM, textValData)) as any[]
             if (rtText[1] != 200) {
                 alert(rtText[0])
                 return
             }
 
             const htmlValData = jsonHTML.GenJSON(true)
-            const rtHtml = (await fetchBodyJsonStr("api/entity/upsert/html", "POST", emptyM, htmlValData)) as any[]
+            const rtHtml = (await fetchBodyJsonStr("api/dictionary/upsert", "POST", emptyM, htmlValData)) as any[]
             if (rtHtml[1] != 200) {
                 alert(rtHtml[0])
                 return
