@@ -24,7 +24,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { jsonHTML, jsonTEXT } from './share/json'
+import { jsonHTML, jsonTEXT } from './share/Entity'
 
 export default defineComponent({
     name: 'EntrySIF',

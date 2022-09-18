@@ -164,7 +164,7 @@ class entity {
     RmColLast() {
         this.Collections.splice(-1)
     }
-    SetCol(TYPE: string, i: number, name: string, description: string, standard: string, elementStr: string, defmod: string) {
+    SetCol(TYPE: string, i: number, name: string, description: string, standard: string, elementStr: string, bizruleStr: string, defmod: string) {
         const ele = this.Collections[i]
         ele.Name = validStr(name, ele.Name)
         ele.Description = validStr(description, ele.Description)
@@ -173,9 +173,11 @@ class entity {
         switch (TYPE) {
             case "html":
                 ele.Elements = validStrHTMLArr(elementStr, ele.Elements)
+                ele.BusinessRules = validStrHTMLArr(bizruleStr, ele.BusinessRules)
                 break
             default:
                 ele.Elements = validStrTEXTArr(elementStr, ele.Elements)
+                ele.BusinessRules = validStrTEXTArr(bizruleStr, ele.BusinessRules)
         }
     }
     CntCol() {
@@ -190,7 +192,8 @@ class entity {
             ele.Name.trim().length == 0 &&
             ele.Description.trim().length == 0 &&
             ele.DefinitionModification.trim().length == 0 &&
-            ele.Elements.length == 0
+            ele.Elements.length == 0 &&
+            ele.BusinessRules.length == 0
     }
     IsLastColEmpty() {
         const n = this.CntCol()
@@ -261,6 +264,7 @@ class col {
     Description = ""
     Standard = ""
     Elements: string[] = []
+    BusinessRules: string[] = []
     DefinitionModification = ""
 }
 

@@ -16,7 +16,9 @@
             <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder="elements" @ready="onReady" @textChange="textChange(iGrp, 3)" />
             <hr class="subline">
-            <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReady" @textChange="textChange(iGrp, 4)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="business rules" @ready="onReady" @textChange="textChange(iGrp, 4)" />
+            <hr class="subline">
+            <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReady" @textChange="textChange(iGrp, 5)" />
             <br>
         </div>
     </div>
@@ -27,7 +29,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { jsonHTML, jsonTEXT } from './share/json'
+import { jsonHTML, jsonTEXT } from './share/Entity'
 
 export default defineComponent({
     name: 'EntryCol',
@@ -37,7 +39,7 @@ export default defineComponent({
     setup() {
 
         const label = "Collections:"
-        const hint = "list of [name, description, standard, elements(list), definitionModification]"
+        const hint = "list of [name, description, standard, elements(list), businessRules(list), definitionModification]"
         let thisQuills: Quill[] = []
         let idxQuill = 0
         let visEditor = ref(false)
@@ -54,24 +56,28 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetCol("html", idxGrp, html, "", "", "", "")
-                    jsonTEXT.SetCol("", idxGrp, text, "", "", "", "")
+                    jsonHTML.SetCol("html", idxGrp, html, "", "", "", "", "")
+                    jsonTEXT.SetCol("", idxGrp, text, "", "", "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetCol("html", idxGrp, "", html, "", "", "")
-                    jsonTEXT.SetCol("", idxGrp, "", text, "", "", "")
+                    jsonHTML.SetCol("html", idxGrp, "", html, "", "", "", "")
+                    jsonTEXT.SetCol("", idxGrp, "", text, "", "", "", "")
                     break
                 case 2:
-                    jsonHTML.SetCol("html", idxGrp, "", "", html, "", "")
-                    jsonTEXT.SetCol("", idxGrp, "", "", text, "", "")
+                    jsonHTML.SetCol("html", idxGrp, "", "", html, "", "", "")
+                    jsonTEXT.SetCol("", idxGrp, "", "", text, "", "", "")
                     break
                 case 3:
-                    jsonHTML.SetCol("html", idxGrp, "", "", "", html, "")
-                    jsonTEXT.SetCol("", idxGrp, "", "", "", text, "")
+                    jsonHTML.SetCol("html", idxGrp, "", "", "", html, "", "")
+                    jsonTEXT.SetCol("", idxGrp, "", "", "", text, "", "")
                     break
                 case 4:
-                    jsonHTML.SetCol("html", idxGrp, "", "", "", "", html)
-                    jsonTEXT.SetCol("", idxGrp, "", "", "", "", text)
+                    jsonHTML.SetCol("html", idxGrp, "", "", "", "", html, "")
+                    jsonTEXT.SetCol("", idxGrp, "", "", "", "", text, "")
+                    break
+                case 5:
+                    jsonHTML.SetCol("html", idxGrp, "", "", "", "", "", html)
+                    jsonTEXT.SetCol("", idxGrp, "", "", "", "", "", text)
                     break
             }
         }
@@ -96,8 +102,8 @@ export default defineComponent({
 
                 case "-":
                     // clear preview
-                    idxQuill -= 5
-                    
+                    idxQuill -= 6
+
                     // remove last Collection element in json
                     jsonHTML.RmColLast()
                     jsonTEXT.RmColLast()
@@ -126,4 +132,5 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

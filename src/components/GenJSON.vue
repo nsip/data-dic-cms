@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { jsonHTML, jsonTEXT } from './share/json'
+import { jsonHTML, jsonTEXT } from './share/Entity'
 
 export default defineComponent({
     name: 'GenJSON',

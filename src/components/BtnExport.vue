@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { jsonHTML, jsonTEXT } from './share/json'
+import { jsonHTML, jsonTEXT } from './share/Entity'
 import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, emptyM } from './share/fetch'
 // import FileSaver from 'file-saver';
 

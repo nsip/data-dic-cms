@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { jsonTEXT, jsonHTML } from './share/json';
+import { jsonTEXT, jsonHTML } from './share/Entity';
 
 export default defineComponent({
     name: 'PreviewContent',
