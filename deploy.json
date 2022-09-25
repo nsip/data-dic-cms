@@ -1,0 +1,18 @@
+{
+    "IpRepl": {
+        "Enable": true,
+        "Loc2Pub": true,
+        "Loc2Ip": "127.0.0.1",
+        "OnlyFirst": true,
+        "Files": [
+            "./src/components/share/fetch.ts"
+        ]
+    },
+    "SymbolRepl": {
+        "Enable": false,
+        "OnlyForCmt": false,
+        "Files": [
+            ""
+        ]
+    }
+}
