@@ -27,33 +27,42 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { loginOK } from './share/share'
+import { loginOK, loginUser, postLogin, postRegister } from './share/share'
 
 export default defineComponent({
     name: 'SignPage',
     setup() {
 
         let registerActive = ref(false)
+
         let emailLogin = ref("")
         let passwordLogin = ref("")
+
         let emailReg = ref("")
         let passwordReg = ref("")
         let confirmReg = ref("")
 
-        const doLogin = () => {
+        const doLogin = async () => {
 
-            alert('doLogin')
+            const ok = await postLogin(emailLogin.value, passwordLogin.value)
+            if (ok) {
+                loginOK.value = true
+                loginUser.value = emailLogin.value
+            }
         }
 
-        const doRegister = () => {
-            
+        const doRegister = async () => {
+
             if (passwordReg.value != confirmReg.value) {
                 alert('password confirmation error')
                 return
             }
 
-            alert('register successful')
-            loginOK.value = true
+            const ok = await postRegister(emailReg.value, passwordReg.value)
+            if (ok) {
+                alert('register successful')
+                doShift()
+            }
         }
 
         const doShift = () => {

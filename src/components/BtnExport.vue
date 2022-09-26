@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { jsonHTML, jsonTEXT } from './share/Entity'
-import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, emptyM } from './share/fetch'
+import { postDataToDic } from './share/share'
 // import FileSaver from 'file-saver';
 
 // npm install file-saver --save
@@ -40,16 +40,14 @@ export default defineComponent({
             //////////////////////////////////////////////////
 
             const textValData = jsonTEXT.GenJSON(false)
-            const rtText = (await fetchBodyJsonStr("api/dictionary/upsert", "POST", emptyM, textValData)) as any[]
-            if (rtText[1] != 200) {
-                alert(rtText[0])
+            const okText = await postDataToDic(textValData)
+            if (!okText) {                
                 return
             }
 
             const htmlValData = jsonHTML.GenJSON(true)
-            const rtHtml = (await fetchBodyJsonStr("api/dictionary/upsert", "POST", emptyM, htmlValData)) as any[]
-            if (rtHtml[1] != 200) {
-                alert(rtHtml[0])
+            const okHtml = await postDataToDic(htmlValData)
+            if (!okHtml) {
                 return
             }
 

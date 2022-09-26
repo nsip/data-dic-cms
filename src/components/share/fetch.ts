@@ -1,8 +1,8 @@
 const ip = "http://127.0.0.1:1323/"
 
-export const emptyM = new Map<string, any>()
+export const mEmpty = new Map<string, any>()
 
-export const fetchBodyForm = async (path: string, method: string, mQuery: Map<string, any>, mForm: Map<string, any>) => {
+export const fetchBodyForm = async (path: string, method: string, mQuery: Map<string, any>, mForm: Map<string, any>, auth: string) => {
 
     let url = ip + path.replace(/^\/+/, "")
     let payload: any
@@ -21,12 +21,15 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
 
     try {
 
+        const headers = {
+            "Accept": 'application/json',
+            // "Content-Type": "application/json",
+            "Authorization": auth
+        };
+
         const resp = await fetch(url, {
             method: method,
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'multipart/form-data'
-            // },
+            headers: headers,
             body: payload,
             mode: 'cors',
         });
@@ -55,8 +58,8 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
 // let rt = await fetchBodyForm("api/entity/db", "PUT", emptyM, mForm)
 // console.log(rt)
 
-export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map<string, any>, payload: string) => {
-    
+export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map<string, any>, payload: string, auth: string) => {
+
     let url = ip + path.replace(/^\/+/, "")
 
     if (mQuery.size > 0) {
@@ -67,12 +70,15 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
 
     try {
 
+        const headers = {
+            "Accept": 'application/json',
+            // "Content-Type": "application/json",
+            "Authorization": auth
+        };
+
         const resp = await fetch(url, {
             method: method,
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json'
-            // },
+            headers: headers,
             body: payload,
             mode: 'cors',
         });
@@ -95,8 +101,8 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
     }
 }
 
-export const fetchBodyObject = async (path: string, method: string, mQuery: Map<string, any>, body: any) => {
-    
+export const fetchBodyObject = async (path: string, method: string, mQuery: Map<string, any>, body: any, auth: string) => {
+
     let url = ip + path.replace(/^\/+/, "")
     let payload: any
 
@@ -115,13 +121,60 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
 
     try {
 
+        const headers = {
+            "Accept": 'application/json',
+            // "Content-Type": "application/json",
+            "Authorization": auth
+        };
+
         const resp = await fetch(url, {
             method: method,
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json'
-            // },
+            headers: headers,
             body: payload,
+            mode: 'cors',
+        });
+
+        if (!resp.ok) {
+            // alert('Failed to fetch successfully, got status ' + resp.status)
+            const text = await resp.text()
+            return new Promise((resolve, reject) => {
+                resolve([text, resp.status]);
+            })
+        }
+
+        const json = await resp.json()
+        return new Promise((resolve, reject) => {
+            resolve([json, resp.status]);
+        })
+
+    } catch (e) {
+        alert(e + '\nnetwork error: ' + url)
+    }
+}
+
+export const fetchNoBody = async (path: string, method: string, mQuery: Map<string, any>, auth: string) => {
+
+    let url = ip + path.replace(/^\/+/, "")
+
+    if (mQuery.size > 0) {
+        const qryParams = new URLSearchParams()
+        mQuery.forEach((v, k) => { qryParams.append(k, v) })
+        url += "?" + qryParams
+    }
+
+    // alert(url)
+
+    try {
+
+        const headers = {
+            "Accept": 'application/json',
+            // "Content-Type": "application/json",
+            "Authorization": auth
+        };
+
+        const resp = await fetch(url, {
+            method: method,
+            headers: headers,
             mode: 'cors',
         });
 
