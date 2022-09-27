@@ -3,23 +3,20 @@
 
         <div v-if="!registerActive">
             <h1>Sign In</h1>
-            <form>
-                <input class="textbox" v-model="emailLogin" type="email" placeholder="Email" required>
-                <input class="textbox" v-model="passwordLogin" type="password" placeholder="Password" required>
-                <input class="btn1" type="submit" @click="doLogin" value="submit">
-                <p>Don't have an account? <a href="#" @click="doShift()">Sign up here</a> </p>
-            </form>
+            <input class="textbox" v-model="unameLogin" placeholder="User Name" required>
+            <input class="textbox" v-model="pwdLogin" type="password" placeholder="Password" required>
+            <button class="btn-in" @click="doLogin">Sign In</button>
+            <p>Don't have an account? <a href="#" @click="doShift()">Sign up here</a> </p>
         </div>
 
         <div v-if="registerActive">
             <h1>Sign Up</h1>
-            <form>
-                <input class="textbox" v-model="emailReg" type="email" placeholder="Email" required>
-                <input class="textbox" v-model="passwordReg" type="password" placeholder="Password" required>
-                <input class="textbox" v-model="confirmReg" type="password" placeholder="Confirm Password" required>
-                <input class="btn2" type="submit" @click="doRegister" value="submit">
-                <p>Already have an account? <a href="#" @click="doShift()">Sign in here</a> </p>
-            </form>
+            <input class="textbox" v-model="unameReg" placeholder="User Name" required>
+            <input class="textbox" v-model="emailReg" type="email" placeholder="Email" required>
+            <input class="textbox" v-model="pwdReg" type="password" placeholder="Password" required>
+            <input class="textbox" v-model="confirmReg" type="password" placeholder="Confirm Password" required>
+            <button class="btn-up" @click="doRegister">Sign Up</button>
+            <p>Already have an account? <a href="#" @click="doShift()">Sign in here</a> </p>
         </div>
 
     </div>
@@ -35,30 +32,32 @@ export default defineComponent({
 
         let registerActive = ref(false)
 
-        let emailLogin = ref("")
-        let passwordLogin = ref("")
+        let unameLogin = ref("")
+        let pwdLogin = ref("")
 
+        let unameReg = ref("")
         let emailReg = ref("")
-        let passwordReg = ref("")
+        let pwdReg = ref("")
         let confirmReg = ref("")
 
         const doLogin = async () => {
 
-            const ok = await postLogin(emailLogin.value, passwordLogin.value)
+            const ok = await postLogin(unameLogin.value, pwdLogin.value)
             if (ok) {
+                alert('login successfully')
                 loginOK.value = true
-                loginUser.value = emailLogin.value
+                loginUser.value = unameLogin.value
             }
         }
 
         const doRegister = async () => {
 
-            if (passwordReg.value != confirmReg.value) {
+            if (pwdReg.value != confirmReg.value) {
                 alert('password confirmation error')
                 return
             }
 
-            const ok = await postRegister(emailReg.value, passwordReg.value)
+            const ok = await postRegister(unameReg.value, emailReg.value, pwdReg.value)
             if (ok) {
                 alert('register successful')
                 doShift()
@@ -72,11 +71,12 @@ export default defineComponent({
         return {
             registerActive,
 
-            emailLogin,
-            passwordLogin,
+            unameLogin,
+            pwdLogin,
 
+            unameReg,
             emailReg,
-            passwordReg,
+            pwdReg,
             confirmReg,
 
             loginOK,
@@ -107,12 +107,12 @@ h1 {
     width: 100%;
 }
 
-.btn1 {
+.btn-in {
     float: right;
     margin-right: -2%;
 }
 
-.btn2 {
+.btn-up {
     float: right;
     margin-right: -1%;
 }

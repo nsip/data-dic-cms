@@ -11,7 +11,7 @@ export const postLogin = async (uname: string, pwd: string) => {
         ["uname", uname],
         ["pwd", pwd],
     ])
-    const rt = await fetchBodyForm(`/api/sign/in`, "POST", mEmpty, mForm, loginAuth) as any[]
+    const rt = await fetchBodyForm(`/api/user/sign-in`, "POST", mEmpty, mForm, loginAuth) as any[]
     if (rt[1] != 200) {
         alert(rt[0])
         return false
@@ -20,14 +20,14 @@ export const postLogin = async (uname: string, pwd: string) => {
     return true
 }
 
-export const postRegister = async (email: string, pwd: string) => {
+export const postRegister = async (uname: string, email: string, pwd: string) => {
 
     const mForm = new Map<string, any>([
-        ["uname", email.split("@")[0]],
+        ["uname", uname],
         ["email", email],
         ["pwd", pwd],
     ])
-    const rt = await fetchBodyForm(`/api/sign/new`, "POST", mEmpty, mForm, loginAuth) as any[]
+    const rt = await fetchBodyForm(`/api/user/sign-up`, "POST", mEmpty, mForm, loginAuth) as any[]
     if (rt[1] != 200) {
         alert(rt[0])
         return false

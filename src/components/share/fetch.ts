@@ -23,7 +23,6 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
 
         const headers = {
             "Accept": 'application/json',
-            // "Content-Type": "application/json",
             "Authorization": auth
         };
 
@@ -35,9 +34,9 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
         });
 
         if (!resp.ok) {
-            // alert('Failed to fetch successfully, got status ' + resp.status)
             const text = await resp.text()
             return new Promise((resolve, reject) => {
+                // alert('Failed to fetch, got status ' + resp.status + ' @ ' + text)
                 resolve([text, resp.status]);
             })
         }
@@ -48,6 +47,7 @@ export const fetchBodyForm = async (path: string, method: string, mQuery: Map<st
         })
 
     } catch (e) {
+        console.log(e + '\nnetwork error: ' + url)
         alert(e + '\nnetwork error: ' + url)
     }
 }
@@ -72,7 +72,6 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
 
         const headers = {
             "Accept": 'application/json',
-            // "Content-Type": "application/json",
             "Authorization": auth
         };
 
@@ -84,9 +83,9 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
         });
 
         if (!resp.ok) {
-            // alert('Failed to fetch successfully, got status ' + resp.status)
             const text = await resp.text()
             return new Promise((resolve, reject) => {
+                // alert('Failed to fetch, got status ' + resp.status + ' @ ' + text)
                 resolve([text, resp.status]);
             })
         }
@@ -97,6 +96,7 @@ export const fetchBodyJsonStr = async (path: string, method: string, mQuery: Map
         })
 
     } catch (e) {
+        console.log(e + '\nnetwork error: ' + url)
         alert(e + '\nnetwork error: ' + url)
     }
 }
@@ -123,7 +123,6 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
 
         const headers = {
             "Accept": 'application/json',
-            // "Content-Type": "application/json",
             "Authorization": auth
         };
 
@@ -135,9 +134,9 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
         });
 
         if (!resp.ok) {
-            // alert('Failed to fetch successfully, got status ' + resp.status)
             const text = await resp.text()
             return new Promise((resolve, reject) => {
+                // alert('Failed to fetch, got status ' + resp.status + ' @ ' + text)
                 resolve([text, resp.status]);
             })
         }
@@ -148,6 +147,7 @@ export const fetchBodyObject = async (path: string, method: string, mQuery: Map<
         })
 
     } catch (e) {
+        console.log(e + '\nnetwork error: ' + url)
         alert(e + '\nnetwork error: ' + url)
     }
 }
@@ -162,13 +162,10 @@ export const fetchNoBody = async (path: string, method: string, mQuery: Map<stri
         url += "?" + qryParams
     }
 
-    // alert(url)
-
     try {
 
         const headers = {
             "Accept": 'application/json',
-            // "Content-Type": "application/json",
             "Authorization": auth
         };
 
@@ -179,9 +176,10 @@ export const fetchNoBody = async (path: string, method: string, mQuery: Map<stri
         });
 
         if (!resp.ok) {
-            // alert('Failed to fetch successfully, got status ' + resp.status)
+
             const text = await resp.text()
             return new Promise((resolve, reject) => {
+                // alert('Failed to fetch, got status ' + resp.status + ' @ ' + text)
                 resolve([text, resp.status]);
             })
         }
@@ -192,6 +190,7 @@ export const fetchNoBody = async (path: string, method: string, mQuery: Map<stri
         })
 
     } catch (e) {
+        console.log(e + '\nnetwork error: ' + url)
         alert(e + '\nnetwork error: ' + url)
     }
 }
