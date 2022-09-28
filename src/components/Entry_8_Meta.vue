@@ -1,9 +1,8 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>   
-        <br>     
-        <span class="hint2">{{ hint }}</span>
+        <span class="label">{{ label }}</span>        
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
+        <span class="hint2">{{ hint }}</span>
         <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" placeholder='identifier' @ready="onReady" @textChange="textChange(0)" />

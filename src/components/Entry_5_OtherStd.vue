@@ -1,13 +1,12 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
-        <br>
-        <span class="hint2">{{ hint }}</span>
+        <span class="label">{{ label }}</span>        
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
         <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastOtherStdEmpty()">+</button>
+        <span class="hint2">{{ hint }}</span>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
-            <br>&nbsp;# {{ iGrp }}
+            <hr>&nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder='standard' @ready="onReady" @textChange="textChange(iGrp, 0)" />
             <hr class="subline">
             <QuillEditor theme="snow" toolbar="essential" placeholder='link list' @ready="onReady" @textChange="textChange(iGrp, 1)" />

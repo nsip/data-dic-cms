@@ -44,7 +44,7 @@ export default defineComponent({
 
             const ok = await postLogin(unameLogin.value, pwdLogin.value)
             if (ok) {
-                alert('login successfully')
+                // alert('login successfully')
                 loginOK.value = true
                 loginUser.value = unameLogin.value
             }

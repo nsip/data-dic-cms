@@ -107,7 +107,7 @@ export default defineComponent({
 }
 
 #left {
-    width: 33%;
+    width: 40%;
     margin-right: 1%;
     overflow: scroll;
     /*   display: flex;
@@ -115,7 +115,7 @@ export default defineComponent({
 }
 
 #middle {
-    width: 33%;
+    width: 30%;
     background-color: rgb(240, 240, 240);
     overflow: scroll;
     /* display: flex;
@@ -123,7 +123,7 @@ export default defineComponent({
 }
 
 #right {
-    width: 33%;
+    width: 30%;
     margin-left: 1%;
     background-color: rgb(220, 220, 220);
     overflow: scroll;
@@ -198,8 +198,9 @@ export default defineComponent({
 .more-editor {
     font-size: medium;
     color: red;
+    background-color: white;
     float: right;
-    margin-right: 5px;
+    margin-right: 1px;
     margin-bottom: 5px;
     width: 22px;
     border: none;
@@ -208,8 +209,9 @@ export default defineComponent({
 .less-editor {
     font-size: medium;
     color: green;
+    background-color: white;
     float: right;
-    margin-right: 5px;
+    margin-right: 1px;
     margin-bottom: 5px;
     width: 22px;
     border: none;
@@ -219,6 +221,7 @@ export default defineComponent({
     font-size: medium;
     float: right;
     color: blue;
+    background-color: white;
     margin-bottom: 5px;
     width: 22px;
     border: none;
