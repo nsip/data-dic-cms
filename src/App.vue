@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { loginOK } from './components/share/share'
 import SignPage from './components/SignPage.vue';
 import MainTitle from './components/Title.vue';
@@ -52,6 +52,7 @@ import EntryMeta from './components/Entry_8_Meta.vue';
 import PreviewContent from './components/Preview.vue'
 import GenJSON from './components/GenJSON.vue'
 import EntryExport from './components/BtnExport.vue';
+import { ping } from './components/share/ping'
 
 export default defineComponent({
     name: 'App',
@@ -71,6 +72,14 @@ export default defineComponent({
         EntryExport
     },
     setup() {
+
+        onMounted(async () => {
+            const ok = await ping()
+            if (!ok) {
+                alert('back-end api service is not available')
+            }
+        })
+
         return {
             loginOK
         }
