@@ -2,6 +2,8 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
 
+  <p>{{loginAuth}}</p>
+
     <SignPage v-if="!loginOK" />
 
     <div v-if="loginOK">
@@ -38,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import { loginOK } from './components/share/share'
+import { loginOK, loginAuth } from './components/share/share'
 import SignPage from './components/SignPage.vue';
 import MainTitle from './components/Title.vue';
 import EntryName from './components/Entry_1_Name.vue';
@@ -72,6 +74,9 @@ export default defineComponent({
         EntryExport
     },
     setup() {
+        
+        // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
+        loginAuth.value = window.location.href
 
         onMounted(async () => {
             const ok = await ping()
@@ -81,7 +86,8 @@ export default defineComponent({
         })
 
         return {
-            loginOK
+            loginOK,
+            loginAuth            
         }
     }
 });
