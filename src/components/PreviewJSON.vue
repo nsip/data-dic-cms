@@ -5,7 +5,7 @@
         <input class="selection" type="radio" name="json_val_type" value="html" @click="selection('html')"> <label>html value</label>
     </div>
     <hr>
-    <pre>{{  genJSON(jsonTYPE)  }}</pre>
+    <pre>{{ genJSON(jsonTYPE) }}</pre>
 </template>
 
 <script lang="ts">

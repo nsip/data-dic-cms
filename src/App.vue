@@ -2,26 +2,12 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
 
-    <div v-if="disp">
+    <div v-if="true">
         <MainTitle />
         <p>{{loginUser}}</p>
         <div id="container">
             <div id="left">
-                <EntryName />
-                <br>
-                <EntryOtherNames />
-                <br>
-                <EntryDef />
-                <br>
-                <EntrySIF />
-                <br>
-                <EntryOtherStd />
-                <br>
-                <EntryLegalDef />
-                <br>
-                <EntryCol />
-                <br>
-                <EntryMeta />
+                <EntryEntity />
             </div>
             <div id="middle">
                 <PreviewContent />
@@ -39,14 +25,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { loginAuth, loginUser, getUname } from './components/share/share'
 import MainTitle from './components/Title.vue';
-import EntryName from './components/Entry_1_Name.vue';
-import EntryOtherNames from './components/Entry_2_OtherName.vue';
-import EntryDef from './components/Entry_3_Def.vue';
-import EntrySIF from './components/Entry_4_SIF.vue';
-import EntryOtherStd from './components/Entry_5_OtherStd.vue';
-import EntryLegalDef from './components/Entry_6_LegalDef.vue';
-import EntryCol from './components/Entry_7_Col.vue';
-import EntryMeta from './components/Entry_8_Meta.vue';
+import EntryEntity from './components/EntryEntity.vue'
 import PreviewContent from './components/PreviewContent.vue'
 import PreviewJSON from './components/PreviewJSON.vue'
 import EntryExport from './components/BtnExport.vue';
@@ -56,14 +35,7 @@ export default defineComponent({
     name: 'App',
     components: {
         MainTitle,
-        EntryName,
-        EntryOtherNames,
-        EntryDef,
-        EntrySIF,
-        EntryOtherStd,
-        EntryLegalDef,
-        EntryCol,
-        EntryMeta,
+        EntryEntity,
         PreviewContent,
         PreviewJSON,
         EntryExport
@@ -125,16 +97,26 @@ export default defineComponent({
     width: 40%;
     margin-right: 1%;
     overflow: scroll;
+    scrollbar-width: none;
     /*   display: flex;
     flex-direction: column; */
+}
+
+#left::-webkit-scrollbar {
+    display: none;
 }
 
 #middle {
     width: 30%;
     background-color: rgb(240, 240, 240);
     overflow: scroll;
+    scrollbar-width: none;
     /* display: flex;
   flex-direction: column; */
+}
+
+#middle::-webkit-scrollbar {
+    display: none;
 }
 
 #right {
@@ -142,8 +124,13 @@ export default defineComponent({
     margin-left: 1%;
     background-color: rgb(220, 220, 220);
     overflow: scroll;
+    scrollbar-width: none;
     /*overflow-y: scroll;
   background-color: rgb(220, 220, 220); */
+}
+
+#right::-webkit-scrollbar {
+    display: none;
 }
 
 /*  */
