@@ -1,13 +1,10 @@
 <template>
     <!-- <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
-
-  <p>{{loginAuth}}</p>
-
-    <SignPage v-if="!loginOK" />
-
-    <div v-if="loginOK">
+    
+    <div>
         <MainTitle />
+        <p>{{loginUser}}</p>
         <div id="container">
             <div id="left">
                 <EntryName />
@@ -40,8 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import { loginOK, loginAuth } from './components/share/share'
-import SignPage from './components/SignPage.vue';
+import { loginAuth, loginUser, getUname } from './components/share/share'
 import MainTitle from './components/Title.vue';
 import EntryName from './components/Entry_1_Name.vue';
 import EntryOtherNames from './components/Entry_2_OtherName.vue';
@@ -59,7 +55,6 @@ import { ping } from './components/share/ping'
 export default defineComponent({
     name: 'App',
     components: {
-        SignPage,
         MainTitle,
         EntryName,
         EntryOtherNames,
@@ -74,20 +69,27 @@ export default defineComponent({
         EntryExport
     },
     setup() {
-        
+
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
-        loginAuth.value = window.location.href
+        loginAuth.value = 'Bearer ' + window.location.href.replace(window.location.origin + '/', '')
 
         onMounted(async () => {
             const ok = await ping()
             if (!ok) {
                 alert('back-end api service is not available')
+                return
+            }
+
+            if (loginAuth.value.length < 32) {
+                alert('invalid auth info')
+                return
+            } else {
+                getUname(loginAuth.value)
             }
         })
 
         return {
-            loginOK,
-            loginAuth            
+            loginUser
         }
     }
 });
