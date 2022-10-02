@@ -1,8 +1,8 @@
 <template>
     <!-- <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
-    
-    <div>
+
+    <div v-if="disp">
         <MainTitle />
         <p>{{loginUser}}</p>
         <div id="container">
@@ -27,7 +27,7 @@
                 <PreviewContent />
             </div>
             <div id="right">
-                <GenJSON />
+                <PreviewJSON />
             </div>
         </div>
         <EntryExport />
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { loginAuth, loginUser, getUname } from './components/share/share'
 import MainTitle from './components/Title.vue';
 import EntryName from './components/Entry_1_Name.vue';
@@ -47,8 +47,8 @@ import EntryOtherStd from './components/Entry_5_OtherStd.vue';
 import EntryLegalDef from './components/Entry_6_LegalDef.vue';
 import EntryCol from './components/Entry_7_Col.vue';
 import EntryMeta from './components/Entry_8_Meta.vue';
-import PreviewContent from './components/Preview.vue'
-import GenJSON from './components/GenJSON.vue'
+import PreviewContent from './components/PreviewContent.vue'
+import PreviewJSON from './components/PreviewJSON.vue'
 import EntryExport from './components/BtnExport.vue';
 import { ping } from './components/share/ping'
 
@@ -65,31 +65,38 @@ export default defineComponent({
         EntryCol,
         EntryMeta,
         PreviewContent,
-        GenJSON,
+        PreviewJSON,
         EntryExport
     },
     setup() {
 
+        let disp = ref(false)
+
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
         loginAuth.value = 'Bearer ' + window.location.href.replace(window.location.origin + '/', '')
 
-        onMounted(async () => {
-            const ok = await ping()
-            if (!ok) {
-                alert('back-end api service is not available')
-                return
+        if (loginAuth.value.length < 32) {
+            alert('invalid auth info')
+            disp.value = false
+        } else {
+            getUname(loginAuth.value)
+            if (loginUser.value.length > 0) {
+                disp.value = true
             }
+        }
 
-            if (loginAuth.value.length < 32) {
-                alert('invalid auth info')
-                return
-            } else {
-                getUname(loginAuth.value)
+        onMounted(async () => {
+            if (disp.value) {
+                disp.value = await ping()
+                if (!disp.value) {
+                    alert('back-end api service is not available')                    
+                }
             }
         })
 
         return {
-            loginUser
+            loginUser,
+            disp
         }
     }
 });

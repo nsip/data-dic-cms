@@ -4,6 +4,7 @@ import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, fetchNoBody, mEmpty }
 export const loginUser = ref('')
 export const loginAuth = ref('')
 
+// fill loginUser
 export const getUname = async (auth: string) => {
     const rt = (await fetchNoBody("api/user/auth/uname", "GET", mEmpty, auth)) as any[]
     if (rt[1] != 200) {

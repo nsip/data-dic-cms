@@ -13,7 +13,7 @@ import { defineComponent, ref } from 'vue';
 import { jsonHTML, jsonTEXT } from './share/Entity'
 
 export default defineComponent({
-    name: 'GenJSON',
+    name: 'PreviewJSON',
     // props: {
     //     msg: String,
     // },
