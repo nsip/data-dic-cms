@@ -1,8 +1,8 @@
 <template>
     <div class="lbl_type">
         <label>value type:</label>
-        <input class="selection" type="radio" name="json_val_type" value="" checked @click="selection('')"> <label>plain text value</label>
-        <input class="selection" type="radio" name="json_val_type" value="html" @click="selection('html')"> <label>html value</label>
+        <input class="selection" type="radio" name="json_val_type" value="" checked @click="select('')"> <label>plain text value</label>
+        <input class="selection" type="radio" name="json_val_type" value="html" @click="select('html')"> <label>html value</label>
     </div>
     <hr>
     <pre>{{ genJSON(jsonTYPE) }}</pre>
@@ -27,13 +27,13 @@ export default defineComponent({
                     return jsonTEXT.GenJSON(false)
             }
         }
-        const selection = (TYPE: string) => {
+        const select = (TYPE: string) => {
            jsonTYPE.value = TYPE
         }
         return {
             jsonTYPE,
             genJSON,
-            selection
+            select
         }
     }
 });
