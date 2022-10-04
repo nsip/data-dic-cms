@@ -4,7 +4,6 @@
 
     <div v-if="disp">
         <MainTitle />
-        <p>{{loginUser}}</p>
         <div id="container">
             <div id="left">
                 <EntryEntity />
@@ -29,7 +28,6 @@ import EntryEntity from './components/EntryEntity.vue'
 import PreviewContent from './components/PreviewContent.vue'
 import PreviewJSON from './components/PreviewJSON.vue'
 import EntryExport from './components/BtnExport.vue';
-import { ping } from './components/share/ping'
 
 export default defineComponent({
     name: 'App',
@@ -47,21 +45,16 @@ export default defineComponent({
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
         loginAuth.value = 'Bearer ' + window.location.href.replace(window.location.origin + '/', '')
 
-        if (loginAuth.value.length < 32) {
-            alert('invalid auth info')
-            disp.value = false
-        } else {
-            getUname(loginAuth.value)
-            if (loginUser.value.length > 0) {
-                disp.value = true
-            }
-        }
-
         onMounted(async () => {
-            if (disp.value) {
-                disp.value = await ping()
-                if (!disp.value) {
-                    alert('back-end api service is not available')                    
+            if (loginAuth.value.length < 32) {
+                alert('invalid auth info')
+                disp.value = false
+            } else {
+                // fill loginUser, already 'ping' back-end api
+                getUname(loginAuth.value)
+                await new Promise(f => setTimeout(f, 200));
+                if (loginUser.value.length > 0) {
+                    disp.value = true
                 }
             }
         })
