@@ -1,7 +1,4 @@
 <template>
-    <!-- <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
-
     <div v-if="disp">
         <MainTitle />
         <div id="container">
@@ -17,12 +14,11 @@
         </div>
         <EntryExport />
     </div>
-
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { loginAuth, loginUser, getUname } from './components/share/share'
+import { loginAuth, loginUser, getUname, itemName, itemKind } from './components/share/share'
 import MainTitle from './components/Title.vue';
 import EntryEntity from './components/EntryEntity.vue'
 import PreviewContent from './components/PreviewContent.vue'
@@ -43,7 +39,19 @@ export default defineComponent({
         let disp = ref(false)
 
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
-        loginAuth.value = 'Bearer ' + window.location.href.replace(window.location.origin + '/', '')
+
+        const pName = window.location.href.indexOf('name=')
+        const pKind = window.location.href.indexOf('kind=')
+        const pAuth = window.location.href.indexOf('auth=')
+
+        const name = window.location.href.substring(pName + 5, pKind - 1)
+        const kind = window.location.href.substring(pKind + 5, pAuth - 1)
+        const auth = window.location.href.substring(pAuth + 5)
+
+        loginAuth.value = 'Bearer ' + auth
+
+        // alert(name)
+        // alert(kind)
 
         onMounted(async () => {
             if (loginAuth.value.length < 32) {
@@ -55,6 +63,8 @@ export default defineComponent({
                 await new Promise(f => setTimeout(f, 200));
                 if (loginUser.value.length > 0) {
                     disp.value = true
+                    itemName.value = name
+                    itemKind.value = kind
                 }
             }
         })

@@ -3,6 +3,8 @@ import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, fetchNoBody, mEmpty }
 
 export const loginUser = ref('')
 export const loginAuth = ref('')
+export const itemName = ref('')
+export const itemKind = ref('')
 
 // fill loginUser
 export const getUname = async (auth: string) => {
