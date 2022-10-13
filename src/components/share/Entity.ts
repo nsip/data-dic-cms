@@ -1,7 +1,7 @@
 import { reactive } from 'vue';
 import { validStr, validStrHTMLArr, validStrTEXTArr } from './util'
 
-class entity {
+export class EntityType {
     Entity = "";
     OtherNames: string[] = []
     Definition = "";
@@ -276,5 +276,5 @@ class meta {
     CrossrefEntities: string[] = []
 }
 
-export const jsonHTML = reactive(new entity())
-export const jsonTEXT = reactive(new entity())
+export const jsonHTML = reactive(new EntityType())
+export const jsonTEXT = reactive(new EntityType())

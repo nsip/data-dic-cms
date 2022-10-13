@@ -1,11 +1,7 @@
 <template>
-    <div class="container">
-        <div class="center">
-            <a @click="saveJSON()" class="float">
-                <i class="fa fa-check floating"></i>
-            </a>
-        </div>
-    </div>
+    <a class="float" @click="saveJSON()">
+        <font-awesome-icon icon="check" class="floating" />
+    </a>
 </template>
 
 <script lang="ts">
@@ -17,14 +13,18 @@ import { postDataToDic } from './share/share'
 // npm install file-saver --save
 // npm install @types/file-saver --save-dev
 
+// npm install --save @fortawesome/fontawesome-svg-core 
+// npm install --save @fortawesome/free-solid-svg-icons 
+// npm install --save @fortawesome/vue-fontawesome@prerelease
+
 export default defineComponent({
     name: 'EntryExport',
     setup() {
         const btnName = "export to dictionary"
 
-        const ckeditor = document.createElement('script');
-        ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
-        document.head.appendChild(ckeditor);
+        // const ckeditor = document.createElement('script');
+        // ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
+        // document.head.appendChild(ckeditor);
 
         const saveJSON = async () => {
 
@@ -54,8 +54,7 @@ export default defineComponent({
             alert(`[${jsonTEXT.Entity}] has been uploaded, please refresh main page`)
         }
         return {
-            btnName,
-            ckeditor,
+            btnName,            
             saveJSON
         }
     }
@@ -64,42 +63,26 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-    height: 80px;
-    position: relative;
-    /* border: 1px solid lightgray; */
-}
-
-.center {
-    margin: 0;
-    position: absolute;
-    top: 40%;
-    right: 0%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-.float{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:50px;
-	right:20px;
-	background-color:#BBB;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #BBB;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
 }
 
 .float:hover {
-    background-color:#0C9;
+    background-color: rgb(15, 169, 246);
     cursor: pointer;
 }
 
-.floating{
-	margin-top:16px;
-    font-size:32px;
-    color:white;
+.floating {
+    margin-top: 22px;
+    color: white;
 }
 </style>

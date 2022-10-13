@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { loginAuth, loginUser, getUname, itemName, itemKind } from './components/share/share'
+import { loginAuth, loginUser, getUname, itemName, itemKind, getItemContent } from './components/share/share'
 import MainTitle from './components/Title.vue';
 import EntryEntity from './components/EntryEntity.vue'
 import PreviewContent from './components/PreviewContent.vue'
@@ -44,9 +44,9 @@ export default defineComponent({
         const pKind = window.location.href.indexOf('kind=')
         const pAuth = window.location.href.indexOf('auth=')
 
-        const name = window.location.href.substring(pName + 5, pKind - 1)
-        const kind = window.location.href.substring(pKind + 5, pAuth - 1)
-        const auth = window.location.href.substring(pAuth + 5)
+        const name = decodeURI(window.location.href.substring(pName + 5, pKind - 1))
+        const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1))
+        const auth = decodeURI(window.location.href.substring(pAuth + 5))
 
         loginAuth.value = 'Bearer ' + auth
 
@@ -55,16 +55,35 @@ export default defineComponent({
 
         onMounted(async () => {
             if (loginAuth.value.length < 32) {
+
                 alert('invalid auth info')
                 disp.value = false
+
             } else {
+
                 // fill loginUser, already 'ping' back-end api
-                getUname(loginAuth.value)
+                getUname()
+
                 await new Promise(f => setTimeout(f, 200));
+
                 if (loginUser.value.length > 0) {
                     disp.value = true
-                    itemName.value = name
-                    itemKind.value = kind
+
+                    // edit mode
+                    if (name.length > 0 && kind.length > 0) {
+                        itemName.value = name
+                        itemKind.value = kind
+
+                        const entity = await getItemContent(name, kind, 'existing');
+                        if (entity != null) {
+                            alert(entity.Entity)
+                        }
+
+                    } else { // create mode
+
+                        alert('creating mode')
+
+                    }
                 }
             }
         })
