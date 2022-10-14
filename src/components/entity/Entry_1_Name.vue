@@ -1,9 +1,9 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>        
-        <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
+        <button class="hide-editor" @click="onToggleVisible()"> {{  vBtnTxt()  }} </button>
         <span class="hint1">{{ hint }}</span>
-        <div :hidden=!visEditor >
+        <div :hidden=!visEditor>
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" :placeholder=holder @ready="onReady" @textChange="textChange" />
         </div>
@@ -15,20 +15,20 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { jsonHTML, jsonTEXT } from './share/Entity'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
 
 export default defineComponent({
-    name: 'EntryOtherNames',
+    name: 'EntryName',
     components: {
         QuillEditor
     },
     setup() {
 
-        const label = "Other Name:"
-        const hint = "entity other names"
-        const holder = "entity other names"
+        const label = "Entity:"
+        const hint = "entity name"
+        const holder = "entity name value"
         let thisQuill: Quill
-        let visEditor = ref(false)
+        let visEditor = ref(true)
 
         const onReady = (quill: Quill) => {
             thisQuill = quill
@@ -36,9 +36,9 @@ export default defineComponent({
 
         const textChange = () => {
             const html = thisQuill.root.innerHTML; // get html from quill
-            const text = thisQuill.getText(0, 100000)         
-            jsonHTML.SetOtherName("html", html)
-            jsonTEXT.SetOtherName("", text)
+            const text = thisQuill.getText(0, 100000)
+            jsonEntityHTML.SetName(html)
+            jsonEntityTEXT.SetName(text)
         }
 
         const onToggleVisible = () => {

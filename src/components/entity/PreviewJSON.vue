@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { jsonHTML, jsonTEXT } from './share/Entity'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
 
 export default defineComponent({
     name: 'PreviewJSON',
@@ -22,9 +22,9 @@ export default defineComponent({
         const genJSON = (TYPE: string) => {
             switch (TYPE) {
                 case "html":
-                    return jsonHTML.GenJSON(true)
+                    return jsonEntityHTML.GenJSON(true)
                 default:
-                    return jsonTEXT.GenJSON(false)
+                    return jsonEntityTEXT.GenJSON(false)
             }
         }
         const select = (TYPE: string) => {

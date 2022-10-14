@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { jsonHTML, jsonTEXT } from './share/Entity'
-import { postDataToDic } from './share/share'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
+import { postDataToDic } from '../share/share'
 // import FileSaver from 'file-saver';
 
 // npm install file-saver --save
@@ -28,30 +28,30 @@ export default defineComponent({
 
         const saveJSON = async () => {
 
-            // const htmlValData = jsonHTML.GenJSON(true)
-            // const textValData = jsonTEXT.GenJSON(false)
+            // const htmlValData = jsonEntityHTML.GenJSON(true)
+            // const textValData = jsonEntityTEXT.GenJSON(false)
 
             // var blobHTML = new Blob([htmlValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
+            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonEntityTEXT.Entity + ".json");
 
             // var blobTEXT = new Blob([textValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
+            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonEntityTEXT.Entity + ".json");
 
             //////////////////////////////////////////////////
 
-            const textValData = jsonTEXT.GenJSON(false)
+            const textValData = jsonEntityTEXT.GenJSON(false)
             const okText = await postDataToDic(textValData)
             if (!okText) {                
                 return
             }
 
-            const htmlValData = jsonHTML.GenJSON(true)
+            const htmlValData = jsonEntityHTML.GenJSON(true)
             const okHtml = await postDataToDic(htmlValData)
             if (!okHtml) {
                 return
             }
 
-            alert(`[${jsonTEXT.Entity}] has been uploaded, please refresh main page`)
+            alert(`[${jsonEntityTEXT.Entity}] has been uploaded, please refresh main page`)
         }
         return {
             btnName,            

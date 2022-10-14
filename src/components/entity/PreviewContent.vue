@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { jsonTEXT, jsonHTML } from './share/Entity';
+import { jsonEntityTEXT, jsonEntityHTML } from '../share/EntityType';
 
 export default defineComponent({
     name: 'PreviewContent',
@@ -37,15 +37,15 @@ export default defineComponent({
 
         const previewEntity = () => {
             return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Entity</h3>" +
-                nonEmptyHtml("", jsonTEXT.Entity, jsonHTML.Entity)
+                nonEmptyHtml("", jsonEntityTEXT.Entity, jsonEntityHTML.Entity)
         }
 
         const previewOtherNames = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Names</h3>"
-            const n = jsonTEXT.CntOtherName()
+            const n = jsonEntityTEXT.CntOtherName()
             const eles: string[] = []
             for (let i = 0; i < n; i++) {
-                const ele = nonEmptyHtml("", jsonTEXT.OtherNames[i], jsonHTML.OtherNames[i])
+                const ele = nonEmptyHtml("", jsonEntityTEXT.OtherNames[i], jsonEntityHTML.OtherNames[i])
                 eles.push(ele)
             }
             const body = eles.join("")
@@ -57,16 +57,16 @@ export default defineComponent({
 
         const previewDefinition = () => {
             return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Definition</h3>" +
-                nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
+                nonEmptyHtml("", jsonEntityTEXT.Definition, jsonEntityHTML.Definition)
         }
 
         const previewSIF = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> SIF</h3>"
-            const n = jsonTEXT.CntSIF()
+            const n = jsonEntityTEXT.CntSIF()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
-                const jt = jsonTEXT.SIF[i]
-                const jh = jsonHTML.SIF[i]
+                const jt = jsonEntityTEXT.SIF[i]
+                const jh = jsonEntityHTML.SIF[i]
                 eles[i] = ""
                 eles[i] += nonEmptyHtml(">> xpath:", jt.XPath.join(""), jh.XPath.join(""))
                 eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition)
@@ -82,11 +82,11 @@ export default defineComponent({
 
         const previewOtherStandards = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Standards</h3>"
-            const n = jsonTEXT.CntOtherStd()
+            const n = jsonEntityTEXT.CntOtherStd()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
-                const jt = jsonTEXT.OtherStandards[i]
-                const jh = jsonHTML.OtherStandards[i]
+                const jt = jsonEntityTEXT.OtherStandards[i]
+                const jh = jsonEntityHTML.OtherStandards[i]
                 eles[i] = ""
                 eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard)
                 eles[i] += nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join(""))
@@ -103,11 +103,11 @@ export default defineComponent({
 
         const previewLegalDefinition = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Legal Definitions</h3>"
-            const n = jsonTEXT.CntLegalDef()
+            const n = jsonEntityTEXT.CntLegalDef()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
-                const jt = jsonTEXT.LegalDefinitions[i]
-                const jh = jsonHTML.LegalDefinitions[i]
+                const jt = jsonEntityTEXT.LegalDefinitions[i]
+                const jh = jsonEntityHTML.LegalDefinitions[i]
                 eles[i] = ""
                 eles[i] += nonEmptyHtml(">> legislationName:", jt.LegislationName, jh.LegislationName)
                 eles[i] += nonEmptyHtml(">> citation:", jt.Citation, jh.Citation)
@@ -125,11 +125,11 @@ export default defineComponent({
 
         const previewCollections = () => {
             const head = "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Collections</h3>"
-            const n = jsonTEXT.CntCol()
+            const n = jsonEntityTEXT.CntCol()
             let eles: string[] = []
             for (let i = 0; i < n; i++) {
-                const jt = jsonTEXT.Collections[i]
-                const jh = jsonHTML.Collections[i]
+                const jt = jsonEntityTEXT.Collections[i]
+                const jh = jsonEntityHTML.Collections[i]
                 eles[i] = ""
                 eles[i] += nonEmptyHtml(">> name:", jt.Name, jh.Name)
                 eles[i] += nonEmptyHtml(">> description:", jt.Description, jh.Description)
@@ -145,8 +145,8 @@ export default defineComponent({
         }
 
         const previewMetadata = () => {
-            const jt = jsonTEXT.Metadata
-            const jh = jsonHTML.Metadata
+            const jt = jsonEntityTEXT.Metadata
+            const jh = jsonEntityHTML.Metadata
             return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Meta Data</h3>" +
                 nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier) +
                 nonEmptyHtml(">> type:", jt.Type, jh.Type) +

@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { fetchBodyForm, fetchBodyJsonStr, fetchBodyObject, fetchNoBody, mEmpty } from './fetch'
-import { EntityType } from './Entity';
-import { CollectionType } from './Collection';
+import { EntityType } from './EntityType';
+import { CollectionType } from './CollectionType';
 
 export const loginUser = ref('')
 export const loginAuth = ref('')

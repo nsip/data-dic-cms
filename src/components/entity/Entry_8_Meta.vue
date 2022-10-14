@@ -23,7 +23,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { jsonHTML, jsonTEXT } from './share/Entity'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
 
 export default defineComponent({
     name: 'EntryMeta',
@@ -48,24 +48,24 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetMeta("html", html, "", "", "", "")
-                    jsonTEXT.SetMeta("", text, "", "", "", "")
+                    jsonEntityHTML.SetMeta("html", html, "", "", "", "")
+                    jsonEntityTEXT.SetMeta("", text, "", "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetMeta("html", "", html, "", "", "")
-                    jsonTEXT.SetMeta("", "", text, "", "", "")
+                    jsonEntityHTML.SetMeta("html", "", html, "", "", "")
+                    jsonEntityTEXT.SetMeta("", "", text, "", "", "")
                     break
                 case 2:
-                    jsonHTML.SetMeta("html", "", "", html, "", "")
-                    jsonTEXT.SetMeta("", "", "", text, "", "")
+                    jsonEntityHTML.SetMeta("html", "", "", html, "", "")
+                    jsonEntityTEXT.SetMeta("", "", "", text, "", "")
                     break
                 case 3:
-                    jsonHTML.SetMeta("html", "", "", "", html, "")
-                    jsonTEXT.SetMeta("", "", "", "", text, "")
+                    jsonEntityHTML.SetMeta("html", "", "", "", html, "")
+                    jsonEntityTEXT.SetMeta("", "", "", "", text, "")
                     break
                 case 4:
-                    jsonHTML.SetMeta("html", "", "", "", "", html)
-                    jsonTEXT.SetMeta("", "", "", "", "", text)
+                    jsonEntityHTML.SetMeta("html", "", "", "", "", html)
+                    jsonEntityTEXT.SetMeta("", "", "", "", "", text)
                     break
             }
         }

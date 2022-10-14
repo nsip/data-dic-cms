@@ -276,5 +276,5 @@ class meta {
     CrossrefEntities: string[] = []
 }
 
-export const jsonHTML = reactive(new EntityType())
-export const jsonTEXT = reactive(new EntityType())
+export const jsonEntityHTML = reactive(new EntityType())
+export const jsonEntityTEXT = reactive(new EntityType())

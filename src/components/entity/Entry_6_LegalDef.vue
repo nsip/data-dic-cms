@@ -3,7 +3,7 @@
         <span class="label">{{ label }}</span>        
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
-        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastLegalDefEmpty()">+</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastLegalDefEmpty()">+</button>
         <span class="hint2">{{ hint }}</span>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <hr>&nbsp;# {{ iGrp }}
@@ -27,7 +27,7 @@ import { defineComponent, ref } from 'vue'
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css'
-import { jsonHTML, jsonTEXT } from './share/Entity'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
 
 export default defineComponent({
     name: 'EntryLegalDef',
@@ -54,28 +54,28 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetLegalDef(idxGrp, html, "", "", "", "", "")
-                    jsonTEXT.SetLegalDef(idxGrp, text, "", "", "", "", "")
+                    jsonEntityHTML.SetLegalDef(idxGrp, html, "", "", "", "", "")
+                    jsonEntityTEXT.SetLegalDef(idxGrp, text, "", "", "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetLegalDef(idxGrp, "", html, "", "", "", "")
-                    jsonTEXT.SetLegalDef(idxGrp, "", text, "", "", "", "")
+                    jsonEntityHTML.SetLegalDef(idxGrp, "", html, "", "", "", "")
+                    jsonEntityTEXT.SetLegalDef(idxGrp, "", text, "", "", "", "")
                     break
                 case 2:
-                    jsonHTML.SetLegalDef(idxGrp, "", "", html, "", "", "")
-                    jsonTEXT.SetLegalDef(idxGrp, "", "", text, "", "", "")
+                    jsonEntityHTML.SetLegalDef(idxGrp, "", "", html, "", "", "")
+                    jsonEntityTEXT.SetLegalDef(idxGrp, "", "", text, "", "", "")
                     break
                 case 3:
-                    jsonHTML.SetLegalDef(idxGrp, "", "", "", html, "", "")
-                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", text, "", "")
+                    jsonEntityHTML.SetLegalDef(idxGrp, "", "", "", html, "", "")
+                    jsonEntityTEXT.SetLegalDef(idxGrp, "", "", "", text, "", "")
                     break
                 case 4:
-                    jsonHTML.SetLegalDef(idxGrp, "", "", "", "", html, "")
-                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", "", text, "")
+                    jsonEntityHTML.SetLegalDef(idxGrp, "", "", "", "", html, "")
+                    jsonEntityTEXT.SetLegalDef(idxGrp, "", "", "", "", text, "")
                     break
                 case 5:
-                    jsonHTML.SetLegalDef(idxGrp, "", "", "", "", "", html)
-                    jsonTEXT.SetLegalDef(idxGrp, "", "", "", "", "", text)
+                    jsonEntityHTML.SetLegalDef(idxGrp, "", "", "", "", "", html)
+                    jsonEntityTEXT.SetLegalDef(idxGrp, "", "", "", "", "", text)
                     break
             }
         }
@@ -92,8 +92,8 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     // add new LegalDefinition element in json
-                    jsonHTML.AddLegalDef()
-                    jsonTEXT.AddLegalDef()
+                    jsonEntityHTML.AddLegalDef()
+                    jsonEntityTEXT.AddLegalDef()
 
                     editorCount.value++
                     break
@@ -102,8 +102,8 @@ export default defineComponent({
                     idxQuill -= 6
 
                     // remove last LegalDefinition element in json
-                    jsonHTML.RmLegalDefLast()
-                    jsonTEXT.RmLegalDefLast()
+                    jsonEntityHTML.RmLegalDefLast()
+                    jsonEntityTEXT.RmLegalDefLast()
 
                     editorCount.value--
                     break
@@ -121,7 +121,7 @@ export default defineComponent({
             onMoreLessClick,
             onToggleVisible,
             vBtnTxt,
-            jsonTEXT,
+            jsonEntityTEXT,
         }
     }
 });

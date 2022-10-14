@@ -19,11 +19,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import { loginAuth, loginUser, getUname, itemName, itemKind, getItemContent } from './components/share/share'
-import MainTitle from './components/Title.vue';
-import EntryEntity from './components/EntryEntity.vue'
-import PreviewContent from './components/PreviewContent.vue'
-import PreviewJSON from './components/PreviewJSON.vue'
-import EntryExport from './components/BtnExport.vue';
+import MainTitle from './components/entity/Title.vue';
+import EntryEntity from './components/entity/EntryEntity.vue'
+import PreviewContent from './components/entity/PreviewContent.vue'
+import PreviewJSON from './components/entity/PreviewJSON.vue'
+import EntryExport from './components/entity/BtnExport.vue';
 
 export default defineComponent({
     name: 'App',

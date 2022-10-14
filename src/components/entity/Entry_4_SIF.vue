@@ -3,7 +3,7 @@
         <span class="label">{{ label }}</span>        
         <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
         <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">-</button>
-        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonTEXT.IsLastSIFEmpty()">+</button>
+        <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()">+</button>
         <span class="hint2">{{ hint }}</span>
         <div :hidden=!visEditor v-for="(n, iGrp) in editorCount" :key="iGrp">
             <hr>&nbsp;# {{ iGrp }}
@@ -23,7 +23,7 @@ import { defineComponent, ref } from 'vue';
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { jsonHTML, jsonTEXT } from './share/Entity'
+import { jsonEntityHTML, jsonEntityTEXT } from '../share/EntityType'
 
 export default defineComponent({
     name: 'EntrySIF',
@@ -49,20 +49,20 @@ export default defineComponent({
 
             switch (idx) {
                 case 0:
-                    jsonHTML.SetSIF("html", idxGrp, html, "", "", "")
-                    jsonTEXT.SetSIF("", idxGrp, text, "", "", "")
+                    jsonEntityHTML.SetSIF("html", idxGrp, html, "", "", "")
+                    jsonEntityTEXT.SetSIF("", idxGrp, text, "", "", "")
                     break
                 case 1:
-                    jsonHTML.SetSIF("html", idxGrp, "", html, "", "")
-                    jsonTEXT.SetSIF("", idxGrp, "", text, "", "")
+                    jsonEntityHTML.SetSIF("html", idxGrp, "", html, "", "")
+                    jsonEntityTEXT.SetSIF("", idxGrp, "", text, "", "")
                     break
                 case 2:
-                    jsonHTML.SetSIF("html", idxGrp, "", "", html, "")
-                    jsonTEXT.SetSIF("", idxGrp, "", "", text, "")
+                    jsonEntityHTML.SetSIF("html", idxGrp, "", "", html, "")
+                    jsonEntityTEXT.SetSIF("", idxGrp, "", "", text, "")
                     break
                 case 3:
-                    jsonHTML.SetSIF("html", idxGrp, "", "", "", html)
-                    jsonTEXT.SetSIF("", idxGrp, "", "", "", text)
+                    jsonEntityHTML.SetSIF("html", idxGrp, "", "", "", html)
+                    jsonEntityTEXT.SetSIF("", idxGrp, "", "", "", text)
                     break
             }
         }
@@ -79,8 +79,8 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     // add new OtherStandard element in json
-                    jsonHTML.AddSIF()
-                    jsonTEXT.AddSIF()
+                    jsonEntityHTML.AddSIF()
+                    jsonEntityTEXT.AddSIF()
 
                     editorCount.value++
                     break
@@ -89,8 +89,8 @@ export default defineComponent({
                     idxQuill -= 4
 
                     // remove last OtherStandard element in json
-                    jsonHTML.RmSIFLast()
-                    jsonTEXT.RmSIFLast()
+                    jsonEntityHTML.RmSIFLast()
+                    jsonEntityTEXT.RmSIFLast()
 
                     editorCount.value--
                     break
@@ -109,7 +109,7 @@ export default defineComponent({
             onMoreLessClick,
             onToggleVisible,
             vBtnTxt,
-            jsonTEXT,
+            jsonEntityTEXT,
         }
     }
 });
