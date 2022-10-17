@@ -1,23 +1,37 @@
 import { reactive } from "vue";
-import { validStr, validStrHTMLArr, validStrTEXTArr } from "./util";
+import {
+  cvtHtml2Plain,
+  cvtArrayHtml2Plain,
+  validStr,
+  validStrHTMLArr,
+  validStrTEXTArr,
+} from "./util";
 
 export class EntityType {
   Entity = "";
   OtherNames: string[] = [];
   Definition = "";
-  SIF: sif[] = [new sif()];
-  OtherStandards: otherStd[] = [new otherStd()];
-  LegalDefinitions: legalDef[] = [new legalDef()];
-  Collections: col[] = [new col()];
-  Metadata: meta = new meta();
+  SIF: sifType[] = [new sifType()];
+  OtherStandards: otherStdType[] = [new otherStdType()];
+  LegalDefinitions: legalDefType[] = [new legalDefType()];
+  Collections: colType[] = [new colType()];
+  Metadata: metaType = new metaType();
 
+  //
   // Name ---------------------------------------------------------
+  //
 
   SetName(name: string) {
     this.Entity = validStr(name, this.Entity);
   }
 
+  PlainName() {
+    return cvtHtml2Plain(this.Entity);
+  }
+
+  //
   // Other Names --------------------------------------------------
+  //
 
   SetOtherName(TYPE: string, nameStr: string) {
     switch (TYPE) {
@@ -32,16 +46,28 @@ export class EntityType {
     return this.OtherNames.length;
   }
 
+  PlainOtherNames() {
+    return cvtArrayHtml2Plain(this.OtherNames);
+  }
+
+  //
   // Definition ---------------------------------------------------
+  //
 
   SetDefinition(definition: string) {
     this.Definition = validStr(definition, this.Definition);
   }
 
+  PlainDefinition() {
+    return cvtHtml2Plain(this.Definition);
+  }
+
+  //
   // SIF ----------------------------------------------------------
+  //
 
   AddSIF() {
-    this.SIF.push(new sif());
+    this.SIF.push(new sifType());
   }
   RmSIFLast() {
     this.SIF.splice(-1);
@@ -86,10 +112,25 @@ export class EntityType {
     return this.IsSIFEmpty(n - 1);
   }
 
+  PlainSIF() {
+    const sifArray: sifType[] = [];
+    this.SIF.forEach((val) => {
+      const sif = new sifType();
+      sif.XPath = cvtArrayHtml2Plain(val.XPath);
+      sif.Definition = cvtHtml2Plain(val.Definition);
+      sif.Commentary = cvtHtml2Plain(val.Commentary);
+      sif.Datestamp = cvtHtml2Plain(val.Datestamp);
+      sifArray.push(sif);
+    });
+    return sifArray;
+  }
+
+  //
   // Other Standards ----------------------------------------------
+  //
 
   AddOtherStd() {
-    this.OtherStandards.push(new otherStd());
+    this.OtherStandards.push(new otherStdType());
   }
   RmOtherStdLast() {
     this.OtherStandards.splice(-1);
@@ -138,10 +179,26 @@ export class EntityType {
     return this.IsOtherStdEmpty(n - 1);
   }
 
+  PlainOtherStd() {
+    const osArray: otherStdType[] = [];
+    this.OtherStandards.forEach((val) => {
+      const os = new otherStdType();
+      os.Standard = cvtHtml2Plain(val.Standard);
+      os.Link = cvtArrayHtml2Plain(val.Link);
+      os.Path = cvtArrayHtml2Plain(val.Path);
+      os.Definition = cvtHtml2Plain(val.Definition);
+      os.Commentary = cvtHtml2Plain(val.Commentary);
+      osArray.push(os);
+    });
+    return osArray;
+  }
+
+  //
   // Legal Definitions --------------------------------------------
+  //
 
   AddLegalDef() {
-    this.LegalDefinitions.push(new legalDef());
+    this.LegalDefinitions.push(new legalDefType());
   }
   RmLegalDefLast() {
     this.LegalDefinitions.splice(-1);
@@ -185,10 +242,27 @@ export class EntityType {
     return this.IsLegalDefEmpty(n - 1);
   }
 
+  PlainLegalDef() {
+    const ldArray: legalDefType[] = [];
+    this.LegalDefinitions.forEach((val) => {
+      const ld = new legalDefType();
+      ld.LegislationName = cvtHtml2Plain(val.LegislationName);
+      ld.Citation = cvtHtml2Plain(val.Citation);
+      ld.Link = cvtHtml2Plain(val.Link);
+      ld.Definition = cvtHtml2Plain(val.Definition);
+      ld.Commentary = cvtHtml2Plain(val.Commentary);
+      ld.Datestamp = cvtHtml2Plain(val.Datestamp);
+      ldArray.push(ld);
+    });
+    return ldArray;
+  }
+
+  //
   // Collections --------------------------------------------------
+  //
 
   AddCol() {
-    this.Collections.push(new col());
+    this.Collections.push(new colType());
   }
   RmColLast() {
     this.Collections.splice(-1);
@@ -240,7 +314,24 @@ export class EntityType {
     return this.IsColEmpty(n - 1);
   }
 
+  PlainCol() {
+    const collections: colType[] = [];
+    this.Collections.forEach((val) => {
+      const col = new colType();
+      col.Name = cvtHtml2Plain(val.Name);
+      col.Description = cvtHtml2Plain(val.Description);
+      col.Standard = cvtHtml2Plain(val.Standard);
+      col.Elements = cvtArrayHtml2Plain(val.Elements);
+      col.BusinessRules = cvtArrayHtml2Plain(val.BusinessRules);
+      col.DefinitionModification = cvtHtml2Plain(val.DefinitionModification);
+      collections.push(col);
+    });
+    return collections;
+  }
+
+  //
   // Meta Data ----------------------------------------------------
+  //
 
   SetMeta(
     TYPE: string,
@@ -283,6 +374,18 @@ export class EntityType {
     }
   }
 
+  PlainMeta() {
+    const meta = new metaType();
+    meta.Identifier = cvtHtml2Plain(this.Metadata.Identifier);
+    meta.Type = cvtHtml2Plain(this.Metadata.Type);
+    meta.ExpectedAttributes = cvtArrayHtml2Plain(
+      this.Metadata.ExpectedAttributes
+    );
+    meta.Superclass = cvtArrayHtml2Plain(this.Metadata.Superclass);
+    meta.CrossrefEntities = cvtArrayHtml2Plain(this.Metadata.CrossrefEntities);
+    return meta;
+  }
+
   ////
 
   GenJSON(htmlValue: boolean) {
@@ -300,14 +403,14 @@ export class EntityType {
   }
 }
 
-class sif {
+class sifType {
   XPath: string[] = [];
   Definition = "";
   Commentary = "";
   Datestamp = "";
 }
 
-class otherStd {
+class otherStdType {
   Standard = "";
   Link: string[] = [];
   Path: string[] = [];
@@ -315,7 +418,7 @@ class otherStd {
   Commentary = "";
 }
 
-class legalDef {
+class legalDefType {
   LegislationName = "";
   Citation = "";
   Link = "";
@@ -324,7 +427,7 @@ class legalDef {
   Datestamp = "";
 }
 
-class col {
+class colType {
   Name = "";
   Description = "";
   Standard = "";
@@ -333,7 +436,7 @@ class col {
   DefinitionModification = "";
 }
 
-class meta {
+class metaType {
   Identifier = "";
   Type = "";
   ExpectedAttributes: string[] = [];

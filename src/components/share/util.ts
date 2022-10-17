@@ -74,3 +74,25 @@ export const validStrTEXTArr = (val: string, defaultArray: string[]) => {
 };
 
 // return (ons.match(/\n/g) || []).length
+
+export const cvtHtml2Plain = (html: string) => {
+  // Create a new div element
+  const tempDivElement = document.createElement("div");
+
+  // Set the HTML content with the given value
+  tempDivElement.innerHTML = html;
+
+  // Retrieve the text property of the element
+  return tempDivElement.textContent || tempDivElement.innerText || "";
+};
+
+export const cvtArrayHtml2Plain = (htmls: string[]) => {
+  const plains: string[] = [];
+  if (htmls == null || htmls.length == 0) {
+    return plains;
+  }
+  htmls.forEach((val) => {
+    plains.push(cvtHtml2Plain(val));
+  });
+  return plains;
+};

@@ -5,11 +5,8 @@
       <div id="left">
         <EntryEntity />
       </div>
-      <div id="middle">
-        <PreviewContent />
-      </div>
       <div id="right">
-        <PreviewJSON />
+        <PreviewArea />
       </div>
     </div>
     <EntryExport />
@@ -28,17 +25,21 @@ import {
 } from "./components/share/share";
 import MainTitle from "./components/entity/Title.vue";
 import EntryEntity from "./components/entity/EntryEntity.vue";
-import PreviewContent from "./components/entity/PreviewContent.vue";
-import PreviewJSON from "./components/entity/PreviewJSON.vue";
+import PreviewArea from "./components/entity/Preview.vue";
 import EntryExport from "./components/entity/BtnExport.vue";
+import {
+  EntityType,
+  jsonEntityHTML,
+  jsonEntityTEXT,
+} from "./components/share/EntityType";
+// import { stringifyStyle } from "@vue/shared";
 
 export default defineComponent({
   name: "App",
   components: {
     MainTitle,
     EntryEntity,
-    PreviewContent,
-    PreviewJSON,
+    PreviewArea,
     EntryExport,
   },
   setup() {
@@ -76,17 +77,52 @@ export default defineComponent({
         if (loginUser.value.length > 0) {
           disp.value = true;
 
-          // edit mode
           if (name.length > 0 && kind.length > 0) {
+            // *** edit mode ***
+
+            // alert(`${name} : ${kind}`)
+
             itemName.value = name;
             itemKind.value = kind;
 
-            const entity = await getItemContent(name, kind, "existing");
-            if (entity != null) {
-              alert(entity.Entity);
+            switch (kind) {
+              case "entity":
+                {
+                  const entity = (await getItemContent(
+                    name,
+                    kind,
+                    "existing"
+                  )) as EntityType;
+
+                  jsonEntityHTML.Entity = entity.Entity;
+                  jsonEntityHTML.OtherNames = entity.OtherNames;
+                  jsonEntityHTML.Definition = entity.Definition;
+                  jsonEntityHTML.SIF = entity.SIF;
+                  jsonEntityHTML.OtherStandards = entity.OtherStandards;
+                  jsonEntityHTML.LegalDefinitions = entity.LegalDefinitions;
+                  jsonEntityHTML.Collections = entity.Collections;
+                  jsonEntityHTML.Metadata = entity.Metadata;
+
+                  jsonEntityTEXT.Entity = jsonEntityHTML.PlainName();
+                  jsonEntityTEXT.OtherNames = jsonEntityHTML.PlainOtherNames();
+                  jsonEntityTEXT.Definition = jsonEntityHTML.PlainDefinition();
+                  jsonEntityTEXT.SIF = jsonEntityHTML.PlainSIF();
+                  jsonEntityTEXT.OtherStandards =
+                    jsonEntityHTML.PlainOtherStd();
+                  jsonEntityTEXT.LegalDefinitions =
+                    jsonEntityHTML.PlainLegalDef();
+                  jsonEntityTEXT.Collections = jsonEntityHTML.PlainCol();
+                  jsonEntityTEXT.Metadata = jsonEntityHTML.PlainMeta();
+                }
+                break;
+
+              case "collection":
+                break;
+
+              default:
             }
           } else {
-            // create mode
+            // *** create mode ***
 
             alert("creating mode");
           }
@@ -122,8 +158,8 @@ export default defineComponent({
 }
 
 #left {
-  width: 40%;
-  margin-right: 1%;
+  width: 50%;
+  margin-right: 0.4%;
   overflow: scroll;
   scrollbar-width: none;
   /*   display: flex;
@@ -134,22 +170,9 @@ export default defineComponent({
   display: none;
 }
 
-#middle {
-  width: 30%;
-  background-color: rgb(240, 240, 240);
-  overflow: scroll;
-  scrollbar-width: none;
-  /* display: flex;
-flex-direction: column; */
-}
-
-#middle::-webkit-scrollbar {
-  display: none;
-}
-
 #right {
-  width: 30%;
-  margin-left: 1%;
+  width: 50%;
+  margin-left: 0.4%;
   background-color: rgb(220, 220, 220);
   overflow: scroll;
   scrollbar-width: none;
