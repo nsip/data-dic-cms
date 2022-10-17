@@ -1,11 +1,5 @@
 import { ref } from "vue";
-import {
-  fetchBodyForm,
-  fetchBodyJsonStr,
-  fetchBodyObject,
-  fetchNoBody,
-  mEmpty,
-} from "./fetch";
+import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "./fetch";
 import { EntityType } from "./EntityType";
 import { CollectionType } from "./CollectionType";
 

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent } from "vue";
 // import { loginAuth, loginUser, getUname } from './components/share/share'
 import EntryName from "./Entry_1_Name.vue";
 import EntryOtherNames from "./Entry_2_OtherName.vue";

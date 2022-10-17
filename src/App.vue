@@ -94,25 +94,23 @@ export default defineComponent({
                     "existing"
                   )) as EntityType;
 
-                  jsonEntityHTML.Entity = entity.Entity;
-                  jsonEntityHTML.OtherNames = entity.OtherNames;
-                  jsonEntityHTML.Definition = entity.Definition;
-                  jsonEntityHTML.SIF = entity.SIF;
-                  jsonEntityHTML.OtherStandards = entity.OtherStandards;
-                  jsonEntityHTML.LegalDefinitions = entity.LegalDefinitions;
-                  jsonEntityHTML.Collections = entity.Collections;
-                  jsonEntityHTML.Metadata = entity.Metadata;
+                  jsonEntityHTML.AssignName("html", entity.Entity);
+                  jsonEntityHTML.AssignOtherNames("html", entity.OtherNames);
+                  jsonEntityHTML.AssignDefinition("html", entity.Definition);
+                  jsonEntityHTML.AssignSIF("html", entity.SIF);
+                  jsonEntityHTML.AssignOtherStd("html", entity.OtherStandards);
+                  jsonEntityHTML.AssignLegalDef("html", entity.LegalDefinitions);
+                  jsonEntityHTML.AssignCol("html", entity.Collections);
+                  jsonEntityHTML.AssignMeta("html", entity.Metadata);
 
-                  jsonEntityTEXT.Entity = jsonEntityHTML.PlainName();
-                  jsonEntityTEXT.OtherNames = jsonEntityHTML.PlainOtherNames();
-                  jsonEntityTEXT.Definition = jsonEntityHTML.PlainDefinition();
-                  jsonEntityTEXT.SIF = jsonEntityHTML.PlainSIF();
-                  jsonEntityTEXT.OtherStandards =
-                    jsonEntityHTML.PlainOtherStd();
-                  jsonEntityTEXT.LegalDefinitions =
-                    jsonEntityHTML.PlainLegalDef();
-                  jsonEntityTEXT.Collections = jsonEntityHTML.PlainCol();
-                  jsonEntityTEXT.Metadata = jsonEntityHTML.PlainMeta();
+                  jsonEntityTEXT.AssignName("text", entity.Entity);
+                  jsonEntityTEXT.AssignOtherNames("text", entity.OtherNames);
+                  jsonEntityTEXT.AssignDefinition("text", entity.Definition);
+                  jsonEntityTEXT.AssignSIF("text", entity.SIF);
+                  jsonEntityTEXT.AssignOtherStd("text", entity.OtherStandards);
+                  jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
+                  jsonEntityTEXT.AssignCol("text", entity.Collections);
+                  jsonEntityTEXT.AssignMeta("text", entity.Metadata);
                 }
                 break;
 

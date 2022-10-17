@@ -25,8 +25,14 @@ export class EntityType {
     this.Entity = validStr(name, this.Entity);
   }
 
-  PlainName() {
-    return cvtHtml2Plain(this.Entity);
+  AssignName(TYPE: string, name: string) {
+    switch (TYPE) {
+      case "html":
+        this.Entity = name;
+        break;
+      default:
+        this.Entity = cvtHtml2Plain(name);
+    }
   }
 
   //
@@ -46,8 +52,15 @@ export class EntityType {
     return this.OtherNames.length;
   }
 
-  PlainOtherNames() {
-    return cvtArrayHtml2Plain(this.OtherNames);
+  AssignOtherNames(TYPE: string, names: string[]) {
+    switch (TYPE) {
+      case "html":
+        this.OtherNames = names != null ? names : EmptyStrArr;
+        break;
+      default:
+        this.OtherNames =
+          names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
+    }
   }
 
   //
@@ -58,8 +71,14 @@ export class EntityType {
     this.Definition = validStr(definition, this.Definition);
   }
 
-  PlainDefinition() {
-    return cvtHtml2Plain(this.Definition);
+  AssignDefinition(TYPE: string, definition: string) {
+    switch (TYPE) {
+      case "html":
+        this.Definition = definition;
+        break;
+      default:
+        this.Definition = cvtHtml2Plain(definition);
+    }
   }
 
   //
@@ -112,9 +131,19 @@ export class EntityType {
     return this.IsSIFEmpty(n - 1);
   }
 
-  PlainSIF() {
+  AssignSIF(TYPE: string, sif: sifType[]) {
+    switch (TYPE) {
+      case "html":
+        this.SIF = sif != null ? sif : EmptySIF;
+        break;
+      default:
+        this.SIF = sif != null ? this.PlainSIF(sif) : EmptySIF;
+    }
+  }
+
+  PlainSIF(SIFs: sifType[]) {
     const sifArray: sifType[] = [];
-    this.SIF.forEach((val) => {
+    SIFs.forEach((val) => {
       const sif = new sifType();
       sif.XPath = cvtArrayHtml2Plain(val.XPath);
       sif.Definition = cvtHtml2Plain(val.Definition);
@@ -179,9 +208,19 @@ export class EntityType {
     return this.IsOtherStdEmpty(n - 1);
   }
 
-  PlainOtherStd() {
+  AssignOtherStd(TYPE: string, os: otherStdType[]) {
+    switch (TYPE) {
+      case "html":
+        this.OtherStandards = os != null ? os : EmptyOS;
+        break;
+      default:
+        this.OtherStandards = os != null ? this.PlainOtherStd(os) : EmptyOS;
+    }
+  }
+
+  PlainOtherStd(OSs: otherStdType[]) {
     const osArray: otherStdType[] = [];
-    this.OtherStandards.forEach((val) => {
+    OSs.forEach((val) => {
       const os = new otherStdType();
       os.Standard = cvtHtml2Plain(val.Standard);
       os.Link = cvtArrayHtml2Plain(val.Link);
@@ -242,9 +281,19 @@ export class EntityType {
     return this.IsLegalDefEmpty(n - 1);
   }
 
-  PlainLegalDef() {
+  AssignLegalDef(TYPE: string, ld: legalDefType[]) {
+    switch (TYPE) {
+      case "html":
+        this.LegalDefinitions = ld != null ? ld : EmptyLD;
+        break;
+      default:
+        this.LegalDefinitions = ld != null ? this.PlainLegalDef(ld) : EmptyLD;
+    }
+  }
+
+  PlainLegalDef(LDs: legalDefType[]) {
     const ldArray: legalDefType[] = [];
-    this.LegalDefinitions.forEach((val) => {
+    LDs.forEach((val) => {
       const ld = new legalDefType();
       ld.LegislationName = cvtHtml2Plain(val.LegislationName);
       ld.Citation = cvtHtml2Plain(val.Citation);
@@ -314,9 +363,19 @@ export class EntityType {
     return this.IsColEmpty(n - 1);
   }
 
-  PlainCol() {
+  AssignCol(TYPE: string, col: colType[]) {
+    switch (TYPE) {
+      case "html":
+        this.Collections = col != null ? col : EmptyCol;
+        break;
+      default:
+        this.Collections = col != null ? this.PlainCol(col) : EmptyCol;
+    }
+  }
+
+  PlainCol(Cols: colType[]) {
     const collections: colType[] = [];
-    this.Collections.forEach((val) => {
+    Cols.forEach((val) => {
       const col = new colType();
       col.Name = cvtHtml2Plain(val.Name);
       col.Description = cvtHtml2Plain(val.Description);
@@ -374,16 +433,24 @@ export class EntityType {
     }
   }
 
-  PlainMeta() {
-    const meta = new metaType();
-    meta.Identifier = cvtHtml2Plain(this.Metadata.Identifier);
-    meta.Type = cvtHtml2Plain(this.Metadata.Type);
-    meta.ExpectedAttributes = cvtArrayHtml2Plain(
-      this.Metadata.ExpectedAttributes
-    );
-    meta.Superclass = cvtArrayHtml2Plain(this.Metadata.Superclass);
-    meta.CrossrefEntities = cvtArrayHtml2Plain(this.Metadata.CrossrefEntities);
-    return meta;
+  AssignMeta(TYPE: string, meta: metaType) {
+    switch (TYPE) {
+      case "html":
+        this.Metadata = meta != null ? meta : new metaType();
+        break;
+      default:
+        this.Metadata = meta != null ? this.PlainMeta(meta) : new metaType();
+    }
+  }
+
+  PlainMeta(meta: metaType) {
+    const m = new metaType();
+    m.Identifier = cvtHtml2Plain(meta.Identifier);
+    m.Type = cvtHtml2Plain(meta.Type);
+    m.ExpectedAttributes = cvtArrayHtml2Plain(meta.ExpectedAttributes);
+    m.Superclass = cvtArrayHtml2Plain(meta.Superclass);
+    m.CrossrefEntities = cvtArrayHtml2Plain(meta.CrossrefEntities);
+    return m;
   }
 
   ////
@@ -443,6 +510,12 @@ class metaType {
   Superclass: string[] = [];
   CrossrefEntities: string[] = [];
 }
+
+const EmptyStrArr: string[] = [];
+const EmptySIF: sifType[] = [];
+const EmptyOS: otherStdType[] = [];
+const EmptyLD: legalDefType[] = [];
+const EmptyCol: colType[] = [];
 
 export const jsonEntityHTML = reactive(new EntityType());
 export const jsonEntityTEXT = reactive(new EntityType());
