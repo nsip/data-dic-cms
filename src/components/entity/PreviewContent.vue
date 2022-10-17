@@ -81,11 +81,13 @@ export default defineComponent({
         const jt = jsonEntityTEXT.SIF[i];
         const jh = jsonEntityHTML.SIF[i];
         eles[i] = "";
-        eles[i] += nonEmptyHtml(
-          ">> xpath:",
-          jt.XPath.join(""),
-          jh.XPath.join("")
-        );
+        if (jt.XPath != null && jh.XPath != null) {
+          eles[i] += nonEmptyHtml(
+            ">> xpath:",
+            jt.XPath.join(""),
+            jh.XPath.join("")
+          );
+        }
         eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition);
         eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary);
         eles[i] += nonEmptyHtml(">> datestamp:", jt.Datestamp, jh.Datestamp);
@@ -107,8 +109,12 @@ export default defineComponent({
         const jh = jsonEntityHTML.OtherStandards[i];
         eles[i] = "";
         eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard);
-        eles[i] += nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join(""));
-        eles[i] += nonEmptyHtml(">> path:", jt.Path.join(""), jh.Path.join(""));
+        if (jt.Link != null && jh.Link != null) {
+          eles[i] += nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join(""));
+        }
+        if (jt.Path != null && jh.Path != null) {
+          eles[i] += nonEmptyHtml(">> path:", jt.Path.join(""), jh.Path.join(""));
+        }
         eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition);
         eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary);
       }
@@ -162,11 +168,13 @@ export default defineComponent({
           jh.Description
         );
         eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard);
-        eles[i] += nonEmptyHtml(
-          ">> elements:",
-          jt.Elements.join(""),
-          jh.Elements.join("")
-        );
+        if (jt.Elements != null && jh.Elements != null) {
+          eles[i] += nonEmptyHtml(
+            ">> elements:",
+            jt.Elements.join(""),
+            jh.Elements.join("")
+          );
+        }
         eles[i] += nonEmptyHtml(
           ">> definition modification:",
           jt.DefinitionModification,
@@ -183,26 +191,26 @@ export default defineComponent({
     const previewMetadata = () => {
       const jt = jsonEntityTEXT.Metadata;
       const jh = jsonEntityHTML.Metadata;
-      return (
-        "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Meta Data</h3>" +
-        nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier) +
-        nonEmptyHtml(">> type:", jt.Type, jh.Type) +
-        nonEmptyHtml(
-          ">> expected attributes:",
-          jt.ExpectedAttributes.join(""),
-          jh.ExpectedAttributes.join("")
-        ) +
-        nonEmptyHtml(
-          ">> superclass:",
-          jt.Superclass.join(""),
-          jh.Superclass.join("")
-        ) +
-        nonEmptyHtml(
-          ">> cross ref entities:",
-          jt.CrossrefEntities.join(""),
-          jh.CrossrefEntities.join("")
-        )
-      );
+
+      const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier)
+      const type = nonEmptyHtml(">> type:", jt.Type, jh.Type)
+      const ea = jt.ExpectedAttributes != null && jh.ExpectedAttributes != null ? nonEmptyHtml(
+        ">> expected attributes:",
+        jt.ExpectedAttributes.join(""),
+        jh.ExpectedAttributes.join("")
+      ) : "";
+      const sc = jt.Superclass != null && jh.Superclass != null ? nonEmptyHtml(
+        ">> superclass:",
+        jt.Superclass.join(""),
+        jh.Superclass.join("")
+      ) : "";
+      const ce = jt.CrossrefEntities != null && jh.CrossrefEntities != null ? nonEmptyHtml(
+        ">> cross ref entities:",
+        jt.CrossrefEntities.join(""),
+        jh.CrossrefEntities.join("")
+      ) : "";
+
+      return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Meta Data</h3>" + id + type + ea + sc + ce;
     };
 
     //////////
@@ -228,4 +236,6 @@ export default defineComponent({
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+
+</style>

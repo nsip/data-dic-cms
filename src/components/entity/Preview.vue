@@ -4,7 +4,7 @@
     <input class="selection" type="radio" name="type" value="text" checked @click="select('text')" />
     <label>plain text json</label>
     <input class="selection" type="radio" name="type" value="html" @click="select('html')" />
-    <label>html json value</label>
+    <label>html value json</label>
     <input class="selection" type="radio" name="type" value="preview" @click="select('preview')" />
     <label>effect</label>
   </div>
