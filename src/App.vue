@@ -65,10 +65,14 @@ export default defineComponent({
     // alert(kind)
 
     onMounted(async () => {
+
       if (loginAuth.value.length < 32) {
+
         alert("invalid auth info");
         disp.value = false;
+
       } else {
+
         // fill loginUser, already 'ping' back-end api
         getUname();
 
@@ -111,6 +115,7 @@ export default defineComponent({
                   jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
                   jsonEntityTEXT.AssignCol("text", entity.Collections);
                   jsonEntityTEXT.AssignMeta("text", entity.Metadata);
+                  
                 }
                 break;
 
