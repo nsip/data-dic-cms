@@ -29,6 +29,7 @@ import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../share/EntityType";
+import { itemName, itemKind } from "../share/share";
 
 export default defineComponent({
   name: "EntryLegalDef",
@@ -66,7 +67,7 @@ export default defineComponent({
             jsonEntityHTML.SetLegalDef(idxGrp, "", "", html, "", "", "");
             jsonEntityTEXT.SetLegalDef(idxGrp, "", "", text, "", "", "");
             break;
-          case 3:
+    case 3:
             jsonEntityHTML.SetLegalDef(idxGrp, "", "", "", html, "", "");
             jsonEntityTEXT.SetLegalDef(idxGrp, "", "", "", text, "", "");
             break;
@@ -114,21 +115,24 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
-      editorCount.value = jsonEntityHTML.LegalDefinitions.length;
-      for (let i = 0; i < jsonEntityHTML.LegalDefinitions.length; i++) {
-        const ld = jsonEntityHTML.LegalDefinitions[i]
-        thisQuills[i * 6 + 0].root.innerHTML = ld.LegislationName
-        thisQuills[i * 6 + 1].root.innerHTML = ld.Citation
-        thisQuills[i * 6 + 2].root.innerHTML = ld.Link
-        thisQuills[i * 6 + 3].root.innerHTML = ld.Definition
-        thisQuills[i * 6 + 4].root.innerHTML = ld.Commentary
-        thisQuills[i * 6 + 5].root.innerHTML = ld.Datestamp
+      if (itemName.value.length > 0 && itemKind.value.length > 0) {
+        editorCount.value = jsonEntityHTML.LegalDefinitions.length;
+        await new Promise((f) => setTimeout(f, 500));
+        for (let i = 0; i < jsonEntityHTML.LegalDefinitions.length; i++) {
+          const ld = jsonEntityHTML.LegalDefinitions[i]
+          thisQuills[i * 6 + 0].root.innerHTML = ld.LegislationName
+          thisQuills[i * 6 + 1].root.innerHTML = ld.Citation
+          thisQuills[i * 6 + 2].root.innerHTML = ld.Link
+          thisQuills[i * 6 + 3].root.innerHTML = ld.Definition
+          thisQuills[i * 6 + 4].root.innerHTML = ld.Commentary
+          thisQuills[i * 6 + 5].root.innerHTML = ld.Datestamp
+        }
       }
-      
-      await new Promise((f) => setTimeout(f, 100));
+
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 

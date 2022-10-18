@@ -29,6 +29,7 @@ import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../share/EntityType";
+import { itemName, itemKind } from "../share/share";
 
 export default defineComponent({
   name: "EntryCol",
@@ -66,7 +67,7 @@ export default defineComponent({
           case 2:
             jsonEntityHTML.SetCol("html", idxGrp, "", "", html, "", "", "");
             jsonEntityTEXT.SetCol("", idxGrp, "", "", text, "", "", "");
-            break;
+      break;
           case 3:
             jsonEntityHTML.SetCol("html", idxGrp, "", "", "", html, "", "");
             jsonEntityTEXT.SetCol("", idxGrp, "", "", "", text, "", "");
@@ -117,21 +118,24 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
-      editorCount.value = jsonEntityHTML.Collections.length;
-      for (let i = 0; i < jsonEntityHTML.Collections.length; i++) {
-        const col = jsonEntityHTML.Collections[i]
-        thisQuills[i * 6 + 0].root.innerHTML = col.Name
-        thisQuills[i * 6 + 1].root.innerHTML = col.Description
-        thisQuills[i * 6 + 2].root.innerHTML = col.Standard
-        thisQuills[i * 6 + 3].root.innerHTML = col.Elements.join('\n')
-        thisQuills[i * 6 + 4].root.innerHTML = col.BusinessRules.join('\n')
-        thisQuills[i * 6 + 5].root.innerHTML = col.DefinitionModification
+      if (itemName.value.length > 0 && itemKind.value.length > 0) {
+        editorCount.value = jsonEntityHTML.Collections.length;
+        await new Promise((f) => setTimeout(f, 500));
+        for (let i = 0; i < jsonEntityHTML.Collections.length; i++) {
+          const col = jsonEntityHTML.Collections[i]
+          thisQuills[i * 6 + 0].root.innerHTML = col.Name
+          thisQuills[i * 6 + 1].root.innerHTML = col.Description
+          thisQuills[i * 6 + 2].root.innerHTML = col.Standard
+          thisQuills[i * 6 + 3].root.innerHTML = col.Elements.join('\n')
+          thisQuills[i * 6 + 4].root.innerHTML = col.BusinessRules.join('\n')
+          thisQuills[i * 6 + 5].root.innerHTML = col.DefinitionModification
+        }
       }
-      
-      await new Promise((f) => setTimeout(f, 100));
+
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 

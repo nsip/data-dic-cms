@@ -27,6 +27,7 @@ import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../share/EntityType";
+import { itemName, itemKind } from "../share/share";
 
 export default defineComponent({
   name: "EntryOtherStd",
@@ -64,7 +65,7 @@ export default defineComponent({
             break;
           case 2:
             jsonEntityHTML.SetOtherStd("html", idxGrp, "", "", html, "", "");
-            jsonEntityTEXT.SetOtherStd("", idxGrp, "", "", text, "", "");
+      jsonEntityTEXT.SetOtherStd("", idxGrp, "", "", text, "", "");
             break;
           case 3:
             jsonEntityHTML.SetOtherStd("html", idxGrp, "", "", "", html, "");
@@ -111,20 +112,23 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
-      editorCount.value = jsonEntityHTML.OtherStandards.length;
-      for (let i = 0; i < jsonEntityHTML.OtherStandards.length; i++) {
-        const os = jsonEntityHTML.OtherStandards[i]
-        thisQuills[i * 5 + 0].root.innerHTML = os.Standard
-        thisQuills[i * 5 + 1].root.innerHTML = os.Link.join('\n')
-        thisQuills[i * 5 + 2].root.innerHTML = os.Path.join('\n')
-        thisQuills[i * 5 + 3].root.innerHTML = os.Definition
-        thisQuills[i * 5 + 4].root.innerHTML = os.Commentary
+      if (itemName.value.length > 0 && itemKind.value.length > 0) {
+        editorCount.value = jsonEntityHTML.OtherStandards.length;
+        await new Promise((f) => setTimeout(f, 500));
+        for (let i = 0; i < jsonEntityHTML.OtherStandards.length; i++) {
+          const os = jsonEntityHTML.OtherStandards[i]
+          thisQuills[i * 5 + 0].root.innerHTML = os.Standard
+          thisQuills[i * 5 + 1].root.innerHTML = os.Link.join('\n')
+          thisQuills[i * 5 + 2].root.innerHTML = os.Path.join('\n')
+          thisQuills[i * 5 + 3].root.innerHTML = os.Definition
+          thisQuills[i * 5 + 4].root.innerHTML = os.Commentary
+        }
       }
 
-      await new Promise((f) => setTimeout(f, 100));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 

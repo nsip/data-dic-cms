@@ -57,12 +57,15 @@ export default defineComponent({
     const kind = decodeURI(
       window.location.href.substring(pKind + 5, pAuth - 1)
     );
-    const auth = decodeURI(window.location.href.substring(pAuth + 5));
+nst auth = decodeURI(window.location.href.substring(pAuth + 5));
 
     loginAuth.value = "Bearer " + auth;
 
     // alert(name)
     // alert(kind)
+
+    itemName.value = name;
+    itemKind.value = kind;
 
     onMounted(async () => {
 
@@ -76,7 +79,7 @@ export default defineComponent({
         // fill loginUser, already 'ping' back-end api
         getUname();
 
-        await new Promise((f) => setTimeout(f, 200));
+        await new Promise((f) => setTimeout(f, 500));
 
         if (loginUser.value.length > 0) {
           disp.value = true;
@@ -86,17 +89,10 @@ export default defineComponent({
 
             // alert(`${name} : ${kind}`)
 
-            itemName.value = name;
-            itemKind.value = kind;
-
             switch (kind) {
               case "entity":
                 {
-                  const entity = (await getItemContent(
-                    name,
-                    kind,
-                    "existing"
-                  )) as EntityType;
+                  const entity = (await getItemContent(name, kind, "existing")) as EntityType;
 
                   jsonEntityHTML.AssignName("html", entity.Entity);
                   jsonEntityHTML.AssignOtherNames("html", entity.OtherNames);
@@ -115,7 +111,7 @@ export default defineComponent({
                   jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
                   jsonEntityTEXT.AssignCol("text", entity.Collections);
                   jsonEntityTEXT.AssignMeta("text", entity.Metadata);
-                  
+
                 }
                 break;
 

@@ -25,6 +25,7 @@ import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../share/EntityType";
+import { itemName, itemKind } from "../share/share";
 
 export default defineComponent({
   name: "EntrySIF",
@@ -62,7 +63,7 @@ export default defineComponent({
             jsonEntityTEXT.SetSIF("", idxGrp, "", "", text, "");
             break;
           case 3:
-            jsonEntityHTML.SetSIF("html", idxGrp, "", "", "", html);
+      jsonEntityHTML.SetSIF("html", idxGrp, "", "", "", html);
             jsonEntityTEXT.SetSIF("", idxGrp, "", "", "", text);
             break;
         }
@@ -102,19 +103,22 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
-      editorCount.value = jsonEntityHTML.SIF.length;
-      for (let i = 0; i < jsonEntityHTML.SIF.length; i++) {
-        const sif = jsonEntityHTML.SIF[i]
-        thisQuills[i * 4 + 0].root.innerHTML = sif.XPath.join('\n')
-        thisQuills[i * 4 + 1].root.innerHTML = sif.Definition
-        thisQuills[i * 4 + 2].root.innerHTML = sif.Commentary
-        thisQuills[i * 4 + 3].root.innerHTML = sif.Datestamp
+      if (itemName.value.length > 0 && itemKind.value.length > 0) {
+        editorCount.value = jsonEntityHTML.SIF.length;
+        await new Promise((f) => setTimeout(f, 500));
+        for (let i = 0; i < jsonEntityHTML.SIF.length; i++) {
+          const sif = jsonEntityHTML.SIF[i]
+          thisQuills[i * 4 + 0].root.innerHTML = sif.XPath.join('\n')
+          thisQuills[i * 4 + 1].root.innerHTML = sif.Definition
+          thisQuills[i * 4 + 2].root.innerHTML = sif.Commentary
+          thisQuills[i * 4 + 3].root.innerHTML = sif.Datestamp
+        }
       }
-      
-      await new Promise((f) => setTimeout(f, 100));
+
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 

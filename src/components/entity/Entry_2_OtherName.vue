@@ -50,12 +50,12 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
       thisQuill.root.innerHTML = jsonEntityHTML.OtherNames.join('\n');
-      
-      await new Promise((f) => setTimeout(f, 100));
+
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 

@@ -62,7 +62,7 @@ export default defineComponent({
             break;
           case 3:
             jsonEntityHTML.SetMeta("html", "", "", "", html, "");
-            jsonEntityTEXT.SetMeta("", "", "", "", text, "");
+      jsonEntityTEXT.SetMeta("", "", "", "", text, "");
             break;
           case 4:
             jsonEntityHTML.SetMeta("html", "", "", "", "", html);
@@ -81,7 +81,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await new Promise((f) => setTimeout(f, 400));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
       const meta = jsonEntityHTML.Metadata
@@ -91,7 +91,7 @@ export default defineComponent({
       thisQuills[3].root.innerHTML = meta.Superclass.join('\n')
       thisQuills[4].root.innerHTML = meta.CrossrefEntities.join('\n')
       
-      await new Promise((f) => setTimeout(f, 100));
+      await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })
 
