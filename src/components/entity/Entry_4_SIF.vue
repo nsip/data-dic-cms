@@ -111,7 +111,7 @@ export default defineComponent({
         await new Promise((f) => setTimeout(f, 500));
         for (let i = 0; i < jsonEntityHTML.SIF.length; i++) {
           const sif = jsonEntityHTML.SIF[i]
-          thisQuills[i * 4 + 0].root.innerHTML = sif.XPath.join('\n')
+          thisQuills[i * 4 + 0].root.innerHTML = sif.XPath != null ? sif.XPath.join('\n') : ""
           thisQuills[i * 4 + 1].root.innerHTML = sif.Definition
           thisQuills[i * 4 + 2].root.innerHTML = sif.Commentary
           thisQuills[i * 4 + 3].root.innerHTML = sif.Datestamp

@@ -53,7 +53,7 @@ export default defineComponent({
       await new Promise((f) => setTimeout(f, 500));
       flagSet = false
 
-      thisQuill.root.innerHTML = jsonEntityHTML.OtherNames.join('\n');
+      thisQuill.root.innerHTML = jsonEntityHTML.OtherNames != null ? jsonEntityHTML.OtherNames.join('\n') : "";
 
       await new Promise((f) => setTimeout(f, 500));
       flagSet = true

@@ -129,8 +129,8 @@ export default defineComponent({
           thisQuills[i * 6 + 0].root.innerHTML = col.Name
           thisQuills[i * 6 + 1].root.innerHTML = col.Description
           thisQuills[i * 6 + 2].root.innerHTML = col.Standard
-          thisQuills[i * 6 + 3].root.innerHTML = col.Elements.join('\n')
-          thisQuills[i * 6 + 4].root.innerHTML = col.BusinessRules.join('\n')
+          thisQuills[i * 6 + 3].root.innerHTML = col.Elements != null ? col.Elements.join('\n') : ""
+          thisQuills[i * 6 + 4].root.innerHTML = col.BusinessRules != null ? col.BusinessRules.join('\n') : ""
           thisQuills[i * 6 + 5].root.innerHTML = col.DefinitionModification
         }
       }

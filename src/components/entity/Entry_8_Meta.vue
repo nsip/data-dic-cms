@@ -62,7 +62,7 @@ export default defineComponent({
             break;
           case 3:
             jsonEntityHTML.SetMeta("html", "", "", "", html, "");
-      jsonEntityTEXT.SetMeta("", "", "", "", text, "");
+            jsonEntityTEXT.SetMeta("", "", "", "", text, "");
             break;
           case 4:
             jsonEntityHTML.SetMeta("html", "", "", "", "", html);
@@ -87,10 +87,10 @@ export default defineComponent({
       const meta = jsonEntityHTML.Metadata
       thisQuills[0].root.innerHTML = meta.Identifier
       thisQuills[1].root.innerHTML = meta.Type
-      thisQuills[2].root.innerHTML = meta.ExpectedAttributes.join('\n')
-      thisQuills[3].root.innerHTML = meta.Superclass.join('\n')
-      thisQuills[4].root.innerHTML = meta.CrossrefEntities.join('\n')
-      
+      thisQuills[2].root.innerHTML = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join('\n') : ""
+      thisQuills[3].root.innerHTML = meta.Superclass != null ? meta.Superclass.join('\n') : ""
+      thisQuills[4].root.innerHTML = meta.CrossrefEntities != null ? meta.CrossrefEntities.join('\n') : ""
+
       await new Promise((f) => setTimeout(f, 500));
       flagSet = true
     })

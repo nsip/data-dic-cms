@@ -121,8 +121,8 @@ export default defineComponent({
         for (let i = 0; i < jsonEntityHTML.OtherStandards.length; i++) {
           const os = jsonEntityHTML.OtherStandards[i]
           thisQuills[i * 5 + 0].root.innerHTML = os.Standard
-          thisQuills[i * 5 + 1].root.innerHTML = os.Link.join('\n')
-          thisQuills[i * 5 + 2].root.innerHTML = os.Path.join('\n')
+          thisQuills[i * 5 + 1].root.innerHTML = os.Link != null ? os.Link.join('\n') : ""
+          thisQuills[i * 5 + 2].root.innerHTML = os.Path != null ? os.Path.join('\n') : ""
           thisQuills[i * 5 + 3].root.innerHTML = os.Definition
           thisQuills[i * 5 + 4].root.innerHTML = os.Commentary
         }

@@ -51,13 +51,9 @@ export default defineComponent({
     const pKind = window.location.href.indexOf("kind=");
     const pAuth = window.location.href.indexOf("auth=");
 
-    const name = decodeURI(
-      window.location.href.substring(pName + 5, pKind - 1)
-    );
-    const kind = decodeURI(
-      window.location.href.substring(pKind + 5, pAuth - 1)
-    );
-nst auth = decodeURI(window.location.href.substring(pAuth + 5));
+    const name = decodeURI(window.location.href.substring(pName + 5, pKind - 1));
+    const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1));
+    const auth = decodeURI(window.location.href.substring(pAuth + 5));
 
     loginAuth.value = "Bearer " + auth;
 
