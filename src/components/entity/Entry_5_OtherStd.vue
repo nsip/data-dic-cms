@@ -4,10 +4,10 @@
     <button class="hide-editor" @click="onToggleVisible()">
       <font-awesome-icon :icon="icon" />
     </button>
-    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1"> 
+    <button class="less-editor" @click="onMoreLessClick('-')">
       <font-awesome-icon icon="circle-minus" />
     </button>
-    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()"> 
+    <button class="more-editor" @click="onMoreLessClick('+')">
       <font-awesome-icon icon="circle-plus" />
     </button>
     <span class="hint2">{{ hint }}</span>
@@ -93,21 +93,36 @@ export default defineComponent({
     const onMoreLessClick = (type: string) => {
       switch (type) {
         case "+":
-          // add new OtherStandard element in json
-          jsonEntityHTML.AddOtherStd();
-          jsonEntityTEXT.AddOtherStd();
+          {
+            if (jsonEntityTEXT.IsLastOtherStdEmpty()) {
+              alert("please use available editor(s). if hidden, unfold it")
+              break
+            }
 
-          editorCount.value++;
+            // add new OtherStandard element in json
+            jsonEntityHTML.AddOtherStd();
+            jsonEntityTEXT.AddOtherStd();
+
+            editorCount.value++;
+          }
           break;
+
         case "-":
-          // clear preview
-          idxQuill -= 5;
+          {
+            if (editorCount.value == 1) {
+              alert("no more editor group to remove")
+              break;
+            }
 
-          // remove last OtherStandard element in json
-          jsonEntityHTML.RmOtherStdLast();
-          jsonEntityTEXT.RmOtherStdLast();
+            // clear preview
+            idxQuill -= 5;
 
-          editorCount.value--;
+            // remove last OtherStandard element in json
+            jsonEntityHTML.RmOtherStdLast();
+            jsonEntityTEXT.RmOtherStdLast();
+
+            editorCount.value--;
+          }
           break;
         default:
       }

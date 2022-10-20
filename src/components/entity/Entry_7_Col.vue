@@ -4,10 +4,10 @@
     <button class="hide-editor" @click="onToggleVisible()">
       <font-awesome-icon :icon="icon" />
     </button>
-    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">
+    <button class="less-editor" @click="onMoreLessClick('-')">
       <font-awesome-icon icon="circle-minus" />
     </button>
-    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()">
+    <button class="more-editor" @click="onMoreLessClick('+')">
       <font-awesome-icon icon="circle-plus" />
     </button>
     <span class="hint2">{{ hint }}</span>
@@ -99,23 +99,38 @@ export default defineComponent({
     const onMoreLessClick = (type: string) => {
       switch (type) {
         case "+":
-          // add new Collection element in json
-          jsonEntityHTML.AddCol();
-          jsonEntityTEXT.AddCol();
+          {
+            if (jsonEntityTEXT.IsLastColEmpty()) {
+              alert("please use available editor(s). if hidden, unfold it")
+              break
+            }
 
-          editorCount.value++;
+            // add new Collection element in json
+            jsonEntityHTML.AddCol();
+            jsonEntityTEXT.AddCol();
+
+            editorCount.value++;
+          }
           break;
 
         case "-":
-          // clear preview
-          idxQuill -= 6;
+          {
+            if (editorCount.value == 1) {
+              alert("no more editor group to remove")
+              break;
+            }
 
-          // remove last Collection element in json
-          jsonEntityHTML.RmColLast();
-          jsonEntityTEXT.RmColLast();
+            // clear preview
+            idxQuill -= 6;
 
-          editorCount.value--;
+            // remove last Collection element in json
+            jsonEntityHTML.RmColLast();
+            jsonEntityTEXT.RmColLast();
+
+            editorCount.value--;
+          }
           break;
+
         default:
       }
     };

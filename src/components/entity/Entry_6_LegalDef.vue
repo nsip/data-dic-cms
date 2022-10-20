@@ -4,10 +4,10 @@
     <button class="hide-editor" @click="onToggleVisible()">
       <font-awesome-icon :icon="icon" />
     </button>
-    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1"> 
+    <button class="less-editor" @click="onMoreLessClick('-')">
       <font-awesome-icon icon="circle-minus" />
     </button>
-    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()"> 
+    <button class="more-editor" @click="onMoreLessClick('+')">
       <font-awesome-icon icon="circle-plus" />
     </button>
     <span class="hint2">{{ hint }}</span>
@@ -74,7 +74,7 @@ export default defineComponent({
             jsonEntityHTML.SetLegalDef(idxGrp, "", "", html, "", "", "");
             jsonEntityTEXT.SetLegalDef(idxGrp, "", "", text, "", "", "");
             break;
-    case 3:
+          case 3:
             jsonEntityHTML.SetLegalDef(idxGrp, "", "", "", html, "", "");
             jsonEntityTEXT.SetLegalDef(idxGrp, "", "", "", text, "", "");
             break;
@@ -98,21 +98,36 @@ export default defineComponent({
     const onMoreLessClick = (type: string) => {
       switch (type) {
         case "+":
-          // add new LegalDefinition element in json
-          jsonEntityHTML.AddLegalDef();
-          jsonEntityTEXT.AddLegalDef();
+          {
+            if (jsonEntityTEXT.IsLastLegalDefEmpty()) {
+              alert("please use available editor(s). if hidden, unfold it")
+              break
+            }
 
-          editorCount.value++;
+            // add new LegalDefinition element in json
+            jsonEntityHTML.AddLegalDef();
+            jsonEntityTEXT.AddLegalDef();
+
+            editorCount.value++;
+          }
           break;
+
         case "-":
-          // clear preview
-          idxQuill -= 6;
+          {
+            if (editorCount.value == 1) {
+              alert("no more editor group to remove")
+              break;
+            }
 
-          // remove last LegalDefinition element in json
-          jsonEntityHTML.RmLegalDefLast();
-          jsonEntityTEXT.RmLegalDefLast();
+            // clear preview
+            idxQuill -= 6;
 
-          editorCount.value--;
+            // remove last LegalDefinition element in json
+            jsonEntityHTML.RmLegalDefLast();
+            jsonEntityTEXT.RmLegalDefLast();
+
+            editorCount.value--;
+          }
           break;
         default:
       }
