@@ -1,7 +1,9 @@
 <template>
   <div class="com">
     <span class="label">{{ label }}</span>
-    <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
+    <button class="hide-editor" @click="onToggleVisible()">
+      <font-awesome-icon :icon="icon" />
+    </button>
     <span class="hint1">{{ hint }}</span>
     <div :hidden="!visEditor">
       <!-- essential, minimal, full, and ""  -->
@@ -26,6 +28,7 @@ export default defineComponent({
     const label = "Definition:";
     const hint = "entity definition";
     const holder = "entity definition value";
+    let icon = ref("chevron-down");
     let thisQuill: Quill;
     let visEditor = ref(false);
     let flagSet: boolean = true;
@@ -43,10 +46,7 @@ export default defineComponent({
 
     const onToggleVisible = () => {
       visEditor.value = !visEditor.value;
-    };
-
-    const vBtnTxt = () => {
-      return visEditor.value ? "⤴" : "⤵";
+      icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
     };
 
     onMounted(async () => {
@@ -63,11 +63,11 @@ export default defineComponent({
       label,
       hint,
       holder,
+      icon,
       visEditor,
       textChange,
       onReady,
       onToggleVisible,
-      vBtnTxt,
     };
   },
 });

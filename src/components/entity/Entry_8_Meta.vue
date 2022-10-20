@@ -1,7 +1,9 @@
 <template>
   <div class="com">
     <span class="label">{{ label }}</span>
-    <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
+    <button class="hide-editor" @click="onToggleVisible()">
+      <font-awesome-icon :icon="icon" />
+    </button>
     <span class="hint2">{{ hint }}</span>
     <div :hidden="!visEditor">
       <!-- essential, minimal, full, and ""  -->
@@ -32,8 +34,8 @@ export default defineComponent({
   },
   setup() {
     const label = "Meta Data:";
-    const hint =
-      "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
+    const hint = "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
+    let icon = ref("chevron-down");
     let thisQuills: Quill[] = [];
     let idxQuill = 0;
     let visEditor = ref(false);
@@ -74,10 +76,7 @@ export default defineComponent({
 
     const onToggleVisible = () => {
       visEditor.value = !visEditor.value;
-    };
-
-    const vBtnTxt = () => {
-      return visEditor.value ? "⤴" : "⤵";
+      icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
     };
 
     onMounted(async () => {
@@ -98,11 +97,11 @@ export default defineComponent({
     return {
       label,
       hint,
+      icon,
       visEditor,
       textChange,
       onReady,
       onToggleVisible,
-      vBtnTxt,
     };
   },
 });

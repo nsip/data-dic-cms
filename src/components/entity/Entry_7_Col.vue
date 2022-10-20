@@ -1,9 +1,15 @@
 <template>
   <div class="com">
     <span class="label">{{ label }}</span>
-    <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
-    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1"> - </button>
-    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastColEmpty()"> + </button>
+    <button class="hide-editor" @click="onToggleVisible()">
+      <font-awesome-icon :icon="icon" />
+    </button>
+    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1">
+      <font-awesome-icon icon="circle-minus" />
+    </button>
+    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()">
+      <font-awesome-icon icon="circle-plus" />
+    </button>
     <span class="hint2">{{ hint }}</span>
     <div :hidden="!visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
       <hr />
@@ -38,8 +44,8 @@ export default defineComponent({
   },
   setup() {
     const label = "Collections:";
-    const hint =
-      "list of [name, description, standard, elements(list), businessRules(list), definitionModification]";
+    const hint = "list of [name, description, standard, elements(list), businessRules(list), definitionModification]";
+    let icon = ref("chevron-down");
     let thisQuills: Quill[] = [];
     let idxQuill = 0;
     let visEditor = ref(false);
@@ -67,7 +73,7 @@ export default defineComponent({
           case 2:
             jsonEntityHTML.SetCol("html", idxGrp, "", "", html, "", "", "");
             jsonEntityTEXT.SetCol("", idxGrp, "", "", text, "", "", "");
-      break;
+            break;
           case 3:
             jsonEntityHTML.SetCol("html", idxGrp, "", "", "", html, "", "");
             jsonEntityTEXT.SetCol("", idxGrp, "", "", "", text, "", "");
@@ -87,10 +93,7 @@ export default defineComponent({
 
     const onToggleVisible = () => {
       visEditor.value = !visEditor.value;
-    };
-
-    const vBtnTxt = () => {
-      return visEditor.value ? "⤴" : "⤵";
+      icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
     };
 
     const onMoreLessClick = (type: string) => {
@@ -142,13 +145,13 @@ export default defineComponent({
     return {
       label,
       hint,
+      icon,
       editorCount,
       visEditor,
       textChange,
       onReady,
       onMoreLessClick,
       onToggleVisible,
-      vBtnTxt,
       jsonEntityTEXT,
     };
   },

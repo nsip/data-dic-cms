@@ -1,9 +1,15 @@
 <template>
   <div class="com">
     <span class="label">{{ label }}</span>
-    <button class="hide-editor" @click="onToggleVisible()"> {{ vBtnTxt() }} </button>
-    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1"> - </button>
-    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastLegalDefEmpty()"> + </button>
+    <button class="hide-editor" @click="onToggleVisible()">
+      <font-awesome-icon :icon="icon" />
+    </button>
+    <button class="less-editor" @click="onMoreLessClick('-')" :disabled="editorCount == 1"> 
+      <font-awesome-icon icon="circle-minus" />
+    </button>
+    <button class="more-editor" @click="onMoreLessClick('+')" :disabled="jsonEntityTEXT.IsLastSIFEmpty()"> 
+      <font-awesome-icon icon="circle-plus" />
+    </button>
     <span class="hint2">{{ hint }}</span>
     <div :hidden="!visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
       <hr />
@@ -39,6 +45,7 @@ export default defineComponent({
   setup() {
     const label = "Legal Definitions:";
     const hint = "list of [legislationName, citation, link, definition, commentary, datestamp]";
+    let icon = ref("chevron-down");
     let thisQuills: Quill[] = [];
     let idxQuill = 0;
     let visEditor = ref(false);
@@ -85,10 +92,7 @@ export default defineComponent({
 
     const onToggleVisible = () => {
       visEditor.value = !visEditor.value;
-    };
-
-    const vBtnTxt = () => {
-      return visEditor.value ? "⤴" : "⤵";
+      icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
     };
 
     const onMoreLessClick = (type: string) => {
@@ -139,13 +143,13 @@ export default defineComponent({
     return {
       label,
       hint,
+      icon,
       editorCount,
       visEditor,
       textChange,
       onReady,
       onMoreLessClick,
       onToggleVisible,
-      vBtnTxt,
       jsonEntityTEXT,
     };
   },

@@ -43,6 +43,9 @@ export default defineComponent({
     EntryExport,
   },
   setup() {
+
+    const DEBUG = true
+
     let disp = ref(false);
 
     // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
@@ -65,6 +68,12 @@ export default defineComponent({
 
     onMounted(async () => {
 
+      if (DEBUG) {
+        disp.value = true;
+        return
+      }
+
+
       if (loginAuth.value.length < 32) {
 
         alert("invalid auth info");
@@ -73,7 +82,7 @@ export default defineComponent({
       } else {
 
         // fill loginUser, already 'ping' back-end api
-        getUname();
+        getUname(); // in this, read 'loginAuth.value'
 
         await new Promise((f) => setTimeout(f, 500));
 
