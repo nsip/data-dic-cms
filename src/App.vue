@@ -1,290 +1,281 @@
 <template>
-  <div v-if="disp">
-    <MainTitle />
-    <div id="container">
-      <div id="left">
-        <EntryEntity />
-      </div>
-      <div id="right">
-        <PreviewArea />
-      </div>
+    <div v-if="disp">
+        <MainTitle />
+        <div id="container">
+            <div id="left">
+                <EntryEntity />
+            </div>
+            <div id="right">
+                <PreviewArea />
+            </div>
+        </div>
+        <EntryExport />
+        <EntryExit />
     </div>
-    <EntryExport />
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import {
-  loginAuth,
-  loginUser,
-  getUname,
-  itemName,
-  itemKind,
-  getItemContent,
-} from "./components/share/share";
+import { loginAuth, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
+import { EntityType, jsonEntityHTML, jsonEntityTEXT, } from "./share/EntityType";
+// import { stringifyStyle } from "@vue/shared";
 import MainTitle from "./components/entity/Title.vue";
 import EntryEntity from "./components/entity/EntryEntity.vue";
 import PreviewArea from "./components/entity/Preview.vue";
 import EntryExport from "./components/entity/BtnExport.vue";
-import {
-  EntityType,
-  jsonEntityHTML,
-  jsonEntityTEXT,
-} from "./components/share/EntityType";
-// import { stringifyStyle } from "@vue/shared";
+import EntryExit from "./components/entity/BtnExit.vue"
 
 export default defineComponent({
-  name: "App",
-  components: {
-    MainTitle,
-    EntryEntity,
-    PreviewArea,
-    EntryExport,
-  },
-  setup() {
+    name: "App",
+    components: {
+        MainTitle,
+        EntryEntity,
+        PreviewArea,
+        EntryExport,
+        EntryExit,
+    },
+    setup() {
 
-    const DEBUG = true
+        const DEBUG = true
 
-    let disp = ref(false);
+        let disp = ref(false);
 
-    // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
+        // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
 
-    const pName = window.location.href.indexOf("name=");
-    const pKind = window.location.href.indexOf("kind=");
-    const pAuth = window.location.href.indexOf("auth=");
+        const pName = window.location.href.indexOf("name=");
+        const pKind = window.location.href.indexOf("kind=");
+        const pAuth = window.location.href.indexOf("auth=");
 
-    const name = decodeURI(window.location.href.substring(pName + 5, pKind - 1));
-    const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1));
-    const auth = decodeURI(window.location.href.substring(pAuth + 5));
+        const name = decodeURI(window.location.href.substring(pName + 5, pKind - 1));
+        const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1));
+        const auth = decodeURI(window.location.href.substring(pAuth + 5));
 
-    loginAuth.value = "Bearer " + auth;
+        loginAuth.value = "Bearer " + auth;
 
-    // alert(name)
-    // alert(kind)
+        // alert(name)
+        // alert(kind)
 
-    itemName.value = name;
-    itemKind.value = kind;
+        itemName.value = name;
+        itemKind.value = kind;
 
-    onMounted(async () => {
+        onMounted(async () => {
 
-      if (DEBUG) {
-        disp.value = true;
-        return
-      }
-
-
-      if (loginAuth.value.length < 32) {
-
-        alert("invalid auth info");
-        disp.value = false;
-
-      } else {
-
-        // fill loginUser, already 'ping' back-end api
-        getUname(); // in this, read 'loginAuth.value'
-
-        await new Promise((f) => setTimeout(f, 500));
-
-        if (loginUser.value.length > 0) {
-          disp.value = true;
-
-          if (name.length > 0 && kind.length > 0) {
-            // *** edit mode ***
-
-            // alert(`${name} : ${kind}`)
-
-            switch (kind) {
-              case "entity":
-                {
-                  const entity = (await getItemContent(name, kind, "existing")) as EntityType;
-
-                  jsonEntityHTML.AssignName("html", entity.Entity);
-                  jsonEntityHTML.AssignOtherNames("html", entity.OtherNames);
-                  jsonEntityHTML.AssignDefinition("html", entity.Definition);
-                  jsonEntityHTML.AssignSIF("html", entity.SIF);
-                  jsonEntityHTML.AssignOtherStd("html", entity.OtherStandards);
-                  jsonEntityHTML.AssignLegalDef("html", entity.LegalDefinitions);
-                  jsonEntityHTML.AssignCol("html", entity.Collections);
-                  jsonEntityHTML.AssignMeta("html", entity.Metadata);
-
-                  jsonEntityTEXT.AssignName("text", entity.Entity);
-                  jsonEntityTEXT.AssignOtherNames("text", entity.OtherNames);
-                  jsonEntityTEXT.AssignDefinition("text", entity.Definition);
-                  jsonEntityTEXT.AssignSIF("text", entity.SIF);
-                  jsonEntityTEXT.AssignOtherStd("text", entity.OtherStandards);
-                  jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
-                  jsonEntityTEXT.AssignCol("text", entity.Collections);
-                  jsonEntityTEXT.AssignMeta("text", entity.Metadata);
-
-                }
-                break;
-
-              case "collection":
-                break;
-
-              default:
+            if (DEBUG) {
+                disp.value = true;
+                return
             }
-          } else {
-            // *** create mode ***
 
-            alert("creating mode");
-          }
-        }
-      }
-    });
+            if (loginAuth.value.length < 32) {
 
-    return {
-      loginUser,
-      disp,
-    };
-  },
+                alert("invalid auth info");
+                disp.value = false;
+
+            } else {
+
+                // fill loginUser, already 'ping' back-end api
+                getUname(); // in this, read 'loginAuth.value'
+
+                await new Promise((f) => setTimeout(f, 500));
+
+                if (loginUser.value.length > 0) {
+                    disp.value = true;
+
+                    if (name.length > 0 && kind.length > 0) {
+                        // *** edit mode ***
+
+                        // alert(`${name} : ${kind}`)
+
+                        switch (kind) {
+                            case "entity":
+                                {
+                                    const entity = (await getItemContent(name, kind, "existing")) as EntityType;
+
+                                    jsonEntityHTML.AssignName("html", entity.Entity);
+                                    jsonEntityHTML.AssignOtherNames("html", entity.OtherNames);
+                                    jsonEntityHTML.AssignDefinition("html", entity.Definition);
+                                    jsonEntityHTML.AssignSIF("html", entity.SIF);
+                                    jsonEntityHTML.AssignOtherStd("html", entity.OtherStandards);
+                                    jsonEntityHTML.AssignLegalDef("html", entity.LegalDefinitions);
+                                    jsonEntityHTML.AssignCol("html", entity.Collections);
+                                    jsonEntityHTML.AssignMeta("html", entity.Metadata);
+
+                                    jsonEntityTEXT.AssignName("text", entity.Entity);
+                                    jsonEntityTEXT.AssignOtherNames("text", entity.OtherNames);
+                                    jsonEntityTEXT.AssignDefinition("text", entity.Definition);
+                                    jsonEntityTEXT.AssignSIF("text", entity.SIF);
+                                    jsonEntityTEXT.AssignOtherStd("text", entity.OtherStandards);
+                                    jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
+                                    jsonEntityTEXT.AssignCol("text", entity.Collections);
+                                    jsonEntityTEXT.AssignMeta("text", entity.Metadata);
+
+                                }
+                                break;
+
+                            case "collection":
+                                break;
+
+                            default:
+                        }
+                    } else {
+                        // *** create mode ***
+
+                        alert("creating mode");
+                    }
+                }
+            }
+        });
+
+        return {
+            loginUser,
+            disp,
+        };
+    },
 });
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  color: #2c3e50;
-  margin-top: 10px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: left;
+    color: #2c3e50;
+    margin-top: 10px;
 }
 
 /* layout */
 
 #container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  /* margin-top: -10px; */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    /* margin-top: -10px; */
 }
 
 #left {
-  width: 50%;
-  margin-right: 0.4%;
-  overflow: scroll;
-  scrollbar-width: none;
-  /*   display: flex;
+    width: 50%;
+    margin-right: 0.4%;
+    overflow: scroll;
+    scrollbar-width: none;
+    /*   display: flex;
   flex-direction: column; */
 }
 
 #left::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 #right {
-  width: 50%;
-  margin-left: 0.4%;
-  background-color: rgb(220, 220, 220);
-  overflow: scroll;
-  scrollbar-width: none;
-  /*overflow-y: scroll;
+    width: 50%;
+    margin-left: 0.4%;
+    background-color: rgb(220, 220, 220);
+    overflow: scroll;
+    scrollbar-width: none;
+    /*overflow-y: scroll;
 background-color: rgb(220, 220, 220); */
 }
 
 #right::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 /*  */
 
 .line1 {
-  width: 100%;
-  text-align: left;
-  margin-left: 0;
-  margin-top: 10px;
-  color: #2c3e50;
+    width: 100%;
+    text-align: left;
+    margin-left: 0;
+    margin-top: 10px;
+    color: #2c3e50;
 }
 
 .line2 {
-  width: 90%;
-  text-align: left;
-  margin-right: 0;
-  margin-top: 20px;
-  /* border-top: 1px dotted black;
+    width: 90%;
+    text-align: left;
+    margin-right: 0;
+    margin-top: 20px;
+    /* border-top: 1px dotted black;
 border-bottom: 1px dotted black; */
 }
 
 /* components shared */
 
 .com {
-  border: 1px solid;
-  padding: 10px;
-  box-shadow: 5px 5px 5px 5px lightgray;
-  /* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 5px 5px 5px lightgray;
+    /* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
 }
 
 .label {
-  font-weight: bold;
-  font-size: 16px;
-  font-style: italic;
-  color: rgb(90, 90, 90);
-  margin-left: 1%;
-  margin-bottom: 10px;
-  display: inline-block;
-  /* set span */
+    font-weight: bold;
+    font-size: 16px;
+    font-style: italic;
+    color: rgb(90, 90, 90);
+    margin-left: 1%;
+    margin-bottom: 10px;
+    display: inline-block;
+    /* set span */
 }
 
 .hint1 {
-  font-weight: normal;
-  font-size: 13px;
-  font-style: italic;
-  color: rgb(120, 120, 120);
-  position: absolute;
-  left: 140px;
-  margin-top: 3px;
-  display: inline-block;
-  /* set span */
-  cursor: pointer;
+    font-weight: normal;
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(120, 120, 120);
+    position: absolute;
+    left: 140px;
+    margin-top: 3px;
+    display: inline-block;
+    /* set span */
+    cursor: pointer;
 }
 
 .hint2 {
-  font-weight: normal;
-  font-size: 13px;
-  font-style: italic;
-  color: rgb(120, 120, 120);
-  margin-left: 2%;
-  margin-bottom: 10px;
-  display: inline-block;
-  /* set span */
-  cursor: pointer;
+    font-weight: normal;
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(120, 120, 120);
+    margin-left: 2%;
+    margin-bottom: 10px;
+    display: inline-block;
+    /* set span */
+    cursor: pointer;
 }
 
 .more-editor {
-  font-size: medium;
-  color: red;
-  background-color: white;
-  float: right;
-  margin-right: 1px;
-  margin-bottom: 5px;
-  width: 22px;
-  border: none;
+    font-size: medium;
+    color: red;
+    background-color: white;
+    float: right;
+    margin-right: 1px;
+    margin-bottom: 5px;
+    width: 22px;
+    border: none;
 }
 
 .less-editor {
-  font-size: medium;
-  color: green;
-  background-color: white;
-  float: right;
-  margin-right: 1px;
-  margin-bottom: 5px;
-  width: 22px;
-  border: none;
+    font-size: medium;
+    color: green;
+    background-color: white;
+    float: right;
+    margin-right: 1px;
+    margin-bottom: 5px;
+    width: 22px;
+    border: none;
 }
 
 .hide-editor {
-  font-size: medium;
-  float: right;
-  color: blue;
-  background-color: white;
-  margin-bottom: 5px;
-  width: 22px;
-  border: none;
+    font-size: medium;
+    float: right;
+    color: blue;
+    background-color: white;
+    margin-bottom: 5px;
+    width: 22px;
+    border: none;
 }
 
 .subline {
-  color: rgb(227, 240, 245);
+    color: rgb(227, 240, 245);
 }
 </style>
