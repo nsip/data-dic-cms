@@ -5,6 +5,7 @@ import { CollectionType } from "./CollectionType";
 
 export const loginUser = ref("");
 export const loginAuth = ref("");
+export const loginToken = ref("");
 export const itemName = ref("");
 export const itemKind = ref("");
 

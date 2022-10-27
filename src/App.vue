@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { loginAuth, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
+import { loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
 import { EntityType, jsonEntityHTML, jsonEntityTEXT, } from "./share/EntityType";
 // import { stringifyStyle } from "@vue/shared";
 import MainTitle from "./components/entity/Title.vue";
@@ -36,8 +36,6 @@ export default defineComponent({
     },
     setup() {
 
-        const DEBUG = true
-
         let disp = ref(false);
 
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
@@ -50,6 +48,7 @@ export default defineComponent({
         const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1));
         const auth = decodeURI(window.location.href.substring(pAuth + 5));
 
+        loginToken.value = auth;
         loginAuth.value = "Bearer " + auth;
 
         // alert(name)
@@ -60,12 +59,7 @@ export default defineComponent({
 
         onMounted(async () => {
 
-            if (DEBUG) {
-                disp.value = true;
-                return
-            }
-
-            if (loginAuth.value.length < 32) {
+            if (loginToken.value.length < 32) {
 
                 alert("invalid auth info");
                 disp.value = false;
@@ -73,7 +67,7 @@ export default defineComponent({
             } else {
 
                 // fill loginUser, already 'ping' back-end api
-                getUname(); // in this, read 'loginAuth.value'
+                getUname(); // in this, need to read 'loginAuth.value'
 
                 await new Promise((f) => setTimeout(f, 500));
 

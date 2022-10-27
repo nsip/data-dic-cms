@@ -6,12 +6,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { IP_VIEW } from "@/share/ip";
+import { loginToken } from "@/share/share";
 
 export default defineComponent({
     name: "EntryExit",
     setup() {
         const close = async () => {
-            location.replace('http://data-dictionary.net')
+            const page_view = `${IP_VIEW}?auth=${loginToken.value}`
+            location.replace(page_view)
         };
         return {
             close,
