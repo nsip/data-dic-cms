@@ -32,16 +32,18 @@ export class EntityType {
     //
     // Other Names --------------------------------------------------
     //
-
-    SetOtherName(TYPE: string, nameStr: string) {
-        switch (TYPE) {
-            case "html":
-                this.OtherNames = validStrHTMLArr(nameStr, this.OtherNames);
-                break;
-            default:
-                this.OtherNames = validStrTEXTArr(nameStr, this.OtherNames);
-        }
+    SetOtherName(nameStr: string) {
+        this.OtherNames = validStrTEXTArr(nameStr, this.OtherNames);
     }
+    // SetOtherName(TYPE: string, nameStr: string) {
+    //     switch (TYPE) {
+    //         case "html":
+    //             this.OtherNames = validStrHTMLArr(nameStr, this.OtherNames);
+    //             break;
+    //         default:
+    //             this.OtherNames = validStrTEXTArr(nameStr, this.OtherNames);
+    //     }
+    // }
     CntOtherName() {
         return this.OtherNames.length;
     }

@@ -58,7 +58,7 @@ export default defineComponent({
                 );
                 eles.push(ele);
             }
-            const body = eles.join("");
+            const body = eles.join("<br>"); // here, other names' html value is plain text
             if (body.length > 0) {
                 return head + body;
             }

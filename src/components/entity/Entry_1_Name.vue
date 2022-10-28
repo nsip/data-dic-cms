@@ -42,5 +42,6 @@ export default defineComponent({
     width: 82%;
     padding-left: 1%;
     font-weight: bold;
+    text-align: center;
 }
 </style>

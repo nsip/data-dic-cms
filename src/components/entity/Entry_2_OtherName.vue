@@ -4,69 +4,50 @@
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
-        <span class="hint1">{{ hint }}</span>
-        <div :hidden="!visEditor">
-            <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" :placeholder="holder" @ready="onReady" @textChange="textChange" />
+        <div v-if="!visEditor">
+            <textarea class="content" ref="resizable" v-model="othernames" placeholder="entity other names"></textarea>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
-import { QuillEditor, Quill } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 
 export default defineComponent({
     name: "EntryOtherNames",
-    components: {
-        QuillEditor,
-    },
     setup() {
         const label = "Other Name:";
-        const hint = "entity other names";
-        const holder = "entity other names";
-        let icon = ref("chevron-down");
-        let thisQuill: Quill;
-        let visEditor = ref(false);
-        let flagSet: boolean = true
-
-        const onReady = (quill: Quill) => {
-            thisQuill = quill;
-        };
-
-        const textChange = () => {
-            if (flagSet) {
-                jsonEntityHTML.SetOtherName("html", thisQuill.root.innerHTML);
-                jsonEntityTEXT.SetOtherName("", thisQuill.getText(0, 100000));
-            }
-        };
-
+        const icon = ref("chevron-down");
+        const visEditor = ref(false);
+        const othernames = ref("");
+        const resizable = ref<HTMLTextAreaElement | null>(null); // fetch element
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
         };
-
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            flagSet = false
+            othernames.value = jsonEntityTEXT.OtherNames != null ? jsonEntityTEXT.OtherNames.join('\n') : "";
+        })
+        watchEffect(() => {
+            jsonEntityTEXT.SetOtherName(othernames.value);
+            jsonEntityHTML.SetOtherName(othernames.value);
 
-            thisQuill.root.innerHTML = jsonEntityHTML.OtherNames != null ? jsonEntityHTML.OtherNames.join('\n') : "";
-
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = true
+            // resize textarea
+            if (resizable.value != null) {
+                const numberOfLineBreaks = (othernames.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                resizable.value!.style.height = newHeight + "px";
+            }
         })
 
         return {
             label,
-            hint,
-            holder,
+            othernames,
+            resizable,
             icon,
             visEditor,
-            textChange,
-            onReady,
             onToggleVisible,
         };
     },
@@ -75,7 +56,18 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h4 {
+.label {
     margin-left: 5px;
+}
+
+.content {
+    margin-left: 30px;
+    padding-left: 1%;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+    width: 90%;
+    min-height: 40px;
+    line-height: 20px;
 }
 </style>
