@@ -4,7 +4,7 @@
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
-        <div v-if="!visEditor">
+        <div v-if="visEditor">
             <textarea class="content" ref="resizable" v-model="othernames" placeholder="entity other names"></textarea>
         </div>
     </div>
@@ -61,12 +61,12 @@ export default defineComponent({
 }
 
 .content {
-    margin-left: 30px;
+    margin-left: 0px;
     padding-left: 1%;
     resize: vertical;
     display: block;
     overflow: hidden;
-    width: 90%;
+    width: 98%;
     min-height: 40px;
     line-height: 20px;
 }

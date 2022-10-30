@@ -14,15 +14,13 @@
         <div v-if="visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
             <hr />
             &nbsp;# {{ iGrp }}
-            <QuillEditor theme="snow" toolbar="essential" placeholder="standard" @ready="onReady" @textChange="textChange(iGrp, 0)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="list of xpath" @ready="onReady" @textChange="textChange(iGrp, 0)" />
             <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="link list" @ready="onReady" @textChange="textChange(iGrp, 1)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="definition" @ready="onReady" @textChange="textChange(iGrp, 1)" />
             <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="path list" @ready="onReady" @textChange="textChange(iGrp, 2)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="commentary" @ready="onReady" @textChange="textChange(iGrp, 2)" />
             <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="definition" @ready="onReady" @textChange="textChange(iGrp, 3)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="commentary" @ready="onReady" @textChange="textChange(iGrp, 4)" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="datestamp" @ready="onReady" @textChange="textChange(iGrp, 3)" />
         </div>
     </div>
 </template>
@@ -36,13 +34,13 @@ import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 import { itemName, itemKind } from "../../share/share";
 
 export default defineComponent({
-    name: "EntryOtherStd",
+    name: "EntrySIF",
     components: {
         QuillEditor,
     },
     setup() {
-        const label = "Other Standards:";
-        const hint = "list of [standard, link(list), path(list), definition, commentary]";
+        const label = "SIF:";
+        const hint = "list of [xpath(list), definition, commentary, datestamp]";
         let icon = ref("chevron-down");
         let thisQuills: Quill[] = [];
         let idxQuill = 0;
@@ -52,34 +50,28 @@ export default defineComponent({
 
         const onReady = (quill: Quill) => {
             thisQuills[idxQuill++] = quill;
-            // console.log('onQuillReady@ ' + timestamp())
-            // console.log('idxQuill:', idxQuill)
         };
 
         const textChange = (idxGrp: number, idx: number) => {
             if (flagSet) {
-                const html = thisQuills[idxGrp * 5 + idx].root.innerHTML; // get html from quill
-                const text = thisQuills[idxGrp * 5 + idx].getText(0, 100000); // get text from quill        
+                const html = thisQuills[idxGrp * 4 + idx].root.innerHTML; // get html from quill
+                const text = thisQuills[idxGrp * 4 + idx].getText(0, 100000); // get text from quill
                 switch (idx) {
                     case 0:
-                        jsonEntityHTML.SetOtherStd("html", idxGrp, html, "", "", "", "");
-                        jsonEntityTEXT.SetOtherStd("", idxGrp, text, "", "", "", "");
+                        jsonEntityHTML.SetSIF("html", idxGrp, html, "", "", "");
+                        jsonEntityTEXT.SetSIF("", idxGrp, text, "", "", "");
                         break;
                     case 1:
-                        jsonEntityHTML.SetOtherStd("html", idxGrp, "", html, "", "", "");
-                        jsonEntityTEXT.SetOtherStd("", idxGrp, "", text, "", "", "");
+                        jsonEntityHTML.SetSIF("html", idxGrp, "", html, "", "");
+                        jsonEntityTEXT.SetSIF("", idxGrp, "", text, "", "");
                         break;
                     case 2:
-                        jsonEntityHTML.SetOtherStd("html", idxGrp, "", "", html, "", "");
-                        jsonEntityTEXT.SetOtherStd("", idxGrp, "", "", text, "", "");
+                        jsonEntityHTML.SetSIF("html", idxGrp, "", "", html, "");
+                        jsonEntityTEXT.SetSIF("", idxGrp, "", "", text, "");
                         break;
                     case 3:
-                        jsonEntityHTML.SetOtherStd("html", idxGrp, "", "", "", html, "");
-                        jsonEntityTEXT.SetOtherStd("", idxGrp, "", "", "", text, "");
-                        break;
-                    case 4:
-                        jsonEntityHTML.SetOtherStd("html", idxGrp, "", "", "", "", html);
-                        jsonEntityTEXT.SetOtherStd("", idxGrp, "", "", "", "", text);
+                        jsonEntityHTML.SetSIF("html", idxGrp, "", "", "", html);
+                        jsonEntityTEXT.SetSIF("", idxGrp, "", "", "", text);
                         break;
                 }
             }
@@ -94,14 +86,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastOtherStdEmpty()) {
+                        if (jsonEntityTEXT.IsLastSIFEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
                         // add new OtherStandard element in json
-                        jsonEntityHTML.AddOtherStd();
-                        jsonEntityTEXT.AddOtherStd();
+                        jsonEntityHTML.AddSIF();
+                        jsonEntityTEXT.AddSIF();
 
                         editorCount.value++;
                     }
@@ -115,11 +107,11 @@ export default defineComponent({
                         }
 
                         // clear preview
-                        idxQuill -= 5;
+                        idxQuill -= 4;
 
                         // remove last OtherStandard element in json
-                        jsonEntityHTML.RmOtherStdLast();
-                        jsonEntityTEXT.RmOtherStdLast();
+                        jsonEntityHTML.RmSIFLast();
+                        jsonEntityTEXT.RmSIFLast();
 
                         editorCount.value--;
                     }
@@ -134,15 +126,14 @@ export default defineComponent({
             flagSet = false
 
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.OtherStandards.length;
+                editorCount.value = jsonEntityHTML.SIF.length;
                 await new Promise((f) => setTimeout(f, 500));
-                for (let i = 0; i < jsonEntityHTML.OtherStandards.length; i++) {
-                    const os = jsonEntityHTML.OtherStandards[i]
-                    thisQuills[i * 5 + 0].root.innerHTML = os.Standard
-                    thisQuills[i * 5 + 1].root.innerHTML = os.Link != null ? os.Link.join('\n') : ""
-                    thisQuills[i * 5 + 2].root.innerHTML = os.Path != null ? os.Path.join('\n') : ""
-                    thisQuills[i * 5 + 3].root.innerHTML = os.Definition
-                    thisQuills[i * 5 + 4].root.innerHTML = os.Commentary
+                for (let i = 0; i < jsonEntityHTML.SIF.length; i++) {
+                    const sif = jsonEntityHTML.SIF[i]
+                    thisQuills[i * 4 + 0].root.innerHTML = sif.XPath != null ? sif.XPath.join('\n') : ""
+                    thisQuills[i * 4 + 1].root.innerHTML = sif.Definition
+                    thisQuills[i * 4 + 2].root.innerHTML = sif.Commentary
+                    thisQuills[i * 4 + 3].root.innerHTML = sif.Datestamp
                 }
             }
 
@@ -168,5 +159,7 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+h2 {
+    text-align: center;
+}
 </style>

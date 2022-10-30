@@ -11,7 +11,7 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">{{ hint }}</span>
-        <div :hidden="!visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
+        <div v-if="visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
             <hr />
             &nbsp;# {{ iGrp }}
             <QuillEditor theme="snow" toolbar="essential" placeholder="legislationName" @ready="onReady" @textChange="textChange(iGrp, 0)" />

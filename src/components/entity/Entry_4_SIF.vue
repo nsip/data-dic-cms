@@ -11,71 +11,41 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">{{ hint }}</span>
-        <div :hidden="!visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
-            <hr />
-            &nbsp;# {{ iGrp }}
-            <QuillEditor theme="snow" toolbar="essential" placeholder="list of xpath" @ready="onReady" @textChange="textChange(iGrp, 0)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="definition" @ready="onReady" @textChange="textChange(iGrp, 1)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="commentary" @ready="onReady" @textChange="textChange(iGrp, 2)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="datestamp" @ready="onReady" @textChange="textChange(iGrp, 3)" />
+        <div v-if="visEditor" v-for="(n, i) in editorCount" :key="i">
+            <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
+            <EditorSIF :idx="i" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { QuillEditor, Quill } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 import { itemName, itemKind } from "../../share/share";
+import TextLine from "../shared/TextLine.vue"
+import EditorSIF from "./Entry_4_SIF_editor.vue"
 
 export default defineComponent({
     name: "EntrySIF",
     components: {
-        QuillEditor,
+        EditorSIF,
+        TextLine,
     },
     setup() {
         const label = "SIF:";
         const hint = "list of [xpath(list), definition, commentary, datestamp]";
-        let icon = ref("chevron-down");
-        let thisQuills: Quill[] = [];
-        let idxQuill = 0;
-        let visEditor = ref(false);
-        let editorCount = ref(1);
-        let flagSet: boolean = true;
+        const icon = ref("chevron-down");
 
-        const onReady = (quill: Quill) => {
-            thisQuills[idxQuill++] = quill;
-        };
+        const visEditor = ref(false);
+        const editorCount = ref(1);
 
-        const textChange = (idxGrp: number, idx: number) => {
-            if (flagSet) {
-                const html = thisQuills[idxGrp * 4 + idx].root.innerHTML; // get html from quill
-                const text = thisQuills[idxGrp * 4 + idx].getText(0, 100000); // get text from quill
-                switch (idx) {
-                    case 0:
-                        jsonEntityHTML.SetSIF("html", idxGrp, html, "", "", "");
-                        jsonEntityTEXT.SetSIF("", idxGrp, text, "", "", "");
-                        break;
-                    case 1:
-                        jsonEntityHTML.SetSIF("html", idxGrp, "", html, "", "");
-                        jsonEntityTEXT.SetSIF("", idxGrp, "", text, "", "");
-                        break;
-                    case 2:
-                        jsonEntityHTML.SetSIF("html", idxGrp, "", "", html, "");
-                        jsonEntityTEXT.SetSIF("", idxGrp, "", "", text, "");
-                        break;
-                    case 3:
-                        jsonEntityHTML.SetSIF("html", idxGrp, "", "", "", html);
-                        jsonEntityTEXT.SetSIF("", idxGrp, "", "", "", text);
-                        break;
-                }
+        onMounted(async () => {
+            await new Promise((f) => setTimeout(f, 500));
+            if (itemName.value.length > 0 && itemKind.value.length > 0) {
+                editorCount.value = jsonEntityHTML.SIF.length;
+                await new Promise((f) => setTimeout(f, 500));
             }
-        };
+        })
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
@@ -106,9 +76,6 @@ export default defineComponent({
                             break;
                         }
 
-                        // clear preview
-                        idxQuill -= 4;
-
                         // remove last OtherStandard element in json
                         jsonEntityHTML.RmSIFLast();
                         jsonEntityTEXT.RmSIFLast();
@@ -121,34 +88,12 @@ export default defineComponent({
             // console.log('editor count:', editorCount.value)
         };
 
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = false
-
-            if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.SIF.length;
-                await new Promise((f) => setTimeout(f, 500));
-                for (let i = 0; i < jsonEntityHTML.SIF.length; i++) {
-                    const sif = jsonEntityHTML.SIF[i]
-                    thisQuills[i * 4 + 0].root.innerHTML = sif.XPath != null ? sif.XPath.join('\n') : ""
-                    thisQuills[i * 4 + 1].root.innerHTML = sif.Definition
-                    thisQuills[i * 4 + 2].root.innerHTML = sif.Commentary
-                    thisQuills[i * 4 + 3].root.innerHTML = sif.Datestamp
-                }
-            }
-
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = true
-        })
-
         return {
             label,
             hint,
             icon,
             editorCount,
             visEditor,
-            textChange,
-            onReady,
             onMoreLessClick,
             onToggleVisible,
             jsonEntityTEXT,
@@ -161,5 +106,22 @@ export default defineComponent({
 <style scoped>
 h2 {
     text-align: center;
+}
+
+.content {
+    margin-left: 30px;
+    padding-left: 1%;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+    width: 90%;
+    min-height: 40px;
+    line-height: 20px;
+}
+
+.subtitle {
+    margin-top: 15px;
+    color: red;
+    padding-top: 10px;
 }
 </style>

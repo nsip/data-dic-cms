@@ -40,14 +40,14 @@ export default defineComponent({
 
         const previewEntity = () => {
             return (
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Entity</h3>" +
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Entity</pre></h3>" +
                 nonEmptyHtml("", jsonEntityTEXT.Entity, jsonEntityHTML.Entity)
             );
         };
 
         const previewOtherNames = () => {
             const head =
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Names</h3>";
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Names</pre></h3>";
             const n = jsonEntityTEXT.CntOtherName();
             const eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -67,14 +67,14 @@ export default defineComponent({
 
         const previewDefinition = () => {
             return (
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Definition</h3>" +
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h3>" +
                 nonEmptyHtml("", jsonEntityTEXT.Definition, jsonEntityHTML.Definition)
             );
         };
 
         const previewSIF = () => {
             const head =
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> SIF</h3>";
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> SIF</pre></h3>";
             const n = jsonEntityTEXT.CntSIF();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -101,7 +101,7 @@ export default defineComponent({
 
         const previewOtherStandards = () => {
             const head =
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Other Standards</h3>";
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Standards</pre></h3>";
             const n = jsonEntityTEXT.CntOtherStd();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -127,7 +127,7 @@ export default defineComponent({
 
         const previewLegalDefinition = () => {
             const head =
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Legal Definitions</h3>";
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Legal Definitions</pre></h3>";
             const n = jsonEntityTEXT.CntLegalDef();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -154,7 +154,7 @@ export default defineComponent({
 
         const previewCollections = () => {
             const head =
-                "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Collections</h3>";
+                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Collections</pre></h3>";
             const n = jsonEntityTEXT.CntCol();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -210,7 +210,7 @@ export default defineComponent({
                 jh.CrossrefEntities.join("")
             ) : "";
 
-            return "<h3 style='font-size:medium; font-style:italic; background-color: lightgray'>>>> Meta Data</h3>" + id + type + ea + sc + ce;
+            return "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Meta Data</pre></h3>" + id + type + ea + sc + ce;
         };
 
         //////////

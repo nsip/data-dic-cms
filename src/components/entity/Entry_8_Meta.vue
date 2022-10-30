@@ -5,7 +5,7 @@
             <font-awesome-icon :icon="icon" />
         </button>
         <span class="hint2">{{ hint }}</span>
-        <div :hidden="!visEditor">
+        <div v-if="visEditor">
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" placeholder="identifier" @ready="onReady" @textChange="textChange(0)" />
             <hr class="subline" />

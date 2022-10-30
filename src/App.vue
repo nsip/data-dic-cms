@@ -271,5 +271,6 @@ border-bottom: 1px dotted black; */
 
 .subline {
     color: rgb(227, 240, 245);
+    margin-left: 15%;
 }
 </style>
