@@ -43,7 +43,6 @@ export default defineComponent({
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
                 editorCount.value = jsonEntityHTML.SIF.length;
-                await new Promise((f) => setTimeout(f, 500));
             }
         })
 
@@ -83,6 +82,7 @@ export default defineComponent({
                         editorCount.value--;
                     }
                     break;
+                    
                 default:
             }
             // console.log('editor count:', editorCount.value)
@@ -96,7 +96,6 @@ export default defineComponent({
             visEditor,
             onMoreLessClick,
             onToggleVisible,
-            jsonEntityTEXT,
         };
     },
 });
@@ -106,22 +105,5 @@ export default defineComponent({
 <style scoped>
 h2 {
     text-align: center;
-}
-
-.content {
-    margin-left: 30px;
-    padding-left: 1%;
-    resize: vertical;
-    display: block;
-    overflow: hidden;
-    width: 90%;
-    min-height: 40px;
-    line-height: 20px;
-}
-
-.subtitle {
-    margin-top: 15px;
-    color: red;
-    padding-top: 10px;
 }
 </style>
