@@ -5,7 +5,7 @@
             <font-awesome-icon :icon="icon" />
         </button>
         <div v-if="visEditor">
-            <textarea class="content" ref="resizable" v-model="othernames" placeholder="entity other names"></textarea>
+            <textarea class="content" ref="taON" v-model="othernames" placeholder="entity's other names"></textarea>
         </div>
     </div>
 </template>
@@ -21,7 +21,7 @@ export default defineComponent({
         const icon = ref("chevron-down");
         const visEditor = ref(false);
         const othernames = ref("");
-        const resizable = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taON = ref<HTMLTextAreaElement | null>(null); // fetch element
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -35,17 +35,17 @@ export default defineComponent({
             jsonEntityHTML.SetOtherName(othernames.value);
 
             // resize textarea
-            if (resizable.value != null) {
+            if (taON.value != null) {
                 const numberOfLineBreaks = (othernames.value.match(/\n/g) || []).length;
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                resizable.value!.style.height = newHeight + "px";
+                taON.value!.style.height = newHeight + "px";
             }
         })
 
         return {
             label,
             othernames,
-            resizable,
+            taON,
             icon,
             visEditor,
             onToggleVisible,

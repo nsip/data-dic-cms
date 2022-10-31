@@ -27,37 +27,28 @@ export default defineComponent({
     setup() {
         const label = "Definition:";
         const hint = "entity definition";
-        const holder = "entity definition value";
+        const holder = "entity definition";
         let icon = ref("chevron-down");
-        let thisQuill: Quill;
+        let quillDef: Quill;
         let visEditor = ref(false);
-        let flagSet: boolean = true;
 
         const onReady = (quill: Quill) => {
-            thisQuill = quill;
+
+            quillDef = quill;
+
+            // fill existing html text into quill, format could change by quill
+            quillDef.root.innerHTML = jsonEntityHTML.Definition;
         };
 
         const textChange = () => {
-            if (flagSet) {
-                jsonEntityHTML.SetDefinition(thisQuill.root.innerHTML);
-                jsonEntityTEXT.SetDefinition(thisQuill.getText(0, 100000));
-            }
+            jsonEntityHTML.SetDefinition(quillDef.root.innerHTML);
+            jsonEntityTEXT.SetDefinition(quillDef.getText(0, 100000));
         };
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
         };
-
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = false
-
-            thisQuill.root.innerHTML = jsonEntityHTML.Definition;
-
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = true
-        })
 
         return {
             label,

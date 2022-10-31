@@ -6,101 +6,115 @@
         </button>
         <span class="hint2">{{ hint }}</span>
         <div v-if="visEditor">
-            <!-- essential, minimal, full, and ""  -->
-            <QuillEditor theme="snow" toolbar="essential" placeholder="identifier" @ready="onReady" @textChange="textChange(0)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="type" @ready="onReady" @textChange="textChange(1)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="expected attributes" @ready="onReady" @textChange="textChange(2)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="superclasses" @ready="onReady" @textChange="textChange(3)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="cross ref entities" @ready="onReady" @textChange="textChange(4)" />
+
+            <TextLine text="identifier:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
+            <textarea class="content-sl" ref="taID" v-model="identifier" placeholder="identifier"></textarea>
+
+            <TextLine text="type:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
+            <textarea class="content-sl" ref="taTP" v-model="type" placeholder="type"></textarea>
+
+            <TextLine text="expected attributes:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
+            <textarea class="content-ml" ref="taEA" v-model="attributes" placeholder="expected attributes"></textarea>
+
+            <TextLine text="superclasses:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
+            <textarea class="content-ml" ref="taSC" v-model="superclasses" placeholder="superclasses"></textarea>
+
+            <TextLine text="cross ref entities:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
+            <textarea class="content-ml" ref="taRE" v-model="refentities" placeholder="cross ref entities"></textarea>
+
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
-import { QuillEditor, Quill } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({
     name: "EntryMeta",
     components: {
-        QuillEditor,
+        TextLine,
     },
     setup() {
         const label = "Meta Data:";
-        const hint = "list of [identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
+        const hint = "[identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
         let icon = ref("chevron-down");
-        let thisQuills: Quill[] = [];
-        let idxQuill = 0;
+
+        const identifier = ref("")
+        const type = ref("")
+        const attributes = ref("")
+        const superclasses = ref("")
+        const refentities = ref("")
+
+        const taID = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taTP = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taEA = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taSC = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taRE = ref<HTMLTextAreaElement | null>(null); // fetch element
+
         let visEditor = ref(false);
-        let flagSet: boolean = true;
 
-        const onReady = (quill: Quill) => {
-            thisQuills[idxQuill++] = quill;
-        };
+        onMounted(async () => {
+            await new Promise((f) => setTimeout(f, 500)); // textarea needs to wait, quill in 'onReady'
+            const meta = jsonEntityTEXT.Metadata
+            identifier.value = meta.Identifier
+            type.value = meta.Type
+            attributes.value = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join('\n') : ""
+            superclasses.value = meta.Superclass != null ? meta.Superclass.join('\n') : ""
+            refentities.value = meta.CrossrefEntities != null ? meta.CrossrefEntities.join('\n') : ""
+        })
 
-        const textChange = (idx: number) => {
-            if (flagSet) {
-                const html = thisQuills[idx].root.innerHTML; // get html from quill
-                const text = thisQuills[idx].getText(0, 100000);
-                switch (idx) {
-                    case 0:
-                        jsonEntityHTML.SetMeta("html", html, "", "", "", "");
-                        jsonEntityTEXT.SetMeta("", text, "", "", "", "");
-                        break;
-                    case 1:
-                        jsonEntityHTML.SetMeta("html", "", html, "", "", "");
-                        jsonEntityTEXT.SetMeta("", "", text, "", "", "");
-                        break;
-                    case 2:
-                        jsonEntityHTML.SetMeta("html", "", "", html, "", "");
-                        jsonEntityTEXT.SetMeta("", "", "", text, "", "");
-                        break;
-                    case 3:
-                        jsonEntityHTML.SetMeta("html", "", "", "", html, "");
-                        jsonEntityTEXT.SetMeta("", "", "", "", text, "");
-                        break;
-                    case 4:
-                        jsonEntityHTML.SetMeta("html", "", "", "", "", html);
-                        jsonEntityTEXT.SetMeta("", "", "", "", "", text);
-                        break;
-                }
+        watchEffect(() => {
+
+            jsonEntityHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+            jsonEntityTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+
+            if (taEA.value != null) {
+                const numberOfLineBreaks = (attributes.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taEA.value!.style.height = newHeight + "px";
             }
-        };
+
+            if (taSC.value != null) {
+                const numberOfLineBreaks = (superclasses.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taSC.value!.style.height = newHeight + "px";
+            }
+
+            if (taRE.value != null) {
+                const numberOfLineBreaks = (refentities.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taRE.value!.style.height = newHeight + "px";
+            }
+
+        })
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
         };
 
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = false
-
-            const meta = jsonEntityHTML.Metadata
-            thisQuills[0].root.innerHTML = meta.Identifier
-            thisQuills[1].root.innerHTML = meta.Type
-            thisQuills[2].root.innerHTML = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join('\n') : ""
-            thisQuills[3].root.innerHTML = meta.Superclass != null ? meta.Superclass.join('\n') : ""
-            thisQuills[4].root.innerHTML = meta.CrossrefEntities != null ? meta.CrossrefEntities.join('\n') : ""
-
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = true
-        })
-
         return {
             label,
             hint,
             icon,
             visEditor,
-            textChange,
-            onReady,
+
+            // bind variable
+            identifier,
+            type,
+            attributes,
+            superclasses,
+            refentities,
+
+            // textarea ref
+            taID,
+            taTP,
+            taEA,
+            taSC,
+            taRE,
+
             onToggleVisible,
         };
     },
@@ -109,5 +123,25 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.content-sl {
+    margin-left: 0px;
+    padding-left: 1%;
+    resize: none;
+    display: block;
+    overflow: hidden;
+    width: 98%;
+    min-height: 30px;
+    line-height: 20px;
+}
 
+.content-ml {
+    margin-left: 0px;
+    padding-left: 1%;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+    width: 98%;
+    min-height: 40px;
+    line-height: 20px;
+}
 </style>
