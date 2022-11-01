@@ -26,7 +26,7 @@ export default defineComponent({
     },
     setup() {
         const label = "Definition:";
-        const hint = "entity definition";
+        const hint = "";
         const holder = "entity definition";
         let icon = ref("chevron-down");
         let quillDef: Quill;

@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
+import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
 import { EntityType, jsonEntityHTML, jsonEntityTEXT, } from "./share/EntityType";
 // import { stringifyStyle } from "@vue/shared";
 import MainTitle from "./components/entity/Title.vue";
@@ -44,15 +44,14 @@ export default defineComponent({
         const pKind = window.location.href.indexOf("kind=");
         const pAuth = window.location.href.indexOf("auth=");
 
-        const name = decodeURI(window.location.href.substring(pName + 5, pKind - 1));
-        const kind = decodeURI(window.location.href.substring(pKind + 5, pAuth - 1));
-        const auth = decodeURI(window.location.href.substring(pAuth + 5));
+        // alert(`${pName} : ${pKind} : ${pAuth}`)
+
+        const name = pName >= 0 ? decodeURI(window.location.href.substring(pName + 5, pKind - 1)) : "";
+        const kind = pKind >= 0 ? decodeURI(window.location.href.substring(pKind + 5, pAuth - 1)) : "";
+        const auth = pAuth >= 0 ? decodeURI(window.location.href.substring(pAuth + 5)) : "";
 
         loginToken.value = auth;
         loginAuth.value = "Bearer " + auth;
-
-        // alert(name)
-        // alert(kind)
 
         itemName.value = name;
         itemKind.value = kind;
@@ -77,7 +76,10 @@ export default defineComponent({
                     if (name.length > 0 && kind.length > 0) {
                         // *** edit mode ***
 
-                        // alert(`${name} : ${kind}`)
+                        Mode.value = "edit"
+
+                        // console.log("edit mode");
+                        // console.log(`${name} : ${kind}`)
 
                         switch (kind) {
                             case "entity":
@@ -113,7 +115,9 @@ export default defineComponent({
                     } else {
                         // *** create mode ***
 
-                        alert("creating mode");
+                        Mode.value = "new"
+
+                        // console.log("new mode");
                     }
                 }
             }
@@ -267,10 +271,5 @@ border-bottom: 1px dotted black; */
     margin-bottom: 5px;
     width: 22px;
     border: none;
-}
-
-.subline {
-    color: rgb(227, 240, 245);
-    margin-left: 15%;
 }
 </style>

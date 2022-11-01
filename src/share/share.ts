@@ -3,6 +3,7 @@ import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "./fetch";
 import { EntityType } from "./EntityType";
 import { CollectionType } from "./CollectionType";
 
+export const Mode = ref("") // 'new' or 'edit'
 export const loginUser = ref("");
 export const loginAuth = ref("");
 export const loginToken = ref("");

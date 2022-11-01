@@ -8,15 +8,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { loginUser } from "../../share/share";
+import { Mode, loginUser } from "../../share/share";
 
 export default defineComponent({
     name: "MainTitle",
-    // props: {
-    //     msg: String,
-    // },
     setup() {
-        let title = "Education Data Dictionary New Entity:";
+        const title = Mode.value == "edit" ? "Entity Edit:" : "New Entity:";
         return {
             title,
             loginUser,

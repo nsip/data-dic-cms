@@ -1,7 +1,7 @@
 <template>
     <div class="com">
         <span class="label">{{ label }}</span>
-        <input class="content" type="text" v-model="entity" placeholder="entity name">
+        <input class="content" type="text" v-model="entity" :readonly="Mode == 'edit'" placeholder="entity name">
     </div>
 </template>
 
@@ -9,6 +9,7 @@
 
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { Mode } from "@/share/share";
 
 export default defineComponent({
     name: "EntryName",
@@ -26,6 +27,7 @@ export default defineComponent({
         return {
             label,
             entity,
+            Mode,
         };
     },
 });
