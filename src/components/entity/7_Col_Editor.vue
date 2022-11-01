@@ -1,173 +1,135 @@
 <template>
-    <div class="com">
-        <span class="label">{{ label }}</span>
-        <button class="hide-editor" @click="onToggleVisible()">
-            <font-awesome-icon :icon="icon" />
-        </button>
-        <button class="less-editor" @click="onMoreLessClick('-')">
-            <font-awesome-icon icon="circle-minus" />
-        </button>
-        <button class="more-editor" @click="onMoreLessClick('+')">
-            <font-awesome-icon icon="circle-plus" />
-        </button>
-        <span class="hint2">{{ hint }}</span>
-        <div v-if="visEditor" v-for="(n, iGrp) in editorCount" :key="iGrp">
-            <hr />
-            &nbsp;# {{ iGrp }}
-            <QuillEditor theme="snow" toolbar="essential" placeholder="name" @ready="onReady" @textChange="textChange(iGrp, 0)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="description" @ready="onReady" @textChange="textChange(iGrp, 1)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="standard" @ready="onReady" @textChange="textChange(iGrp, 2)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="elements" @ready="onReady" @textChange="textChange(iGrp, 3)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="business rules" @ready="onReady" @textChange="textChange(iGrp, 4)" />
-            <hr class="subline" />
-            <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReady" @textChange="textChange(iGrp, 5)" />
-        </div>
-    </div>
+
+    <TextLine text="name:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <textarea class="content" ref="taN" v-model="name" placeholder="name"></textarea>
+
+    <TextLine text="description:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <QuillEditor theme="snow" toolbar="essential" placeholder="description" @ready="onReadyDes" @textChange="textChangeDes(idx || 0)" />
+
+    <TextLine text="standard:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <textarea class="content" ref="taS" v-model="standard" placeholder="standard"></textarea>
+
+    <TextLine text="elements:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <textarea class="content" ref="taE" v-model="elements" placeholder="elements"></textarea>
+
+    <TextLine text="business rules:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <QuillEditor theme="snow" toolbar="essential" placeholder="business rules" @ready="onReadyBR" @textChange="textChangeBR(idx || 0)" />
+
+    <TextLine text="definition modification:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
+    <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReadyDM" @textChange="textChangeDM(idx || 0)" />
+
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { itemName, itemKind } from "../../share/share";
+import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
     name: "EditorCol",
     components: {
         QuillEditor,
+        TextLine,
     },
-    setup() {
-        const label = "Collections:";
-        const hint = "list of [name, description, standard, elements(list), businessRules(list), definitionModification]";
-        let icon = ref("chevron-down");
-        let thisQuills: Quill[] = [];
-        let idxQuill = 0;
-        let visEditor = ref(false);
-        let editorCount = ref(1);
-        let flagSet: boolean = true;
+    props: {
+        idx: Number
+    },
+    setup(props) {
 
-        const onReady = (quill: Quill) => {
-            thisQuills[idxQuill++] = quill;
-            // console.log('onQuillReady@ ' + timestamp())
-        };
+        const name = ref("")
+        const standard = ref("")
+        const elements = ref("")
 
-        const textChange = (idxGrp: number, idx: number) => {
-            if (flagSet) {
-                const html = thisQuills[idxGrp * 5 + idx].root.innerHTML; // get html from quill
-                const text = thisQuills[idxGrp * 5 + idx].getText(0, 100000); // get text from quill
-                switch (idx) {
-                    case 0:
-                        jsonEntityHTML.SetCol("html", idxGrp, html, "", "", "", "", "");
-                        jsonEntityTEXT.SetCol("", idxGrp, text, "", "", "", "", "");
-                        break;
-                    case 1:
-                        jsonEntityHTML.SetCol("html", idxGrp, "", html, "", "", "", "");
-                        jsonEntityTEXT.SetCol("", idxGrp, "", text, "", "", "", "");
-                        break;
-                    case 2:
-                        jsonEntityHTML.SetCol("html", idxGrp, "", "", html, "", "", "");
-                        jsonEntityTEXT.SetCol("", idxGrp, "", "", text, "", "", "");
-                        break;
-                    case 3:
-                        jsonEntityHTML.SetCol("html", idxGrp, "", "", "", html, "", "");
-                        jsonEntityTEXT.SetCol("", idxGrp, "", "", "", text, "", "");
-                        break;
-                    case 4:
-                        jsonEntityHTML.SetCol("html", idxGrp, "", "", "", "", html, "");
-                        jsonEntityTEXT.SetCol("", idxGrp, "", "", "", "", text, "");
-                        break;
-                    case 5:
-                        jsonEntityHTML.SetCol("html", idxGrp, "", "", "", "", "", html);
-                        jsonEntityTEXT.SetCol("", idxGrp, "", "", "", "", "", text);
-                        break;
-                }
-            }
+        const taN = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taS = ref<HTMLTextAreaElement | null>(null); // fetch element
+        const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        };
-
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
-
-        const onMoreLessClick = (type: string) => {
-            switch (type) {
-                case "+":
-                    {
-                        if (jsonEntityTEXT.IsLastColEmpty()) {
-                            alert("please use available editor(s). if hidden, unfold it")
-                            break
-                        }
-
-                        // add new Collection element in json
-                        jsonEntityHTML.AddCol();
-                        jsonEntityTEXT.AddCol();
-
-                        editorCount.value++;
-                    }
-                    break;
-
-                case "-":
-                    {
-                        if (editorCount.value == 1) {
-                            alert("no more editor group to remove")
-                            break;
-                        }
-
-                        // clear preview
-                        idxQuill -= 6;
-
-                        // remove last Collection element in json
-                        jsonEntityHTML.RmColLast();
-                        jsonEntityTEXT.RmColLast();
-
-                        editorCount.value--;
-                    }
-                    break;
-
-                default:
-            }
-        };
+        let quillDes: Quill
+        let quillBR: Quill
+        let quillDM: Quill
 
         onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = false
 
-            if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.Collections.length;
-                await new Promise((f) => setTimeout(f, 500));
-                for (let i = 0; i < jsonEntityHTML.Collections.length; i++) {
-                    const col = jsonEntityHTML.Collections[i]
-                    thisQuills[i * 6 + 0].root.innerHTML = col.Name
-                    thisQuills[i * 6 + 1].root.innerHTML = col.Description
-                    thisQuills[i * 6 + 2].root.innerHTML = col.Standard
-                    thisQuills[i * 6 + 3].root.innerHTML = col.Elements != null ? col.Elements.join('\n') : ""
-                    thisQuills[i * 6 + 4].root.innerHTML = col.BusinessRules != null ? col.BusinessRules.join('\n') : ""
-                    thisQuills[i * 6 + 5].root.innerHTML = col.DefinitionModification
-                }
+            const col = jsonEntityHTML.Collections[props.idx || 0]
+
+            // textarea
+            name.value = col.Name
+            standard.value = col.Standard
+            elements.value = col.Elements != null ? col.Elements.join('\n') : ""
+
+            // quill
+            quillDes.root.innerHTML = col.Description
+            quillBR.root.innerHTML = col.BusinessRules != null ? col.BusinessRules.join('\n') : ""
+            quillDM.root.innerHTML = col.DefinitionModification
+        })
+
+        const onReadyDes = (quill: Quill) => {
+            quillDes = quill
+        };
+        const onReadyBR = (quill: Quill) => {
+            quillBR = quill
+        };
+        const onReadyDM = (quill: Quill) => {
+            quillDM = quill
+        };
+
+        const textChangeDes = (idx: number) => {
+            const html = quillDes.root.innerHTML;
+            const text = quillDes.getText(0, 100000);
+            jsonEntityHTML.SetCol("html", idx, "", html, "", "", "", "");
+            jsonEntityTEXT.SetCol("", idx, "", text, "", "", "", "");
+        };
+        const textChangeBR = (idx: number) => {
+            const html = quillBR.root.innerHTML;
+            const text = quillBR.getText(0, 100000);
+            jsonEntityHTML.SetCol("html", idx, "", "", "", "", html, "");
+            jsonEntityTEXT.SetCol("", idx, "", "", "", "", text, "");
+        };
+        const textChangeDM = (idx: number) => {
+            const html = quillDM.root.innerHTML;
+            const text = quillDM.getText(0, 100000);
+            jsonEntityHTML.SetCol("html", idx, "", "", "", "", "", html);
+            jsonEntityTEXT.SetCol("", idx, "", "", "", "", "", text);
+        };
+
+        watchEffect(() => {
+
+            jsonEntityHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+            jsonEntityTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+
+            if (taN.value != null) {
+                const numberOfLineBreaks = (name.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taN.value!.style.height = newHeight + "px";
             }
-
-            await new Promise((f) => setTimeout(f, 500));
-            flagSet = true
+            if (taS.value != null) {
+                const numberOfLineBreaks = (standard.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taS.value!.style.height = newHeight + "px";
+            }
+            if (taE.value != null) {
+                const numberOfLineBreaks = (elements.value.match(/\n/g) || []).length;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                taE.value!.style.height = newHeight + "px";
+            }
         })
 
         return {
-            label,
-            hint,
-            icon,
-            editorCount,
-            visEditor,
-            textChange,
-            onReady,
-            onMoreLessClick,
-            onToggleVisible,
-            jsonEntityTEXT,
+            name,
+            standard,
+            elements,
+            taN,
+            taS,
+            taE,
+            onReadyDes,
+            onReadyBR,
+            onReadyDM,
+            textChangeDes,
+            textChangeBR,
+            textChangeDM,
         };
     },
 });
@@ -175,5 +137,18 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h2 {
+    text-align: center;
+}
 
+.content {
+    margin-left: 0px;
+    padding-left: 1%;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+    width: 98%;
+    min-height: 40px;
+    line-height: 20px;
+}
 </style>

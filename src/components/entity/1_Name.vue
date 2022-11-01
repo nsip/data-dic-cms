@@ -39,7 +39,7 @@ export default defineComponent({
 
 .content {
     margin-left: 15px;
-    width: 82%;
+    width: 87%;
     padding-left: 1%;
     font-weight: bold;
     text-align: center;

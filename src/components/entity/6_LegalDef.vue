@@ -11,7 +11,7 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">{{ hint }}</span>
-        <div v-if="visEditor" v-for="(n, i) in editorCount" :key="i">
+        <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
             <EditorLegDef :idx="i" />
         </div>
@@ -37,12 +37,12 @@ export default defineComponent({
         let icon = ref("chevron-down");
 
         let visEditor = ref(false);
-        let editorCount = ref(1);
+        let nEditor = ref(1);
 
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.LegalDefinitions.length;               
+                nEditor.value = jsonEntityHTML.LegalDefinitions.length;               
             }
         })        
 
@@ -64,13 +64,13 @@ export default defineComponent({
                         jsonEntityHTML.AddLegalDef();
                         jsonEntityTEXT.AddLegalDef();
 
-                        editorCount.value++;
+                        nEditor.value++;
                     }
                     break;
 
                 case "-":
                     {
-                        if (editorCount.value == 1) {
+                        if (nEditor.value == 1) {
                             alert("no more editor group to remove")
                             break;
                         }
@@ -79,19 +79,18 @@ export default defineComponent({
                         jsonEntityHTML.RmLegalDefLast();
                         jsonEntityTEXT.RmLegalDefLast();
 
-                        editorCount.value--;
+                        nEditor.value--;
                     }
                     break;
                 default:
             }
         };
        
-
         return {
             label,
             hint,
             icon,
-            editorCount,
+            nEditor,
             visEditor,
             onMoreLessClick,
             onToggleVisible,
