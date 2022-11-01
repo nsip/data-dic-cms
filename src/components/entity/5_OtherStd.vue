@@ -13,7 +13,7 @@
         <span class="hint2">{{ hint }}</span>
         <div v-if="visEditor" v-for="(n, i) in editorCount" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorSIF :idx="i" />
+            <EditorOtherStd :idx="i" />
         </div>
     </div>
 </template>
@@ -23,29 +23,29 @@ import { defineComponent, ref, onMounted } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 import { itemName, itemKind } from "../../share/share";
 import TextLine from "../shared/TextLine.vue"
-import EditorSIF from "./Entry_4_SIF_editor.vue"
+import EditorOtherStd from "./5_OtherStd_Editor.vue"
 
 export default defineComponent({
-    name: "EntrySIF",
+    name: "EntryOtherStd",
     components: {
-        EditorSIF,
+        EditorOtherStd,
         TextLine,
     },
     setup() {
-        const label = "SIF:";
-        const hint = "list of [xpath(list), definition, commentary, datestamp]";
-        const icon = ref("chevron-down");
+        const label = "Other Standards:";
+        const hint = "list of [standard, link(list), path(list), definition, commentary]";
+        let icon = ref("chevron-down");
 
-        const visEditor = ref(false);
-        const editorCount = ref(1);
+        let visEditor = ref(false);
+        let editorCount = ref(1);
 
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.SIF.length;
+                editorCount.value = jsonEntityHTML.OtherStandards.length;
             }
         })
-
+        
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -55,14 +55,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastSIFEmpty()) {
+                        if (jsonEntityTEXT.IsLastOtherStdEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
                         // add new OtherStandard element in json
-                        jsonEntityHTML.AddSIF();
-                        jsonEntityTEXT.AddSIF();
+                        jsonEntityHTML.AddOtherStd();
+                        jsonEntityTEXT.AddOtherStd();
 
                         editorCount.value++;
                     }
@@ -76,13 +76,13 @@ export default defineComponent({
                         }
 
                         // remove last OtherStandard element in json
-                        jsonEntityHTML.RmSIFLast();
-                        jsonEntityTEXT.RmSIFLast();
+                        jsonEntityHTML.RmOtherStdLast();
+                        jsonEntityTEXT.RmOtherStdLast();
 
                         editorCount.value--;
                     }
                     break;
-                    
+
                 default:
             }
             // console.log('editor count:', editorCount.value)
@@ -103,7 +103,5 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h2 {
-    text-align: center;
-}
+
 </style>

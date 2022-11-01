@@ -18,14 +18,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import EntryName from "./Entry_1_Name.vue";
-import EntryOtherNames from "./Entry_2_OtherName.vue";
-import EntryDef from "./Entry_3_Def.vue";
-import EntrySIF from "./Entry_4_SIF.vue";
-import EntryOtherStd from "./Entry_5_OtherStd.vue";
-import EntryLegalDef from "./Entry_6_LegalDef.vue";
-import EntryCol from "./Entry_7_Col.vue";
-import EntryMeta from "./Entry_8_Meta.vue";
+import EntryName from "./1_Name.vue";
+import EntryOtherNames from "./2_OtherName.vue";
+import EntryDef from "./3_Def.vue";
+import EntrySIF from "./4_SIF.vue";
+import EntryOtherStd from "./5_OtherStd.vue";
+import EntryLegalDef from "./6_LegalDef.vue";
+import EntryCol from "./7_Col.vue";
+import EntryMeta from "./8_Meta.vue";
 
 export default defineComponent({
     name: "EntryEntity",

@@ -13,7 +13,7 @@
         <span class="hint2">{{ hint }}</span>
         <div v-if="visEditor" v-for="(n, i) in editorCount" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorOtherStd :idx="i" />
+            <EditorLegDef :idx="i" />
         </div>
     </div>
 </template>
@@ -23,17 +23,17 @@ import { defineComponent, ref, onMounted } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 import { itemName, itemKind } from "../../share/share";
 import TextLine from "../shared/TextLine.vue"
-import EditorOtherStd from "./Entry_5_OtherStd_editor.vue"
+import EditorLegDef from "./6_LegalDef_Editor.vue"
 
 export default defineComponent({
-    name: "EntryOtherStd",
+    name: "EntryLegalDef",
     components: {
-        EditorOtherStd,
+        EditorLegDef,
         TextLine,
     },
     setup() {
-        const label = "Other Standards:";
-        const hint = "list of [standard, link(list), path(list), definition, commentary]";
+        const label = "Legal Definitions:";
+        const hint = "list of [legislationName, citation, link, definition, commentary, datestamp]";
         let icon = ref("chevron-down");
 
         let visEditor = ref(false);
@@ -42,10 +42,10 @@ export default defineComponent({
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                editorCount.value = jsonEntityHTML.OtherStandards.length;
+                editorCount.value = jsonEntityHTML.LegalDefinitions.length;               
             }
-        })
-        
+        })        
+
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -55,14 +55,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastOtherStdEmpty()) {
+                        if (jsonEntityTEXT.IsLastLegalDefEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
-                        // add new OtherStandard element in json
-                        jsonEntityHTML.AddOtherStd();
-                        jsonEntityTEXT.AddOtherStd();
+                        // add new LegalDefinition element in json
+                        jsonEntityHTML.AddLegalDef();
+                        jsonEntityTEXT.AddLegalDef();
 
                         editorCount.value++;
                     }
@@ -75,18 +75,17 @@ export default defineComponent({
                             break;
                         }
 
-                        // remove last OtherStandard element in json
-                        jsonEntityHTML.RmOtherStdLast();
-                        jsonEntityTEXT.RmOtherStdLast();
+                        // remove last LegalDefinition element in json
+                        jsonEntityHTML.RmLegalDefLast();
+                        jsonEntityTEXT.RmLegalDefLast();
 
                         editorCount.value--;
                     }
                     break;
-
                 default:
             }
-            // console.log('editor count:', editorCount.value)
         };
+       
 
         return {
             label,
