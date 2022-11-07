@@ -40,8 +40,9 @@ export default defineComponent({
 }
 
 .content {
-    margin-left: 15px;
-    width: 87%;
+    position: relative;
+    margin-left: 1%;
+    width: 88%;
     padding-left: 1%;
     font-weight: bold;
     text-align: center;

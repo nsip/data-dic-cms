@@ -112,7 +112,7 @@ export default defineComponent({
             }
             if (taE.value != null) {
                 const numberOfLineBreaks = (elements.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+                const newHeight = 10 + numberOfLineBreaks * 20 + 20 + 2;
                 taE.value!.style.height = newHeight + "px";
             }
         })
@@ -142,13 +142,15 @@ h2 {
 }
 
 .content {
+    margin-top: 1%;
     margin-left: 0px;
     padding-left: 1%;
     resize: vertical;
     display: block;
     overflow: hidden;
     width: 98%;
-    min-height: 40px;
-    line-height: 20px;
+    min-height: 20px;
+    line-height: 25px;
+    white-space: nowrap;
 }
 </style>

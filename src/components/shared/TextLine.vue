@@ -32,6 +32,7 @@ export default defineComponent({
     white-space: nowrap;
     margin-top: 1.5%;
     margin-left: 1%;
+    margin-bottom: 1%;
     font-style: italic;
     color: v-bind(textColor);
 }
