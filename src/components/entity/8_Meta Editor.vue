@@ -103,7 +103,7 @@ export default defineComponent({
     display: block;
     overflow: hidden;
     width: 98%;
-    min-height: 20px;
+    min-height: 15px;
     line-height: 20px;
 }
 </style>

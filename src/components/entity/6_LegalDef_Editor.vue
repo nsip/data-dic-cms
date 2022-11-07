@@ -148,7 +148,7 @@ h2 {
     display: block;
     overflow: hidden;
     width: 98%;
-    min-height: 20px;
-    line-height: 25px;
+    min-height: 15px;
+    line-height: 20px;
 }
 </style>
