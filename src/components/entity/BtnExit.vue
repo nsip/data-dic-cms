@@ -1,5 +1,5 @@
 <template>
-    <a class="float" @click="close()">
+    <a class="float" @click="redirect()">
         <font-awesome-icon icon="right-from-bracket" class="floating" />
     </a>
 </template>
@@ -12,12 +12,12 @@ import { loginToken } from "@/share/share";
 export default defineComponent({
     name: "EntryExit",
     setup() {
-        const close = async () => {
+        const redirect = async () => {
             const page_view = `${IP_VIEW}?auth=${loginToken.value}`
             location.replace(page_view)
         };
         return {
-            close,
+            redirect,
         };
     },
 });

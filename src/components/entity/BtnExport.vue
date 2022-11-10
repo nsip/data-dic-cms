@@ -7,7 +7,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { postDataToDic } from "../../share/share";
+import { postDataToDic, loginToken } from "../../share/share";
+import { IP_VIEW } from "@/share/ip";
 // import FileSaver from 'file-saver';
 
 // npm install file-saver --save
@@ -26,7 +27,13 @@ export default defineComponent({
         // ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
         // document.head.appendChild(ckeditor);
 
+        const redirect = async () => {
+            const page_view = `${IP_VIEW}?auth=${loginToken.value}`
+            location.replace(page_view)
+        };
+
         const saveJSON = async () => {
+
             // const htmlValData = jsonEntityHTML.GenJSON(true)
             // const textValData = jsonEntityTEXT.GenJSON(false)
 
@@ -50,10 +57,11 @@ export default defineComponent({
                 return;
             }
 
-            alert(
-                `[${jsonEntityTEXT.Entity}] has been uploaded, please refresh main page`
-            );
+            alert(`[${jsonEntityTEXT.Entity}] has been uploaded, redirecting to main page`);
+
+            redirect()
         };
+
         return {
             btnName,
             saveJSON,
