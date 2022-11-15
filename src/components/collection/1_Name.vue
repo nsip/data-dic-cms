@@ -1,0 +1,50 @@
+<template>
+    <div class="com">
+        <span class="label">{{ label }}</span>
+        <input class="content" type="text" v-model="collection" :readonly="Mode == 'edit'" placeholder="collection name">
+    </div>
+</template>
+
+<script lang="ts">
+
+import { defineComponent, ref, onMounted, watchEffect } from "vue";
+import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionType";
+import { Mode } from "@/share/share";
+
+export default defineComponent({
+    name: "CollectionName",
+    setup() {
+        const label = "Collection:";
+        const collection = ref("")
+        onMounted(async () => {
+            await new Promise((f) => setTimeout(f, 500));
+            collection.value = jsonCollectionTEXT.Collection;
+        })
+        watchEffect(() => {
+            jsonCollectionHTML.SetName(collection.value)
+            jsonCollectionTEXT.SetName(collection.value)
+        })
+        return {
+            label,
+            collection,
+            Mode,
+        };
+    },
+});
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.label {
+    margin-top: 10px;
+}
+
+.content {
+    position: relative;
+    margin-left: 1%;
+    width: 88%;
+    padding-left: 1%;
+    font-weight: bold;
+    text-align: center;
+}
+</style>

@@ -32,6 +32,7 @@ export class EntityType {
     //
     // Other Names --------------------------------------------------
     //
+
     SetOtherName(nameStr: string) {
         this.OtherNames = validStrTEXTArr(nameStr, this.OtherNames);
     }
@@ -44,6 +45,7 @@ export class EntityType {
     //             this.OtherNames = validStrTEXTArr(nameStr, this.OtherNames);
     //     }
     // }
+
     CntOtherName() {
         return this.OtherNames.length;
     }
@@ -54,8 +56,7 @@ export class EntityType {
                 this.OtherNames = names != null ? names : EmptyStrArr;
                 break;
             default:
-                this.OtherNames =
-                    names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
+                this.OtherNames = names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
         }
     }
 
