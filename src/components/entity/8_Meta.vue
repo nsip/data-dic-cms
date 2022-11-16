@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Meta Data:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -12,9 +12,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import EditorMeta from "./8_Meta Editor.vue"
+import { defineComponent, ref, onMounted } from "vue";
+import EditorMeta from "./8_Meta_Editor.vue"
 
 export default defineComponent({
     name: "EntryMeta",
@@ -22,7 +21,6 @@ export default defineComponent({
         EditorMeta,
     },
     setup() {
-        const label = "Meta Data:";
         const hint = "[identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
         let icon = ref("chevron-down");
 
@@ -38,7 +36,6 @@ export default defineComponent({
         };
 
         return {
-            label,
             hint,
             icon,
             visEditor,

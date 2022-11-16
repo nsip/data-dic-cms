@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Collections:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -32,7 +32,6 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const label = "Collections:";
         const hint = "list of [name, description, standard, elements(list), businessRules(list), definitionModification]";
         let icon = ref("chevron-down");
 
@@ -88,7 +87,6 @@ export default defineComponent({
         };
 
         return {
-            label,
             hint,
             icon,
             nEditor,

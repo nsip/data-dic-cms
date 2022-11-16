@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Entity:</span>
         <input class="content" type="text" v-model="entity" :readonly="Mode == 'edit'" placeholder="entity name">
     </div>
 </template>
@@ -14,7 +14,6 @@ import { Mode } from "@/share/share";
 export default defineComponent({
     name: "EntryName",
     setup() {
-        const label = "Entity:";
         const entity = ref("")
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
@@ -25,7 +24,6 @@ export default defineComponent({
             jsonEntityTEXT.SetName(entity.value)
         })
         return {
-            label,
             entity,
             Mode,
         };

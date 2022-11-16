@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Other Names:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -17,7 +17,6 @@ import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
 export default defineComponent({
     name: "EntryOtherNames",
     setup() {
-        const label = "Other Name:";
         const icon = ref("chevron-down");
         const visEditor = ref(false);
         const othernames = ref("");
@@ -43,7 +42,6 @@ export default defineComponent({
         })
 
         return {
-            label,
             othernames,
             taON,
             icon,

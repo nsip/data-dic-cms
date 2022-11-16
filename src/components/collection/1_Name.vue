@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Collection:</span>
         <input class="content" type="text" v-model="collection" :readonly="Mode == 'edit'" placeholder="collection name">
     </div>
 </template>
@@ -12,9 +12,8 @@ import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionTy
 import { Mode } from "@/share/share";
 
 export default defineComponent({
-    name: "CollectionName",
+    name: "EntryName",
     setup() {
-        const label = "Collection:";
         const collection = ref("")
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
@@ -25,7 +24,6 @@ export default defineComponent({
             jsonCollectionTEXT.SetName(collection.value)
         })
         return {
-            label,
             collection,
             Mode,
         };

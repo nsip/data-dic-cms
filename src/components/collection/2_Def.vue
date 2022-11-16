@@ -1,33 +1,30 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Definition:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
-        <span class="hint1">{{ hint }}</span>
+        <span class="hint1"></span>
         <div v-if="visEditor">
             <!-- essential, minimal, full, and "" -->
-            <QuillEditor theme="snow" toolbar="essential" :placeholder="holder" @ready="onReady" @textChange="textChange" />
+            <QuillEditor theme="snow" toolbar="essential" placeholder="collection definition" @ready="onReady" @textChange="textChange" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionType";
 
 export default defineComponent({
-    name: "CollectionDef",
+    name: "EntryDef",
     components: {
         QuillEditor,
     },
     setup() {
-        const label = "Definition:";
-        const hint = "";
-        const holder = "collection definition";
         let icon = ref("chevron-down");
         let quillDef: Quill;
         let visEditor = ref(false);
@@ -51,9 +48,6 @@ export default defineComponent({
         };
 
         return {
-            label,
-            hint,
-            holder,
             icon,
             visEditor,
             textChange,

@@ -1,10 +1,10 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Definition:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
-        <span class="hint1">{{ hint }}</span>
+        <span class="hint1"></span>
         <div v-if="visEditor">
             <!-- essential, minimal, full, and ""  -->
             <QuillEditor theme="snow" toolbar="essential" :placeholder="holder" @ready="onReady" @textChange="textChange" />
@@ -25,8 +25,6 @@ export default defineComponent({
         QuillEditor,
     },
     setup() {
-        const label = "Definition:";
-        const hint = "";
         const holder = "entity definition";
         let icon = ref("chevron-down");
         let quillDef: Quill;
@@ -51,8 +49,6 @@ export default defineComponent({
         };
 
         return {
-            label,
-            hint,
             holder,
             icon,
             visEditor,

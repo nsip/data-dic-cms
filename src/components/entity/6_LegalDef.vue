@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Legal Definitions:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -32,7 +32,6 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const label = "Legal Definitions:";
         const hint = "list of [legislationName, citation, link, definition, commentary, datestamp]";
         let icon = ref("chevron-down");
 
@@ -87,7 +86,6 @@ export default defineComponent({
         };
        
         return {
-            label,
             hint,
             icon,
             nEditor,

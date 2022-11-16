@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">Other Standards:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -32,7 +32,6 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const label = "Other Standards:";
         const hint = "list of [standard, link(list), path(list), definition, commentary]";
         let icon = ref("chevron-down");
 
@@ -89,7 +88,6 @@ export default defineComponent({
         };
 
         return {
-            label,
             hint,
             icon,
             nEditor,

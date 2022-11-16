@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <span class="label">{{ label }}</span>
+        <span class="label">SIF:</span>
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
@@ -10,7 +10,7 @@
         <button class="more-editor" @click="onMoreLessClick('+')">
             <font-awesome-icon icon="circle-plus" />
         </button>
-        <span class="hint2">{{ hint }}</span>
+        <span class="hint2">list of [xpath(list), definition, commentary, datestamp]</span>
         <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
             <EditorSIF :idx="i" />
@@ -32,8 +32,6 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const label = "SIF:";
-        const hint = "list of [xpath(list), definition, commentary, datestamp]";
         const icon = ref("chevron-down");
 
         const visEditor = ref(false);
@@ -89,8 +87,6 @@ export default defineComponent({
         };
 
         return {
-            label,
-            hint,
             icon,
             nEditor,
             visEditor,
