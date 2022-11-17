@@ -8,7 +8,7 @@
 <script lang="ts">
 
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { Mode } from "@/share/share";
 
 export default defineComponent({
@@ -17,11 +17,11 @@ export default defineComponent({
         const entity = ref("")
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            entity.value = jsonEntityTEXT.Entity;
+            entity.value = jsonTEXT.Entity;
         })
         watchEffect(() => {
-            jsonEntityHTML.SetName(entity.value)
-            jsonEntityTEXT.SetName(entity.value)
+            jsonHTML.SetName(entity.value)
+            jsonTEXT.SetName(entity.value)
         })
         return {
             entity,

@@ -17,7 +17,7 @@ import { defineComponent, ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionType";
+import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
 
 export default defineComponent({
     name: "EntryDef",

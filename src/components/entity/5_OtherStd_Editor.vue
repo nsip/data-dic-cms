@@ -22,7 +22,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
 
         onMounted(async () => {
 
-            const os = jsonEntityHTML.OtherStandards[props.idx || 0]
+            const os = jsonHTML.OtherStandards[props.idx || 0]
 
             // textarea
             std.value = os.Standard
@@ -68,8 +68,8 @@ export default defineComponent({
         const textChangeDef = (idx: number) => {
             const html = quillDef.root.innerHTML;
             const text = quillDef.getText(0, 100000);
-            jsonEntityHTML.SetOtherStd("html", idx, "", "", "", html, "");
-            jsonEntityTEXT.SetOtherStd("", idx, "", "", "", text, "");
+            jsonHTML.SetOtherStd("html", idx, "", "", "", html, "");
+            jsonTEXT.SetOtherStd("", idx, "", "", "", text, "");
         };
 
         const onReadyCmt = (quill: Quill) => {
@@ -79,14 +79,14 @@ export default defineComponent({
         const textChangeCmt = (idx: number) => {
             const html = quillCmt.root.innerHTML;
             const text = quillCmt.getText(0, 100000);
-            jsonEntityHTML.SetOtherStd("html", idx, "", "", "", "", html);
-            jsonEntityTEXT.SetOtherStd("", idx, "", "", "", "", text);
+            jsonHTML.SetOtherStd("html", idx, "", "", "", "", html);
+            jsonTEXT.SetOtherStd("", idx, "", "", "", "", text);
         };
 
         watchEffect(() => {
 
-            jsonEntityHTML.SetOtherStd("html", props.idx || 0, std.value, links.value, paths.value, "", "");
-            jsonEntityTEXT.SetOtherStd("", props.idx || 0, std.value, links.value, paths.value, "", "");
+            jsonHTML.SetOtherStd("html", props.idx || 0, std.value, links.value, paths.value, "", "");
+            jsonTEXT.SetOtherStd("", props.idx || 0, std.value, links.value, paths.value, "", "");
 
             if (taS.value != null) {
                 const numberOfLineBreaks = (std.value.match(/\n/g) || []).length;

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionType";
+import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
 import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({

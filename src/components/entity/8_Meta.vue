@@ -4,7 +4,7 @@
         <button class="hide-editor" @click="onToggleVisible()">
             <font-awesome-icon :icon="icon" />
         </button>
-        <span class="hint2">{{ hint }}</span>
+        <span class="hint2">[identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]</span>
         <div v-if="visEditor">
             <EditorMeta />
         </div>
@@ -21,9 +21,7 @@ export default defineComponent({
         EditorMeta,
     },
     setup() {
-        const hint = "[identifier, type, ExpectedAttributes(list), superclass(list), crossrefEntities(list)]";
         let icon = ref("chevron-down");
-
         let visEditor = ref(false);
 
         onMounted(async () => {
@@ -36,7 +34,6 @@ export default defineComponent({
         };
 
         return {
-            hint,
             icon,
             visEditor,
             onToggleVisible,

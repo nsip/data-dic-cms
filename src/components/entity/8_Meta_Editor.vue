@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({
@@ -43,7 +43,7 @@ export default defineComponent({
         
         onMounted(async () => {
 
-            const meta = jsonEntityHTML.Metadata
+            const meta = jsonHTML.Metadata
 
             // textarea
             identifier.value = meta.Identifier
@@ -55,8 +55,8 @@ export default defineComponent({
 
         watchEffect(() => {
 
-            jsonEntityHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
-            jsonEntityTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+            jsonHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+            jsonTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
 
             if (taEA.value != null) {
                 const numberOfLineBreaks = (attributes.value.match(/\n/g) || []).length;

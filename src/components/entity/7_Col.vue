@@ -10,7 +10,7 @@
         <button class="more-editor" @click="onMoreLessClick('+')">
             <font-awesome-icon icon="circle-plus" />
         </button>
-        <span class="hint2">{{ hint }}</span>
+        <span class="hint2">list of [name, description, standard, elements(list), businessRules(list), definitionModification]</span>
         <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
             <EditorCol :idx="i" />
@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { itemName, itemKind } from "../../share/share";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { itemName, itemKind } from "@/share/share";
 import TextLine from "../shared/TextLine.vue"
 import EditorCol from "./7_Col_Editor.vue"
 
@@ -32,16 +32,14 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const hint = "list of [name, description, standard, elements(list), businessRules(list), definitionModification]";
         let icon = ref("chevron-down");
-
         let visEditor = ref(false);        
         let nEditor = ref(1);
 
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                nEditor.value = jsonEntityHTML.Collections.length;
+                nEditor.value = jsonHTML.Collections.length;
             }
         })
         
@@ -54,14 +52,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastColEmpty()) {
+                        if (jsonTEXT.IsLastColEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
                         // add new Collection element in json
-                        jsonEntityHTML.AddCol();
-                        jsonEntityTEXT.AddCol();
+                        jsonHTML.AddCol();
+                        jsonTEXT.AddCol();
 
                         nEditor.value++;
                     }
@@ -75,8 +73,8 @@ export default defineComponent({
                         }
 
                         // remove last Collection element in json
-                        jsonEntityHTML.RmColLast();
-                        jsonEntityTEXT.RmColLast();
+                        jsonHTML.RmColLast();
+                        jsonTEXT.RmColLast();
 
                         nEditor.value--;
                     }
@@ -87,7 +85,6 @@ export default defineComponent({
         };
 
         return {
-            hint,
             icon,
             nEditor,
             visEditor,

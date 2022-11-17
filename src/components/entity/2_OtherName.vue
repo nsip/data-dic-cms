@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 
 export default defineComponent({
     name: "EntryOtherNames",
@@ -27,11 +27,11 @@ export default defineComponent({
         };
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            othernames.value = jsonEntityTEXT.OtherNames != null ? jsonEntityTEXT.OtherNames.join('\n') : "";
+            othernames.value = jsonTEXT.OtherNames != null ? jsonTEXT.OtherNames.join('\n') : "";
         })
         watchEffect(() => {
-            jsonEntityTEXT.SetOtherName(othernames.value);
-            jsonEntityHTML.SetOtherName(othernames.value);
+            jsonTEXT.SetOtherName(othernames.value);
+            jsonHTML.SetOtherName(othernames.value);
 
             // resize textarea
             if (taON.value != null) {

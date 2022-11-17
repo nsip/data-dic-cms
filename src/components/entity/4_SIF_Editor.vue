@@ -19,7 +19,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({
@@ -44,7 +44,7 @@ export default defineComponent({
 
         onMounted(async () => {
 
-            const sif = jsonEntityHTML.SIF[props.idx || 0]
+            const sif = jsonHTML.SIF[props.idx || 0]
 
             // textarea
             xpath.value = sif.XPath != null ? sif.XPath.join('\n') : ""
@@ -66,21 +66,21 @@ export default defineComponent({
         const textChangeDef = (idx: number) => {
             const html = quillDef.root.innerHTML;
             const text = quillDef.getText(0, 100000);
-            jsonEntityHTML.SetSIF("html", idx, "", html, "", "");
-            jsonEntityTEXT.SetSIF("", idx, "", text, "", "");
+            jsonHTML.SetSIF("html", idx, "", html, "", "");
+            jsonTEXT.SetSIF("", idx, "", text, "", "");
         };
 
         const textChangeCmt = (idx: number) => {
             const html = quillCmt.root.innerHTML;
             const text = quillCmt.getText(0, 100000);
-            jsonEntityHTML.SetSIF("html", idx, "", "", html, "");
-            jsonEntityTEXT.SetSIF("", idx, "", "", text, "");
+            jsonHTML.SetSIF("html", idx, "", "", html, "");
+            jsonTEXT.SetSIF("", idx, "", "", text, "");
         };
 
         watchEffect(() => {
 
-            jsonEntityTEXT.SetSIF("", props.idx || 0, xpath.value, "", "", datestamp.value)
-            jsonEntityHTML.SetSIF("html", props.idx || 0, xpath.value, "", "", datestamp.value);
+            jsonTEXT.SetSIF("", props.idx || 0, xpath.value, "", "", datestamp.value)
+            jsonHTML.SetSIF("html", props.idx || 0, xpath.value, "", "", datestamp.value);
 
             // resize textarea
             if (taXP.value != null) {

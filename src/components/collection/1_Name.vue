@@ -8,7 +8,7 @@
 <script lang="ts">
 
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "../../share/CollectionType";
+import { jsonCollectionHTML as jsonHTML, jsonCollectionTEXT as jsonTEXT } from "@/share/CollectionType";
 import { Mode } from "@/share/share";
 
 export default defineComponent({
@@ -17,11 +17,11 @@ export default defineComponent({
         const collection = ref("")
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            collection.value = jsonCollectionTEXT.Collection;
+            collection.value = jsonTEXT.Collection;
         })
         watchEffect(() => {
-            jsonCollectionHTML.SetName(collection.value)
-            jsonCollectionTEXT.SetName(collection.value)
+            jsonHTML.SetName(collection.value)
+            jsonTEXT.SetName(collection.value)
         })
         return {
             collection,
@@ -36,7 +36,6 @@ export default defineComponent({
 .label {
     margin-top: 10px;
 }
-
 .content {
     position: relative;
     margin-left: 1%;

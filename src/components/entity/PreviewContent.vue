@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { jsonEntityTEXT, jsonEntityHTML } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML , jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 
 export default defineComponent({
     name: "PreviewContent",
@@ -41,20 +41,20 @@ export default defineComponent({
         const previewEntity = () => {
             return (
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Entity</pre></h3>" +
-                nonEmptyHtml("", jsonEntityTEXT.Entity, jsonEntityHTML.Entity)
+                nonEmptyHtml("", jsonTEXT.Entity, jsonHTML.Entity)
             );
         };
 
         const previewOtherNames = () => {
             const head =
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Names</pre></h3>";
-            const n = jsonEntityTEXT.CntOtherName();
+            const n = jsonTEXT.CntOtherName();
             const eles: string[] = [];
             for (let i = 0; i < n; i++) {
                 const ele = nonEmptyHtml(
                     "",
-                    jsonEntityTEXT.OtherNames[i],
-                    jsonEntityHTML.OtherNames[i]
+                    jsonTEXT.OtherNames[i],
+                    jsonHTML.OtherNames[i]
                 );
                 eles.push(ele);
             }
@@ -68,18 +68,18 @@ export default defineComponent({
         const previewDefinition = () => {
             return (
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h3>" +
-                nonEmptyHtml("", jsonEntityTEXT.Definition, jsonEntityHTML.Definition)
+                nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
             );
         };
 
         const previewSIF = () => {
             const head =
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> SIF</pre></h3>";
-            const n = jsonEntityTEXT.CntSIF();
+            const n = jsonTEXT.CntSIF();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
-                const jt = jsonEntityTEXT.SIF[i];
-                const jh = jsonEntityHTML.SIF[i];
+                const jt = jsonTEXT.SIF[i];
+                const jh = jsonHTML.SIF[i];
                 eles[i] = "";
                 if (jt.XPath != null && jh.XPath != null) {
                     eles[i] += nonEmptyHtml(
@@ -102,11 +102,11 @@ export default defineComponent({
         const previewOtherStandards = () => {
             const head =
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Standards</pre></h3>";
-            const n = jsonEntityTEXT.CntOtherStd();
+            const n = jsonTEXT.CntOtherStd();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
-                const jt = jsonEntityTEXT.OtherStandards[i];
-                const jh = jsonEntityHTML.OtherStandards[i];
+                const jt = jsonTEXT.OtherStandards[i];
+                const jh = jsonHTML.OtherStandards[i];
                 eles[i] = "";
                 eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard);
                 if (jt.Link != null && jh.Link != null) {
@@ -128,11 +128,11 @@ export default defineComponent({
         const previewLegalDefinition = () => {
             const head =
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Legal Definitions</pre></h3>";
-            const n = jsonEntityTEXT.CntLegalDef();
+            const n = jsonTEXT.CntLegalDef();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
-                const jt = jsonEntityTEXT.LegalDefinitions[i];
-                const jh = jsonEntityHTML.LegalDefinitions[i];
+                const jt = jsonTEXT.LegalDefinitions[i];
+                const jh = jsonHTML.LegalDefinitions[i];
                 eles[i] = "";
                 eles[i] += nonEmptyHtml(
                     ">> legislationName:",
@@ -155,11 +155,11 @@ export default defineComponent({
         const previewCollections = () => {
             const head =
                 "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Collections</pre></h3>";
-            const n = jsonEntityTEXT.CntCol();
+            const n = jsonTEXT.CntCol();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
-                const jt = jsonEntityTEXT.Collections[i];
-                const jh = jsonEntityHTML.Collections[i];
+                const jt = jsonTEXT.Collections[i];
+                const jh = jsonHTML.Collections[i];
                 eles[i] = "";
                 eles[i] += nonEmptyHtml(">> name:", jt.Name, jh.Name);
                 eles[i] += nonEmptyHtml(
@@ -189,8 +189,8 @@ export default defineComponent({
         };
 
         const previewMetadata = () => {
-            const jt = jsonEntityTEXT.Metadata;
-            const jh = jsonEntityHTML.Metadata;
+            const jt = jsonTEXT.Metadata;
+            const jh = jsonHTML.Metadata;
 
             const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier)
             const type = nonEmptyHtml(">> type:", jt.Type, jh.Type)

@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { itemName, itemKind } from "../../share/share";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { itemName, itemKind } from "@/share/share";
 import TextLine from "../shared/TextLine.vue"
 import EditorSIF from "./4_SIF_Editor.vue"
 
@@ -40,7 +40,7 @@ export default defineComponent({
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                nEditor.value = jsonEntityHTML.SIF.length;
+                nEditor.value = jsonHTML.SIF.length;
             }
         })
 
@@ -53,14 +53,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastSIFEmpty()) {
+                        if (jsonTEXT.IsLastSIFEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
                         // add new OtherStandard element in json
-                        jsonEntityHTML.AddSIF();
-                        jsonEntityTEXT.AddSIF();
+                        jsonHTML.AddSIF();
+                        jsonTEXT.AddSIF();
 
                         nEditor.value++;
                     }
@@ -74,8 +74,8 @@ export default defineComponent({
                         }
 
                         // remove last OtherStandard element in json
-                        jsonEntityHTML.RmSIFLast();
-                        jsonEntityTEXT.RmSIFLast();
+                        jsonHTML.RmSIFLast();
+                        jsonTEXT.RmSIFLast();
 
                         nEditor.value--;
                     }

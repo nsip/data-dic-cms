@@ -25,7 +25,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
@@ -53,7 +53,7 @@ export default defineComponent({
 
         onMounted(async () => {
 
-            const col = jsonEntityHTML.Collections[props.idx || 0]
+            const col = jsonHTML.Collections[props.idx || 0]
 
             // textarea
             name.value = col.Name
@@ -79,26 +79,26 @@ export default defineComponent({
         const textChangeDes = (idx: number) => {
             const html = quillDes.root.innerHTML;
             const text = quillDes.getText(0, 100000);
-            jsonEntityHTML.SetCol("html", idx, "", html, "", "", "", "");
-            jsonEntityTEXT.SetCol("", idx, "", text, "", "", "", "");
+            jsonHTML.SetCol("html", idx, "", html, "", "", "", "");
+            jsonTEXT.SetCol("", idx, "", text, "", "", "", "");
         };
         const textChangeBR = (idx: number) => {
             const html = quillBR.root.innerHTML;
             const text = quillBR.getText(0, 100000);
-            jsonEntityHTML.SetCol("html", idx, "", "", "", "", html, "");
-            jsonEntityTEXT.SetCol("", idx, "", "", "", "", text, "");
+            jsonHTML.SetCol("html", idx, "", "", "", "", html, "");
+            jsonTEXT.SetCol("", idx, "", "", "", "", text, "");
         };
         const textChangeDM = (idx: number) => {
             const html = quillDM.root.innerHTML;
             const text = quillDM.getText(0, 100000);
-            jsonEntityHTML.SetCol("html", idx, "", "", "", "", "", html);
-            jsonEntityTEXT.SetCol("", idx, "", "", "", "", "", text);
+            jsonHTML.SetCol("html", idx, "", "", "", "", "", html);
+            jsonTEXT.SetCol("", idx, "", "", "", "", "", text);
         };
 
         watchEffect(() => {
 
-            jsonEntityHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
-            jsonEntityTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+            jsonHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+            jsonTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
 
             if (taN.value != null) {
                 const numberOfLineBreaks = (name.value.match(/\n/g) || []).length;

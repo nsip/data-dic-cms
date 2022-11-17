@@ -17,7 +17,7 @@ import { defineComponent, ref, onMounted } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 
 export default defineComponent({
     name: "EntryDef",
@@ -35,12 +35,12 @@ export default defineComponent({
             quillDef = quill;
 
             // fill existing html text into quill, format could change by quill
-            quillDef.root.innerHTML = jsonEntityHTML.Definition;
+            quillDef.root.innerHTML = jsonHTML.Definition;
         };
 
         const textChange = () => {
-            jsonEntityHTML.SetDefinition(quillDef.root.innerHTML);
-            jsonEntityTEXT.SetDefinition(quillDef.getText(0, 100000));
+            jsonHTML.SetDefinition(quillDef.root.innerHTML);
+            jsonTEXT.SetDefinition(quillDef.getText(0, 100000));
         };
 
         const onToggleVisible = () => {

@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { postDataToDic, loginToken } from "../../share/share";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { postDataToDic, loginToken } from "@/share/share";
 import { IP_VIEW } from "@/share/ip";
 // import FileSaver from 'file-saver';
 
@@ -34,30 +34,30 @@ export default defineComponent({
 
         const saveJSON = async () => {
 
-            // const htmlValData = jsonEntityHTML.GenJSON(true)
-            // const textValData = jsonEntityTEXT.GenJSON(false)
+            // const htmlValData = jsonHTML.GenJSON(true)
+            // const textValData = jsonTEXT.GenJSON(false)
 
             // var blobHTML = new Blob([htmlValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonEntityTEXT.Entity + ".json");
+            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
 
             // var blobTEXT = new Blob([textValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonEntityTEXT.Entity + ".json");
+            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
 
             //////////////////////////////////////////////////
 
-            const textValData = jsonEntityTEXT.GenJSON(false);
+            const textValData = jsonTEXT.GenJSON(false);
             const okText = await postDataToDic(textValData);
             if (!okText) {
                 return;
             }
 
-            const htmlValData = jsonEntityHTML.GenJSON(true);
+            const htmlValData = jsonHTML.GenJSON(true);
             const okHtml = await postDataToDic(htmlValData);
             if (!okHtml) {
                 return;
             }
 
-            alert(`[${jsonEntityTEXT.Entity}] has been uploaded, redirecting to main page`);
+            alert(`[${jsonTEXT.Entity}] has been uploaded, redirecting to main page`);
 
             redirect()
         };

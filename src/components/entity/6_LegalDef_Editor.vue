@@ -25,7 +25,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
 import TextLine from "../shared/TextLine.vue"
 
 export default defineComponent({
@@ -53,7 +53,7 @@ export default defineComponent({
 
         onMounted(async () => {
 
-            const ld = jsonEntityHTML.LegalDefinitions[props.idx || 0]
+            const ld = jsonHTML.LegalDefinitions[props.idx || 0]
 
             // textarea
             legname.value = ld.LegislationName
@@ -79,26 +79,26 @@ export default defineComponent({
         const textChangeCit = (idx: number) => {
             const html = quillCit.root.innerHTML;
             const text = quillCit.getText(0, 100000);
-            jsonEntityHTML.SetLegalDef(idx, "", html, "", "", "", "");
-            jsonEntityTEXT.SetLegalDef(idx, "", text, "", "", "", "");
+            jsonHTML.SetLegalDef(idx, "", html, "", "", "", "");
+            jsonTEXT.SetLegalDef(idx, "", text, "", "", "", "");
         };
         const textChangeDef = (idx: number) => {
             const html = quillDef.root.innerHTML;
             const text = quillDef.getText(0, 100000);
-            jsonEntityHTML.SetLegalDef(idx, "", "", "", html, "", "");
-            jsonEntityTEXT.SetLegalDef(idx, "", "", "", text, "", "");
+            jsonHTML.SetLegalDef(idx, "", "", "", html, "", "");
+            jsonTEXT.SetLegalDef(idx, "", "", "", text, "", "");
         };
         const textChangeCmt = (idx: number) => {
             const html = quillCmt.root.innerHTML;
             const text = quillCmt.getText(0, 100000);
-            jsonEntityHTML.SetLegalDef(idx, "", "", "", "", html, "");
-            jsonEntityTEXT.SetLegalDef(idx, "", "", "", "", text, "");
+            jsonHTML.SetLegalDef(idx, "", "", "", "", html, "");
+            jsonTEXT.SetLegalDef(idx, "", "", "", "", text, "");
         };
 
         watchEffect(() => {
 
-            jsonEntityHTML.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
-            jsonEntityTEXT.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
+            jsonHTML.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
+            jsonTEXT.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
 
             if (taLN.value != null) {
                 const numberOfLineBreaks = (legname.value.match(/\n/g) || []).length;

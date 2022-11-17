@@ -10,7 +10,7 @@
         <button class="more-editor" @click="onMoreLessClick('+')">
             <font-awesome-icon icon="circle-plus" />
         </button>
-        <span class="hint2">{{ hint }}</span>
+        <span class="hint2">list of [legislationName, citation, link, definition, commentary, datestamp]</span>
         <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
             <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
             <EditorLegDef :idx="i" />
@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "../../share/EntityType";
-import { itemName, itemKind } from "../../share/share";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { itemName, itemKind } from "@/share/share";
 import TextLine from "../shared/TextLine.vue"
 import EditorLegDef from "./6_LegalDef_Editor.vue"
 
@@ -32,7 +32,6 @@ export default defineComponent({
         TextLine,
     },
     setup() {
-        const hint = "list of [legislationName, citation, link, definition, commentary, datestamp]";
         let icon = ref("chevron-down");
 
         let visEditor = ref(false);
@@ -41,7 +40,7 @@ export default defineComponent({
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                nEditor.value = jsonEntityHTML.LegalDefinitions.length;               
+                nEditor.value = jsonHTML.LegalDefinitions.length;               
             }
         })        
 
@@ -54,14 +53,14 @@ export default defineComponent({
             switch (type) {
                 case "+":
                     {
-                        if (jsonEntityTEXT.IsLastLegalDefEmpty()) {
+                        if (jsonTEXT.IsLastLegalDefEmpty()) {
                             alert("please use available editor(s). if hidden, unfold it")
                             break
                         }
 
                         // add new LegalDefinition element in json
-                        jsonEntityHTML.AddLegalDef();
-                        jsonEntityTEXT.AddLegalDef();
+                        jsonHTML.AddLegalDef();
+                        jsonTEXT.AddLegalDef();
 
                         nEditor.value++;
                     }
@@ -75,8 +74,8 @@ export default defineComponent({
                         }
 
                         // remove last LegalDefinition element in json
-                        jsonEntityHTML.RmLegalDefLast();
-                        jsonEntityTEXT.RmLegalDefLast();
+                        jsonHTML.RmLegalDefLast();
+                        jsonTEXT.RmLegalDefLast();
 
                         nEditor.value--;
                     }
@@ -86,7 +85,6 @@ export default defineComponent({
         };
        
         return {
-            hint,
             icon,
             nEditor,
             visEditor,

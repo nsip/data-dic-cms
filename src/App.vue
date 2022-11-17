@@ -18,12 +18,14 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
 import { EntityType, jsonEntityHTML, jsonEntityTEXT, } from "./share/EntityType";
+import { CollectionType, jsonCollectionHTML, jsonCollectionTEXT } from "./share/CollectionType";
 // import { stringifyStyle } from "@vue/shared";
-import MainTitle from "./components/entity/Title.vue";
+import MainTitle from "./components/Title.vue";
 import EntryEntity from "./components/entity/EntryEntity.vue";
 import PreviewArea from "./components/entity/Preview.vue";
 import EntryExport from "./components/entity/BtnExport.vue";
-import EntryExit from "./components/entity/BtnExit.vue"
+import EntryExit from "./components/entity/BtnExit.vue";
+// import EntryCollection
 
 export default defineComponent({
     name: "App",
@@ -108,6 +110,9 @@ export default defineComponent({
                                 break;
 
                             case "collection":
+                                {
+
+                                }
                                 break;
 
                             default:
