@@ -4,10 +4,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { jsonEntityHTML as jsonHTML , jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 
 export default defineComponent({
-    name: "PreviewContent",
+    name: "EntVisualContent",
     // props: {
     //     msg: String,
     // },
@@ -46,16 +46,11 @@ export default defineComponent({
         };
 
         const previewOtherNames = () => {
-            const head =
-                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Names</pre></h3>";
+            const head = "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Names</pre></h3>";
             const n = jsonTEXT.CntOtherName();
             const eles: string[] = [];
             for (let i = 0; i < n; i++) {
-                const ele = nonEmptyHtml(
-                    "",
-                    jsonTEXT.OtherNames[i],
-                    jsonHTML.OtherNames[i]
-                );
+                const ele = nonEmptyHtml("", jsonTEXT.OtherNames[i], jsonHTML.OtherNames[i]);
                 eles.push(ele);
             }
             const body = eles.join("<br>"); // here, other names' html value is plain text
@@ -66,28 +61,20 @@ export default defineComponent({
         };
 
         const previewDefinition = () => {
-            return (
-                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h3>" +
+            return ("<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h3>" +
                 nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
             );
         };
 
         const previewSIF = () => {
-            const head =
-                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> SIF</pre></h3>";
+            const head = "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> SIF</pre></h3>";
             const n = jsonTEXT.CntSIF();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
                 const jt = jsonTEXT.SIF[i];
                 const jh = jsonHTML.SIF[i];
                 eles[i] = "";
-                if (jt.XPath != null && jh.XPath != null) {
-                    eles[i] += nonEmptyHtml(
-                        ">> xpath:",
-                        jt.XPath.join(""),
-                        jh.XPath.join("")
-                    );
-                }
+                eles[i] += (jt.XPath != null && jh.XPath != null) ? nonEmptyHtml(">> xpath:", jt.XPath.join(""), jh.XPath.join("")) : "";
                 eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition);
                 eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary);
                 eles[i] += nonEmptyHtml(">> datestamp:", jt.Datestamp, jh.Datestamp);
@@ -100,8 +87,7 @@ export default defineComponent({
         };
 
         const previewOtherStandards = () => {
-            const head =
-                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Standards</pre></h3>";
+            const head = "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Other Standards</pre></h3>";
             const n = jsonTEXT.CntOtherStd();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -109,12 +95,8 @@ export default defineComponent({
                 const jh = jsonHTML.OtherStandards[i];
                 eles[i] = "";
                 eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard);
-                if (jt.Link != null && jh.Link != null) {
-                    eles[i] += nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join(""));
-                }
-                if (jt.Path != null && jh.Path != null) {
-                    eles[i] += nonEmptyHtml(">> path:", jt.Path.join(""), jh.Path.join(""));
-                }
+                eles[i] += (jt.Link != null && jh.Link != null) ? nonEmptyHtml(">> link:", jt.Link.join(""), jh.Link.join("")) : "";
+                eles[i] += (jt.Path != null && jh.Path != null) ? nonEmptyHtml(">> path:", jt.Path.join(""), jh.Path.join("")) : "";
                 eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition);
                 eles[i] += nonEmptyHtml(">> commentary:", jt.Commentary, jh.Commentary);
             }
@@ -134,11 +116,7 @@ export default defineComponent({
                 const jt = jsonTEXT.LegalDefinitions[i];
                 const jh = jsonHTML.LegalDefinitions[i];
                 eles[i] = "";
-                eles[i] += nonEmptyHtml(
-                    ">> legislationName:",
-                    jt.LegislationName,
-                    jh.LegislationName
-                );
+                eles[i] += nonEmptyHtml(">> legislationName:", jt.LegislationName, jh.LegislationName);
                 eles[i] += nonEmptyHtml(">> citation:", jt.Citation, jh.Citation);
                 eles[i] += nonEmptyHtml(">> link:", jt.Link, jh.Link);
                 eles[i] += nonEmptyHtml(">> definition:", jt.Definition, jh.Definition);
@@ -153,8 +131,7 @@ export default defineComponent({
         };
 
         const previewCollections = () => {
-            const head =
-                "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Collections</pre></h3>";
+            const head = "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Collections</pre></h3>";
             const n = jsonTEXT.CntCol();
             let eles: string[] = [];
             for (let i = 0; i < n; i++) {
@@ -162,24 +139,10 @@ export default defineComponent({
                 const jh = jsonHTML.Collections[i];
                 eles[i] = "";
                 eles[i] += nonEmptyHtml(">> name:", jt.Name, jh.Name);
-                eles[i] += nonEmptyHtml(
-                    ">> description:",
-                    jt.Description,
-                    jh.Description
-                );
+                eles[i] += nonEmptyHtml(">> description:", jt.Description, jh.Description);
                 eles[i] += nonEmptyHtml(">> standard:", jt.Standard, jh.Standard);
-                if (jt.Elements != null && jh.Elements != null) {
-                    eles[i] += nonEmptyHtml(
-                        ">> elements:",
-                        jt.Elements.join(""),
-                        jh.Elements.join("")
-                    );
-                }
-                eles[i] += nonEmptyHtml(
-                    ">> definition modification:",
-                    jt.DefinitionModification,
-                    jh.DefinitionModification
-                );
+                eles[i] += (jt.Elements != null && jh.Elements != null) ? nonEmptyHtml(">> elements:", jt.Elements.join(""), jh.Elements.join("")) : "";
+                eles[i] += nonEmptyHtml(">> definition modification:", jt.DefinitionModification, jh.DefinitionModification);
             }
             const body = eles.join("<hr style='border-top: 1px dashed;'>");
             if (body.length > 0) {
@@ -191,26 +154,12 @@ export default defineComponent({
         const previewMetadata = () => {
             const jt = jsonTEXT.Metadata;
             const jh = jsonHTML.Metadata;
-
-            const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier)
-            const type = nonEmptyHtml(">> type:", jt.Type, jh.Type)
-            const ea = jt.ExpectedAttributes != null && jh.ExpectedAttributes != null ? nonEmptyHtml(
-                ">> expected attributes:",
-                jt.ExpectedAttributes.join(""),
-                jh.ExpectedAttributes.join("")
-            ) : "";
-            const sc = jt.Superclass != null && jh.Superclass != null ? nonEmptyHtml(
-                ">> superclass:",
-                jt.Superclass.join(""),
-                jh.Superclass.join("")
-            ) : "";
-            const ce = jt.CrossrefEntities != null && jh.CrossrefEntities != null ? nonEmptyHtml(
-                ">> cross ref entities:",
-                jt.CrossrefEntities.join(""),
-                jh.CrossrefEntities.join("")
-            ) : "";
-
-            return "<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Meta Data</pre></h3>" + id + type + ea + sc + ce;
+            const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier);
+            const type = nonEmptyHtml(">> type:", jt.Type, jh.Type);
+            const ea = (jt.ExpectedAttributes != null && jh.ExpectedAttributes != null) ? nonEmptyHtml(">> expected attributes:", jt.ExpectedAttributes.join(""), jh.ExpectedAttributes.join("")) : "";
+            const sc = (jt.Superclass != null && jh.Superclass != null) ? nonEmptyHtml(">> superclass:", jt.Superclass.join(""), jh.Superclass.join("")) : "";
+            const ce = (jt.CrossrefEntities != null && jh.CrossrefEntities != null) ? nonEmptyHtml(">> cross ref entities:", jt.CrossrefEntities.join(""), jh.CrossrefEntities.join("")) : "";
+            return ("<h3 style='font-size:x-large; font-style:italic; background-color: darkgray'><pre> Meta Data</pre></h3>" + id + type + ea + sc + ce);
         };
 
         //////////

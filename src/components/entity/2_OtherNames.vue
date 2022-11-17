@@ -12,10 +12,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 
 export default defineComponent({
-    name: "EntryOtherNames",
+    name: "EntOtherNames",
     setup() {
         const icon = ref("chevron-down");
         const visEditor = ref(false);
@@ -27,8 +27,8 @@ export default defineComponent({
         };
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            othernames.value = jsonTEXT.OtherNames != null ? jsonTEXT.OtherNames.join('\n') : "";
-        })
+            othernames.value = jsonTEXT.OtherNames != null ? jsonTEXT.OtherNames.join("\n") : "";
+        });
         watchEffect(() => {
             jsonTEXT.SetOtherName(othernames.value);
             jsonHTML.SetOtherName(othernames.value);
@@ -39,7 +39,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taON.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             othernames,

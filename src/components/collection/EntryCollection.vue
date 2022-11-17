@@ -1,31 +1,31 @@
 <template>
-    <EntryName />
+    <ColName />
     <br />
-    <EntryDef />
+    <ColDef />
     <br />
-    <EntryUrl />
+    <ColUrl />
     <br />
-    <EntryMeta />
+    <ColMeta />
     <br />
-    <EntryEntities />
+    <ColEntities />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import EntryName from "./1_Name.vue";
-import EntryDef from "./2_Def.vue";
-import EntryUrl from "./3_Url.vue";
-import EntryMeta from "./4_Meta.vue";
-import EntryEntities from "./5_Entities.vue";
+import ColName from "./1_Name.vue";
+import ColDef from "./2_Def.vue";
+import ColUrl from "./3_Url.vue";
+import ColMeta from "./4_Meta.vue";
+import ColEntities from "./5_Entities.vue";
 
 export default defineComponent({
     name: "CollectionEntity",
     components: {
-        EntryName,
-        EntryDef,
-        EntryUrl,
-        EntryMeta,
-        EntryEntities,
+        ColName,
+        ColDef,
+        ColUrl,
+        ColMeta,
+        ColEntities,
     },
     setup() {
         return {};

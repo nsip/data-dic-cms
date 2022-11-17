@@ -13,10 +13,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import EditorMeta from "./4_Meta_Editor.vue"
+import EditorMeta from "./4_Meta_Editor.vue";
 
 export default defineComponent({
-    name: "EntryMeta",
+    name: "ColMeta",
     components: {
         EditorMeta,
     },
@@ -25,7 +25,7 @@ export default defineComponent({
         let visEditor = ref(false);
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500)); // textarea needs to wait, quill in 'onReady'
-        })
+        });
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -41,4 +41,5 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

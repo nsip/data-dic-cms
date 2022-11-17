@@ -3,41 +3,42 @@
         <MainTitle />
         <div id="container">
             <div id="left">
-                <EntryEntity />
+                <EntryEntity v-if="kind=='entity'" />
+                <EntryCollection v-if="kind=='collection'" />
             </div>
             <div id="right">
-                <PreviewArea />
+                <Preview :Kind="kind" />
             </div>
         </div>
-        <EntryExport />
-        <EntryExit />
+        <BtnExport />
+        <BtnExit />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent, } from "./share/share";
-import { EntityType, jsonEntityHTML, jsonEntityTEXT, } from "./share/EntityType";
+import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "./share/share";
+import { EntityType, jsonEntityHTML, jsonEntityTEXT } from "./share/EntityType";
 import { CollectionType, jsonCollectionHTML, jsonCollectionTEXT } from "./share/CollectionType";
-// import { stringifyStyle } from "@vue/shared";
-import MainTitle from "./components/Title.vue";
+
+import MainTitle from "./components/shared/Title.vue";
+import Preview from "./components/shared/Preview.vue";
+import BtnExport from "./components/shared/BtnExport.vue";
+import BtnExit from "./components/shared/BtnExit.vue";
 import EntryEntity from "./components/entity/EntryEntity.vue";
-import PreviewArea from "./components/entity/Preview.vue";
-import EntryExport from "./components/entity/BtnExport.vue";
-import EntryExit from "./components/entity/BtnExit.vue";
-// import EntryCollection
+import EntryCollection from "./components/collection/EntryCollection.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         MainTitle,
         EntryEntity,
-        PreviewArea,
-        EntryExport,
-        EntryExit,
+        EntryCollection,
+        Preview,
+        BtnExport,
+        BtnExit,
     },
     setup() {
-
         let disp = ref(false);
 
         // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
@@ -68,6 +69,7 @@ export default defineComponent({
             } else {
 
                 // fill loginUser, already 'ping' back-end api
+
                 getUname(); // in this, need to read 'loginAuth.value'
 
                 await new Promise((f) => setTimeout(f, 500));
@@ -78,7 +80,7 @@ export default defineComponent({
                     if (name.length > 0 && kind.length > 0) {
                         // *** edit mode ***
 
-                        Mode.value = "edit"
+                        Mode.value = "edit";
 
                         // console.log("edit mode");
                         // console.log(`${name} : ${kind}`)
@@ -87,40 +89,56 @@ export default defineComponent({
                             case "entity":
                                 {
                                     const entity = (await getItemContent(name, kind, "existing")) as EntityType;
+                                    const jeh = jsonEntityHTML
+                                    const jet = jsonEntityTEXT
 
-                                    jsonEntityHTML.AssignName("html", entity.Entity);
-                                    jsonEntityHTML.AssignOtherNames("html", entity.OtherNames);
-                                    jsonEntityHTML.AssignDefinition("html", entity.Definition);
-                                    jsonEntityHTML.AssignSIF("html", entity.SIF);
-                                    jsonEntityHTML.AssignOtherStd("html", entity.OtherStandards);
-                                    jsonEntityHTML.AssignLegalDef("html", entity.LegalDefinitions);
-                                    jsonEntityHTML.AssignCol("html", entity.Collections);
-                                    jsonEntityHTML.AssignMeta("html", entity.Metadata);
+                                    jeh.AssignName("html", entity.Entity);
+                                    jeh.AssignOtherNames("html", entity.OtherNames);
+                                    jeh.AssignDefinition("html", entity.Definition);
+                                    jeh.AssignSIF("html", entity.SIF);
+                                    jeh.AssignOtherStd("html", entity.OtherStandards);
+                                    jeh.AssignLegalDef("html", entity.LegalDefinitions);
+                                    jeh.AssignCol("html", entity.Collections);
+                                    jeh.AssignMeta("html", entity.Metadata);
 
-                                    jsonEntityTEXT.AssignName("text", entity.Entity);
-                                    jsonEntityTEXT.AssignOtherNames("text", entity.OtherNames);
-                                    jsonEntityTEXT.AssignDefinition("text", entity.Definition);
-                                    jsonEntityTEXT.AssignSIF("text", entity.SIF);
-                                    jsonEntityTEXT.AssignOtherStd("text", entity.OtherStandards);
-                                    jsonEntityTEXT.AssignLegalDef("text", entity.LegalDefinitions);
-                                    jsonEntityTEXT.AssignCol("text", entity.Collections);
-                                    jsonEntityTEXT.AssignMeta("text", entity.Metadata);
-
+                                    jet.AssignName("text", entity.Entity);
+                                    jet.AssignOtherNames("text", entity.OtherNames);
+                                    jet.AssignDefinition("text", entity.Definition);
+                                    jet.AssignSIF("text", entity.SIF);
+                                    jet.AssignOtherStd("text", entity.OtherStandards);
+                                    jet.AssignLegalDef("text", entity.LegalDefinitions);
+                                    jet.AssignCol("text", entity.Collections);
+                                    jet.AssignMeta("text", entity.Metadata);
                                 }
                                 break;
 
                             case "collection":
                                 {
+                                    const collection = (await getItemContent(name, kind, "existing")) as CollectionType;
+                                    const jch = jsonCollectionHTML
+                                    const jct = jsonCollectionTEXT
 
+                                    jch.AssignName("html", collection.Collection);
+                                    jch.AssignDefinition("html", collection.Definition);
+                                    jch.AssignUrls("html", collection.Url);
+                                    jch.AssignMeta("html", collection.Metadata);
+                                    jch.AssignEntities("html", collection.Entities);
+
+                                    jct.AssignName("text", collection.Collection);
+                                    jct.AssignDefinition("text", collection.Definition);
+                                    jct.AssignUrls("text", collection.Url);
+                                    jct.AssignMeta("text", collection.Metadata);
+                                    jct.AssignEntities("text", collection.Entities);
                                 }
                                 break;
 
                             default:
                         }
+
                     } else {
                         // *** create mode ***
 
-                        Mode.value = "new"
+                        Mode.value = "new";
 
                         // console.log("new mode");
                     }
@@ -131,6 +149,7 @@ export default defineComponent({
         return {
             loginUser,
             disp,
+            kind,
         };
     },
 });

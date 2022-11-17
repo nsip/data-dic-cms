@@ -1,5 +1,4 @@
 <template>
-
     <TextLine text="identifier:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
     <textarea class="content" ref="taID" v-model="identifier" placeholder="identifier"></textarea>
 
@@ -14,47 +13,43 @@
 
     <TextLine text="cross ref entities:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
     <textarea class="content" ref="taRE" v-model="refentities" placeholder="cross ref entities"></textarea>
-
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
-import TextLine from "../shared/TextLine.vue"
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
-    name: "EditorMeta",
+    name: "EntMetaEditor",
     components: {
         TextLine,
     },
     setup() {
+        const identifier = ref("");
+        const type = ref("");
+        const attributes = ref("");
+        const superclasses = ref("");
+        const refentities = ref("");
 
-        const identifier = ref("")
-        const type = ref("")
-        const attributes = ref("")
-        const superclasses = ref("")
-        const refentities = ref("")
+        const taID = ref<HTMLTextAreaElement | null>(null);
+        const taTP = ref<HTMLTextAreaElement | null>(null);
+        const taEA = ref<HTMLTextAreaElement | null>(null);
+        const taSC = ref<HTMLTextAreaElement | null>(null);
+        const taRE = ref<HTMLTextAreaElement | null>(null);
 
-        const taID = ref<HTMLTextAreaElement | null>(null); 
-        const taTP = ref<HTMLTextAreaElement | null>(null); 
-        const taEA = ref<HTMLTextAreaElement | null>(null); 
-        const taSC = ref<HTMLTextAreaElement | null>(null); 
-        const taRE = ref<HTMLTextAreaElement | null>(null); 
-        
         onMounted(async () => {
-
-            const meta = jsonHTML.Metadata
+            const meta = jsonHTML.Metadata;
 
             // textarea
-            identifier.value = meta.Identifier
-            type.value = meta.Type
-            attributes.value = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join('\n') : ""
-            superclasses.value = meta.Superclass != null ? meta.Superclass.join('\n') : ""
-            refentities.value = meta.CrossrefEntities != null ? meta.CrossrefEntities.join('\n') : ""
-        })
+            identifier.value = meta.Identifier;
+            type.value = meta.Type;
+            attributes.value = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join("\n") : "";
+            superclasses.value = meta.Superclass != null ? meta.Superclass.join("\n") : "";
+            refentities.value = meta.CrossrefEntities != null ? meta.CrossrefEntities.join("\n") : "";
+        });
 
         watchEffect(() => {
-
             jsonHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
             jsonTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
 
@@ -73,10 +68,9 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taRE.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
-
             // bind variable
             identifier,
             type,

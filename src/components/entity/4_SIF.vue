@@ -11,29 +11,30 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">list of [xpath(list), definition, commentary, datestamp]</span>
-        <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
-            <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorSIF :idx="i" />
+        <div v-if="visEditor">
+            <div v-for="(n, i) in nEditor" :key="i">
+                <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
+                <EditorSIF :idx="i" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue"
-import EditorSIF from "./4_SIF_Editor.vue"
+import TextLine from "../shared/TextLine.vue";
+import EditorSIF from "./4_SIF_Editor.vue";
 
 export default defineComponent({
-    name: "EntrySIF",
+    name: "EntSIF",
     components: {
         EditorSIF,
         TextLine,
     },
     setup() {
         const icon = ref("chevron-down");
-
         const visEditor = ref(false);
         const nEditor = ref(1);
 
@@ -42,7 +43,7 @@ export default defineComponent({
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
                 nEditor.value = jsonHTML.SIF.length;
             }
-        })
+        });
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
@@ -54,8 +55,8 @@ export default defineComponent({
                 case "+":
                     {
                         if (jsonTEXT.IsLastSIFEmpty()) {
-                            alert("please use available editor(s). if hidden, unfold it")
-                            break
+                            alert("please use available editor(s). if hidden, unfold it");
+                            break;
                         }
 
                         // add new OtherStandard element in json
@@ -69,7 +70,7 @@ export default defineComponent({
                 case "-":
                     {
                         if (nEditor.value == 1) {
-                            alert("no more editor group to remove")
+                            alert("no more editor group to remove");
                             break;
                         }
 
@@ -80,7 +81,7 @@ export default defineComponent({
                         nEditor.value--;
                     }
                     break;
-                    
+
                 default:
             }
             // console.log('editor count:', nEditor.value)

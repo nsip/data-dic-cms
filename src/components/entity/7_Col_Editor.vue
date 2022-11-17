@@ -1,5 +1,4 @@
 <template>
-
     <TextLine text="name:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <textarea class="content" ref="taN" v-model="name" placeholder="name"></textarea>
 
@@ -17,7 +16,6 @@
 
     <TextLine text="definition modification:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReadyDM" @textChange="textChangeDM(idx || 0)" />
-
 </template>
 
 <script lang="ts">
@@ -25,55 +23,54 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
-    name: "EditorCol",
+    name: "EntColEditor",
     components: {
         QuillEditor,
         TextLine,
     },
     props: {
-        idx: Number
+        idx: Number,
     },
     setup(props) {
-
-        const name = ref("")
-        const standard = ref("")
-        const elements = ref("")
+        const name = ref("");
+        const standard = ref("");
+        const elements = ref("");
 
         const taN = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taS = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        let quillDes: Quill
-        let quillBR: Quill
-        let quillDM: Quill
+        let quillDes: Quill;
+        let quillBR: Quill;
+        let quillDM: Quill;
 
         onMounted(async () => {
-
-            const col = jsonHTML.Collections[props.idx || 0]
+            const col = jsonHTML.Collections[props.idx || 0];
 
             // textarea
-            name.value = col.Name
-            standard.value = col.Standard
-            elements.value = col.Elements != null ? col.Elements.join('\n') : ""
+            name.value = col.Name;
+            standard.value = col.Standard;
+            elements.value = col.Elements != null ? col.Elements.join("\n") : "";
 
             // quill
-            quillDes.root.innerHTML = col.Description
-            quillBR.root.innerHTML = col.BusinessRules != null ? col.BusinessRules.join('\n') : ""
-            quillDM.root.innerHTML = col.DefinitionModification
-        })
+            quillDes.root.innerHTML = col.Description;
+            quillBR.root.innerHTML =
+                col.BusinessRules != null ? col.BusinessRules.join("\n") : "";
+            quillDM.root.innerHTML = col.DefinitionModification;
+        });
 
         const onReadyDes = (quill: Quill) => {
-            quillDes = quill
+            quillDes = quill;
         };
         const onReadyBR = (quill: Quill) => {
-            quillBR = quill
+            quillBR = quill;
         };
         const onReadyDM = (quill: Quill) => {
-            quillDM = quill
+            quillDM = quill;
         };
 
         const textChangeDes = (idx: number) => {
@@ -96,7 +93,6 @@ export default defineComponent({
         };
 
         watchEffect(() => {
-
             jsonHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
             jsonTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
 
@@ -115,7 +111,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 20 + 2;
                 taE.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             name,

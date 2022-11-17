@@ -1,28 +1,27 @@
 <template>
     <div class="com">
         <span class="label">Entity:</span>
-        <input class="content" type="text" v-model="entity" :readonly="Mode == 'edit'" placeholder="entity name">
+        <input class="content" type="text" v-model="entity" :readonly="Mode == 'edit'" placeholder="entity name" />
     </div>
 </template>
 
 <script lang="ts">
-
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { Mode } from "@/share/share";
 
 export default defineComponent({
-    name: "EntryName",
+    name: "EntName",
     setup() {
-        const entity = ref("")
+        const entity = ref("");
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             entity.value = jsonTEXT.Entity;
-        })
+        });
         watchEffect(() => {
-            jsonHTML.SetName(entity.value)
-            jsonTEXT.SetName(entity.value)
-        })
+            jsonHTML.SetName(entity.value);
+            jsonTEXT.SetName(entity.value);
+        });
         return {
             entity,
             Mode,

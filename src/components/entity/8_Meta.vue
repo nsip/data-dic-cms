@@ -13,10 +13,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import EditorMeta from "./8_Meta_Editor.vue"
+import EditorMeta from "./8_Meta_Editor.vue";
 
 export default defineComponent({
-    name: "EntryMeta",
+    name: "EntMeta",
     components: {
         EditorMeta,
     },
@@ -26,7 +26,7 @@ export default defineComponent({
 
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500)); // textarea needs to wait, quill in 'onReady'
-        })
+        });
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
@@ -44,4 +44,5 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

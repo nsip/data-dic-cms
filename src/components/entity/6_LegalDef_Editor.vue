@@ -1,5 +1,4 @@
 <template>
-
     <TextLine text="legislationName:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <textarea class="content" ref="taLN" v-model="legname" placeholder="standard"></textarea>
 
@@ -17,7 +16,6 @@
 
     <TextLine text="datestamp:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <textarea class="content" ref="taDS" v-model="datestamp" placeholder="standard"></textarea>
-
 </template>
 
 <script lang="ts">
@@ -25,55 +23,53 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
-import TextLine from "../shared/TextLine.vue"
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
-    name: "EditorLegalDef",
+    name: "EntLegalDefEditor",
     components: {
         QuillEditor,
         TextLine,
     },
     props: {
-        idx: Number
+        idx: Number,
     },
     setup(props) {
-
-        const legname = ref("")
-        const link = ref("")
-        const datestamp = ref("")
+        const legname = ref("");
+        const link = ref("");
+        const datestamp = ref("");
 
         const taLN = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taLK = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taDS = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        let quillCit: Quill
-        let quillDef: Quill
-        let quillCmt: Quill
+        let quillCit: Quill;
+        let quillDef: Quill;
+        let quillCmt: Quill;
 
         onMounted(async () => {
-
-            const ld = jsonHTML.LegalDefinitions[props.idx || 0]
+            const ld = jsonHTML.LegalDefinitions[props.idx || 0];
 
             // textarea
-            legname.value = ld.LegislationName
-            link.value = ld.Link
-            datestamp.value = ld.Datestamp
+            legname.value = ld.LegislationName;
+            link.value = ld.Link;
+            datestamp.value = ld.Datestamp;
 
             // quill
-            quillCit.root.innerHTML = ld.Citation
-            quillDef.root.innerHTML = ld.Definition
-            quillCmt.root.innerHTML = ld.Commentary
-        })
+            quillCit.root.innerHTML = ld.Citation;
+            quillDef.root.innerHTML = ld.Definition;
+            quillCmt.root.innerHTML = ld.Commentary;
+        });
 
         const onReadyCit = (quill: Quill) => {
-            quillCit = quill
+            quillCit = quill;
         };
         const onReadyDef = (quill: Quill) => {
-            quillDef = quill
+            quillDef = quill;
         };
         const onReadyCmt = (quill: Quill) => {
-            quillCmt = quill
+            quillCmt = quill;
         };
 
         const textChangeCit = (idx: number) => {
@@ -96,7 +92,6 @@ export default defineComponent({
         };
 
         watchEffect(() => {
-
             jsonHTML.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
             jsonTEXT.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
 
@@ -115,7 +110,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taDS.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             legname,

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { postDataToDic, loginToken } from "@/share/share";
 import { IP_VIEW } from "@/share/ip";
 // import FileSaver from 'file-saver';
@@ -19,7 +19,7 @@ import { IP_VIEW } from "@/share/ip";
 // npm install --save @fortawesome/vue-fontawesome@latest-3
 
 export default defineComponent({
-    name: "EntryExport",
+    name: "BtnExport",
     setup() {
         const btnName = "export to dictionary";
 
@@ -28,12 +28,11 @@ export default defineComponent({
         // document.head.appendChild(ckeditor);
 
         const redirect = async () => {
-            const page_view = `${IP_VIEW}?auth=${loginToken.value}`
-            location.replace(page_view)
+            const page_view = `${IP_VIEW}?auth=${loginToken.value}`;
+            location.replace(page_view);
         };
 
         const saveJSON = async () => {
-
             // const htmlValData = jsonHTML.GenJSON(true)
             // const textValData = jsonTEXT.GenJSON(false)
 
@@ -59,7 +58,7 @@ export default defineComponent({
 
             alert(`[${jsonTEXT.Entity}] has been uploaded, redirecting to main page`);
 
-            redirect()
+            redirect();
         };
 
         return {

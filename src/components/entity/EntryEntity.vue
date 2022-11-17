@@ -1,43 +1,43 @@
 <template>
-    <EntryName />
+    <EntName />
     <br />
-    <EntryOtherNames />
+    <EntOtherNames />
     <br />
-    <EntryDef />
+    <EntDef />
     <br />
-    <EntrySIF />
+    <EntSIF />
     <br />
-    <EntryOtherStd />
+    <EntOtherStd />
     <br />
-    <EntryLegalDef />
+    <EntLegalDef />
     <br />
-    <EntryCol />
+    <EntCol />
     <br />
-    <EntryMeta />
+    <EntMeta />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import EntryName from "./1_Name.vue";
-import EntryOtherNames from "./2_OtherName.vue";
-import EntryDef from "./3_Def.vue";
-import EntrySIF from "./4_SIF.vue";
-import EntryOtherStd from "./5_OtherStd.vue";
-import EntryLegalDef from "./6_LegalDef.vue";
-import EntryCol from "./7_Col.vue";
-import EntryMeta from "./8_Meta.vue";
+import EntName from "./1_Name.vue";
+import EntOtherNames from "./2_OtherNames.vue";
+import EntDef from "./3_Def.vue";
+import EntSIF from "./4_SIF.vue";
+import EntOtherStd from "./5_OtherStd.vue";
+import EntLegalDef from "./6_LegalDef.vue";
+import EntCol from "./7_Col.vue";
+import EntMeta from "./8_Meta.vue";
 
 export default defineComponent({
     name: "EntryEntity",
     components: {
-        EntryName,
-        EntryOtherNames,
-        EntryDef,
-        EntrySIF,
-        EntryOtherStd,
-        EntryLegalDef,
-        EntryCol,
-        EntryMeta,
+        EntName,
+        EntOtherNames,
+        EntDef,
+        EntSIF,
+        EntOtherStd,
+        EntLegalDef,
+        EntCol,
+        EntMeta,
     },
     setup() {
         return {};

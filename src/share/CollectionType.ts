@@ -1,5 +1,11 @@
 import { reactive } from "vue";
-import { cvtHtml2Plain, cvtArrayHtml2Plain, validStr, validStrHTMLArr, validStrTEXTArr, } from "./util";
+import {
+    cvtHtml2Plain,
+    cvtArrayHtml2Plain,
+    validStr,
+    validStrHTMLArr,
+    validStrTEXTArr,
+} from "./util";
 
 export class CollectionType {
     Collection = "";
@@ -70,10 +76,7 @@ export class CollectionType {
     // Meta Data ---------------------------------------------------
     //
 
-    SetMeta(
-        id: string,
-        type: string
-    ) {
+    SetMeta(id: string, type: string) {
         this.Metadata.Identifier = validStr(id, this.Metadata.Identifier);
         this.Metadata.Type = validStr(type, this.Metadata.Type);
     }
@@ -95,9 +98,9 @@ export class CollectionType {
         return m;
     }
 
-    // 
+    //
     // Entities ---------------------------------------------------
-    // 
+    //
 
     SetEntities(entitiesStr: string) {
         this.Entities = validStrTEXTArr(entitiesStr, this.Entities);
@@ -113,7 +116,8 @@ export class CollectionType {
                 this.Entities = entities != null ? entities : EmptyStrArr;
                 break;
             default:
-                this.Entities = entities != null ? cvtArrayHtml2Plain(entities) : EmptyStrArr;
+                this.Entities =
+                    entities != null ? cvtArrayHtml2Plain(entities) : EmptyStrArr;
         }
     }
 }

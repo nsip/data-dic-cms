@@ -15,7 +15,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
 
 export default defineComponent({
-    name: "EntryEntities",
+    name: "ColEntities",
     setup() {
         const icon = ref("chevron-down");
         const visEditor = ref(false);
@@ -27,8 +27,11 @@ export default defineComponent({
         };
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            entities.value = jsonCollectionTEXT.Entities != null ? jsonCollectionTEXT.Entities.join('\n') : "";
-        })
+            entities.value =
+                jsonCollectionTEXT.Entities != null
+                    ? jsonCollectionTEXT.Entities.join("\n")
+                    : "";
+        });
         watchEffect(() => {
             jsonCollectionTEXT.SetEntities(entities.value);
             jsonCollectionHTML.SetEntities(entities.value);
@@ -39,7 +42,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taE.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             entities,

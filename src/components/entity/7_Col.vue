@@ -11,29 +11,31 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">list of [name, description, standard, elements(list), businessRules(list), definitionModification]</span>
-        <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
-            <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorCol :idx="i" />
+        <div v-if="visEditor">
+            <div v-for="(n, i) in nEditor" :key="i">
+                <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
+                <EditorCol :idx="i" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue"
-import EditorCol from "./7_Col_Editor.vue"
+import TextLine from "../shared/TextLine.vue";
+import EditorCol from "./7_Col_Editor.vue";
 
 export default defineComponent({
-    name: "EntryCol",
+    name: "EntCol",
     components: {
         EditorCol,
         TextLine,
     },
     setup() {
         let icon = ref("chevron-down");
-        let visEditor = ref(false);        
+        let visEditor = ref(false);
         let nEditor = ref(1);
 
         onMounted(async () => {
@@ -41,8 +43,8 @@ export default defineComponent({
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
                 nEditor.value = jsonHTML.Collections.length;
             }
-        })
-        
+        });
+
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -53,8 +55,8 @@ export default defineComponent({
                 case "+":
                     {
                         if (jsonTEXT.IsLastColEmpty()) {
-                            alert("please use available editor(s). if hidden, unfold it")
-                            break
+                            alert("please use available editor(s). if hidden, unfold it");
+                            break;
                         }
 
                         // add new Collection element in json
@@ -68,7 +70,7 @@ export default defineComponent({
                 case "-":
                     {
                         if (nEditor.value == 1) {
-                            alert("no more editor group to remove")
+                            alert("no more editor group to remove");
                             break;
                         }
 

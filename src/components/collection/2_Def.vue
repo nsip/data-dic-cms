@@ -20,7 +20,7 @@ import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
 
 export default defineComponent({
-    name: "EntryDef",
+    name: "ColDef",
     components: {
         QuillEditor,
     },
@@ -30,7 +30,6 @@ export default defineComponent({
         let visEditor = ref(false);
 
         const onReady = (quill: Quill) => {
-
             quillDef = quill;
 
             // fill existing html text into quill, format could change by quill

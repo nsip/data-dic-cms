@@ -1,28 +1,27 @@
 <template>
     <div class="com">
         <span class="label">Collection:</span>
-        <input class="content" type="text" v-model="collection" :readonly="Mode == 'edit'" placeholder="collection name">
+        <input class="content" type="text" v-model="collection" :readonly="Mode == 'edit'" placeholder="collection name" />
     </div>
 </template>
 
 <script lang="ts">
-
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonCollectionHTML as jsonHTML, jsonCollectionTEXT as jsonTEXT } from "@/share/CollectionType";
 import { Mode } from "@/share/share";
 
 export default defineComponent({
-    name: "EntryName",
+    name: "ColName",
     setup() {
-        const collection = ref("")
+        const collection = ref("");
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             collection.value = jsonTEXT.Collection;
-        })
+        });
         watchEffect(() => {
-            jsonHTML.SetName(collection.value)
-            jsonTEXT.SetName(collection.value)
-        })
+            jsonHTML.SetName(collection.value);
+            jsonTEXT.SetName(collection.value);
+        });
         return {
             collection,
             Mode,
@@ -36,6 +35,7 @@ export default defineComponent({
 .label {
     margin-top: 10px;
 }
+
 .content {
     position: relative;
     margin-left: 1%;

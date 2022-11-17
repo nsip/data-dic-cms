@@ -10,11 +10,11 @@ import { IP_VIEW } from "@/share/ip";
 import { loginToken } from "@/share/share";
 
 export default defineComponent({
-    name: "EntryExit",
+    name: "BtnExit",
     setup() {
         const redirect = async () => {
-            const page_view = `${IP_VIEW}?auth=${loginToken.value}`
-            location.replace(page_view)
+            const page_view = `${IP_VIEW}?auth=${loginToken.value}`;
+            location.replace(page_view);
         };
         return {
             redirect,

@@ -17,8 +17,7 @@ export default defineComponent({
         lineColor: String,
     },
     setup() {
-        return {
-        }
+        return {};
     },
 });
 </script>

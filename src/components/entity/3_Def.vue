@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 
 export default defineComponent({
-    name: "EntryDef",
+    name: "EntDef",
     components: {
         QuillEditor,
     },
@@ -31,7 +31,6 @@ export default defineComponent({
         let visEditor = ref(false);
 
         const onReady = (quill: Quill) => {
-
             quillDef = quill;
 
             // fill existing html text into quill, format could change by quill

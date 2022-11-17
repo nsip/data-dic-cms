@@ -10,24 +10,33 @@
     </div>
     <hr />
     <pre>{{ genJSON(selTYPE) }}</pre>
-    <PreviewContent v-if="selTYPE == 'preview'" />
+    <EntVisualContent v-if="selTYPE == 'preview' && Kind == 'entity'" />
+    <ColVisualContent v-if="selTYPE == 'preview' && Kind == 'collection'" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
-import PreviewContent from "./PreviewContent.vue";
+import { jsonEntityHTML, jsonEntityTEXT } from "@/share/EntityType";
+import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import EntVisualContent from "@/components/entity/VisualContent.vue";
+import ColVisualContent from "@/components/collection/VisualContent.vue";
 
 export default defineComponent({
-    name: "PreviewArea",
-    // props: {
-    //     msg: String,
-    // },
-    components: {
-        PreviewContent,
+    name: "EntryPreview",
+    props: {
+        Kind: String,
     },
-    setup() {
+    components: {
+        EntVisualContent,
+        ColVisualContent,
+    },
+    setup(props) {
+
         let selTYPE = ref("text"); // default (checked) json type
+        
+        const jsonTEXT = props.Kind == 'entity' ? jsonEntityTEXT : jsonCollectionTEXT;
+        const jsonHTML = props.Kind == 'entity' ? jsonEntityHTML : jsonCollectionHTML;
+
         const genJSON = (TYPE: string) => {
             switch (TYPE) {
                 case "text":

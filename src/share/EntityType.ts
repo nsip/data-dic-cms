@@ -1,5 +1,11 @@
 import { reactive } from "vue";
-import { cvtHtml2Plain, cvtArrayHtml2Plain, validStr, validStrHTMLArr, validStrTEXTArr, } from "./util";
+import {
+    cvtHtml2Plain,
+    cvtArrayHtml2Plain,
+    validStr,
+    validStrHTMLArr,
+    validStrTEXTArr,
+} from "./util";
 
 export class EntityType {
     Entity = "";
@@ -56,7 +62,8 @@ export class EntityType {
                 this.OtherNames = names != null ? names : EmptyStrArr;
                 break;
             default:
-                this.OtherNames = names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
+                this.OtherNames =
+                    names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
         }
     }
 

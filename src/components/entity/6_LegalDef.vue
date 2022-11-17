@@ -11,38 +11,39 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">list of [legislationName, citation, link, definition, commentary, datestamp]</span>
-        <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
-            <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorLegDef :idx="i" />
+        <div v-if="visEditor">
+            <div v-for="(n, i) in nEditor" :key="i">
+                <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
+                <EditorLegDef :idx="i" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue"
-import EditorLegDef from "./6_LegalDef_Editor.vue"
+import TextLine from "../shared/TextLine.vue";
+import EditorLegDef from "./6_LegalDef_Editor.vue";
 
 export default defineComponent({
-    name: "EntryLegalDef",
+    name: "EntLegalDef",
     components: {
         EditorLegDef,
         TextLine,
     },
     setup() {
         let icon = ref("chevron-down");
-
         let visEditor = ref(false);
         let nEditor = ref(1);
 
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
-                nEditor.value = jsonHTML.LegalDefinitions.length;               
+                nEditor.value = jsonHTML.LegalDefinitions.length;
             }
-        })        
+        });
 
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
@@ -54,8 +55,8 @@ export default defineComponent({
                 case "+":
                     {
                         if (jsonTEXT.IsLastLegalDefEmpty()) {
-                            alert("please use available editor(s). if hidden, unfold it")
-                            break
+                            alert("please use available editor(s). if hidden, unfold it");
+                            break;
                         }
 
                         // add new LegalDefinition element in json
@@ -69,7 +70,7 @@ export default defineComponent({
                 case "-":
                     {
                         if (nEditor.value == 1) {
-                            alert("no more editor group to remove")
+                            alert("no more editor group to remove");
                             break;
                         }
 
@@ -83,7 +84,7 @@ export default defineComponent({
                 default:
             }
         };
-       
+
         return {
             icon,
             nEditor,

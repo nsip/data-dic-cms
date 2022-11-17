@@ -11,28 +11,29 @@
             <font-awesome-icon icon="circle-plus" />
         </button>
         <span class="hint2">list of [standard, link(list), path(list), definition, commentary]</span>
-        <div v-if="visEditor" v-for="(n, i) in nEditor" :key="i">
-            <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
-            <EditorOtherStd :idx="i" />
+        <div v-if="visEditor">
+            <div v-for="(n, i) in nEditor" :key="i">
+                <TextLine :text="i.toString()" textAlign="center" textColor="gray" lineColor="black" lineHeight="1.5px" />
+                <EditorOtherStd :idx="i" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue"
-import EditorOtherStd from "./5_OtherStd_Editor.vue"
+import TextLine from "../shared/TextLine.vue";
+import EditorOtherStd from "./5_OtherStd_Editor.vue";
 
 export default defineComponent({
-    name: "EntryOtherStd",
+    name: "EntOtherStd",
     components: {
         EditorOtherStd,
         TextLine,
     },
     setup() {
-        
         let icon = ref("chevron-down");
         let visEditor = ref(false);
         let nEditor = ref(1);
@@ -42,8 +43,8 @@ export default defineComponent({
             if (itemName.value.length > 0 && itemKind.value.length > 0) {
                 nEditor.value = jsonHTML.OtherStandards.length;
             }
-        })
-        
+        });
+
         const onToggleVisible = () => {
             visEditor.value = !visEditor.value;
             icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
@@ -54,8 +55,8 @@ export default defineComponent({
                 case "+":
                     {
                         if (jsonTEXT.IsLastOtherStdEmpty()) {
-                            alert("please use available editor(s). if hidden, unfold it")
-                            break
+                            alert("please use available editor(s). if hidden, unfold it");
+                            break;
                         }
 
                         // add new OtherStandard element in json
@@ -69,7 +70,7 @@ export default defineComponent({
                 case "-":
                     {
                         if (nEditor.value == 1) {
-                            alert("no more editor group to remove")
+                            alert("no more editor group to remove");
                             break;
                         }
 

@@ -15,7 +15,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
 
 export default defineComponent({
-    name: "EntryUrl",
+    name: "ColUrl",
     setup() {
         const icon = ref("chevron-down");
         const visEditor = ref(false);
@@ -27,8 +27,9 @@ export default defineComponent({
         };
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            urls.value = jsonCollectionTEXT.Url != null ? jsonCollectionTEXT.Url.join('\n') : "";
-        })
+            urls.value =
+                jsonCollectionTEXT.Url != null ? jsonCollectionTEXT.Url.join("\n") : "";
+        });
         watchEffect(() => {
             jsonCollectionTEXT.SetUrl(urls.value);
             jsonCollectionHTML.SetUrl(urls.value);
@@ -39,7 +40,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taURL.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             urls,

@@ -1,5 +1,4 @@
 <template>
-
     <TextLine text="standard:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <textarea class="content" ref="taS" v-model="std" placeholder="standard"></textarea>
 
@@ -11,10 +10,9 @@
 
     <TextLine text="definition:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <QuillEditor theme="snow" toolbar="essential" placeholder="definition" @ready="onReadyDef" @textChange="textChangeDef(idx || 0)" />
-    
+
     <TextLine text="commentary:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="1px" />
     <QuillEditor theme="snow" toolbar="essential" placeholder="commentary" @ready="onReadyCmt" @textChange="textChangeCmt(idx || 0)" />
-
 </template>
 
 <script lang="ts">
@@ -22,47 +20,45 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
-import TextLine from "../shared/TextLine.vue"
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
-    name: "EditorOtherStd",
+    name: "EntOtherStdEditor",
     components: {
         QuillEditor,
         TextLine,
     },
     props: {
-        idx: Number
+        idx: Number,
     },
     setup(props) {
-
-        const std = ref("")
-        const links = ref("")
-        const paths = ref("")
+        const std = ref("");
+        const links = ref("");
+        const paths = ref("");
 
         const taS = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taL = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taP = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        let quillDef: Quill
-        let quillCmt: Quill
+        let quillDef: Quill;
+        let quillCmt: Quill;
 
         onMounted(async () => {
-
-            const os = jsonHTML.OtherStandards[props.idx || 0]
+            const os = jsonHTML.OtherStandards[props.idx || 0];
 
             // textarea
-            std.value = os.Standard
-            links.value = os.Link != null ? os.Link.join('\n') : ""
-            paths.value = os.Path != null ? os.Path.join('\n') : ""
+            std.value = os.Standard;
+            links.value = os.Link != null ? os.Link.join("\n") : "";
+            paths.value = os.Path != null ? os.Path.join("\n") : "";
 
             // quill
-            quillDef.root.innerHTML = os.Definition
-            quillCmt.root.innerHTML = os.Commentary
-        })
+            quillDef.root.innerHTML = os.Definition;
+            quillCmt.root.innerHTML = os.Commentary;
+        });
 
         const onReadyDef = (quill: Quill) => {
-            quillDef = quill
+            quillDef = quill;
         };
 
         const textChangeDef = (idx: number) => {
@@ -73,7 +69,7 @@ export default defineComponent({
         };
 
         const onReadyCmt = (quill: Quill) => {
-            quillCmt = quill
+            quillCmt = quill;
         };
 
         const textChangeCmt = (idx: number) => {
@@ -84,7 +80,6 @@ export default defineComponent({
         };
 
         watchEffect(() => {
-
             jsonHTML.SetOtherStd("html", props.idx || 0, std.value, links.value, paths.value, "", "");
             jsonTEXT.SetOtherStd("", props.idx || 0, std.value, links.value, paths.value, "", "");
 
@@ -103,7 +98,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taP.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             std,

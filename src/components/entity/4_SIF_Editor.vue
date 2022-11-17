@@ -1,5 +1,4 @@
 <template>
-
     <TextLine text="list of xpath:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
     <textarea class="content" ref="taXP" v-model="xpath" placeholder="list of xpath"></textarea>
 
@@ -11,7 +10,6 @@
 
     <TextLine text="datestamp:" textAlign="left" textColor="gray" lineColor="gray" lineHeight="0.5px" />
     <textarea class="content" ref="taDS" v-model="datestamp" placeholder="datestamp"></textarea>
-
 </template>
 
 <script lang="ts">
@@ -19,48 +17,46 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";;
-import TextLine from "../shared/TextLine.vue"
+import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
-    name: "EditorSIF",
+    name: "EntSIFEditor",
     components: {
         QuillEditor,
         TextLine,
     },
     props: {
-        idx: Number
+        idx: Number,
     },
     setup(props) {
-
-        const xpath = ref("")
-        const datestamp = ref("")
+        const xpath = ref("");
+        const datestamp = ref("");
 
         const taXP = ref<HTMLTextAreaElement | null>(null); // fetch element
         const taDS = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        let quillDef: Quill
-        let quillCmt: Quill
+        let quillDef: Quill;
+        let quillCmt: Quill;
 
         onMounted(async () => {
-
-            const sif = jsonHTML.SIF[props.idx || 0]
+            const sif = jsonHTML.SIF[props.idx || 0];
 
             // textarea
-            xpath.value = sif.XPath != null ? sif.XPath.join('\n') : ""
-            datestamp.value = sif.Datestamp
+            xpath.value = sif.XPath != null ? sif.XPath.join("\n") : "";
+            datestamp.value = sif.Datestamp;
 
             // quill
-            quillDef.root.innerHTML = sif.Definition
-            quillCmt.root.innerHTML = sif.Commentary
-        })
+            quillDef.root.innerHTML = sif.Definition;
+            quillCmt.root.innerHTML = sif.Commentary;
+        });
 
         const onReadyDef = (quill: Quill) => {
-            quillDef = quill
+            quillDef = quill;
         };
 
         const onReadyCmt = (quill: Quill) => {
-            quillCmt = quill
+            quillCmt = quill;
         };
 
         const textChangeDef = (idx: number) => {
@@ -78,8 +74,7 @@ export default defineComponent({
         };
 
         watchEffect(() => {
-
-            jsonTEXT.SetSIF("", props.idx || 0, xpath.value, "", "", datestamp.value)
+            jsonTEXT.SetSIF("", props.idx || 0, xpath.value, "", "", datestamp.value);
             jsonHTML.SetSIF("html", props.idx || 0, xpath.value, "", "", datestamp.value);
 
             // resize textarea
@@ -93,7 +88,7 @@ export default defineComponent({
                 const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
                 taDS.value!.style.height = newHeight + "px";
             }
-        })
+        });
 
         return {
             xpath,
