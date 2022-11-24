@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({

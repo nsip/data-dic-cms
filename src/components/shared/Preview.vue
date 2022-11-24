@@ -9,15 +9,15 @@
         <label>effect</label>
     </div>
     <hr />
-    <pre>{{ genJSON(selTYPE) }}</pre>
-    <EntVisualContent v-if="selTYPE == 'preview' && Kind == 'entity'" />
-    <ColVisualContent v-if="selTYPE == 'preview' && Kind == 'collection'" />
+    <pre v-if="selMode == 'text' || selMode == 'html'">{{ genJSON(selMode) }}</pre>
+    <EntVisualContent v-if="selMode == 'preview' && Kind == 'entity'" />
+    <ColVisualContent v-if="selMode == 'preview' && Kind == 'collection'" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { jsonEntityHTML, jsonEntityTEXT } from "@/share/EntityType";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import { jsonEntHTML, jsonEntTEXT } from "@/share/EntType";
+import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import EntVisualContent from "@/components/entity/VisualContent.vue";
 import ColVisualContent from "@/components/collection/VisualContent.vue";
 
@@ -32,26 +32,26 @@ export default defineComponent({
     },
     setup(props) {
 
-        let selTYPE = ref("text"); // default (checked) json type
-        
-        const jsonTEXT = props.Kind == 'entity' ? jsonEntityTEXT : jsonCollectionTEXT;
-        const jsonHTML = props.Kind == 'entity' ? jsonEntityHTML : jsonCollectionHTML;
+        let selMode = ref("text"); // default (checked) json type
+ 
+        const text = props.Kind == 'entity' ? jsonEntTEXT : jsonColTEXT;
+        const html = props.Kind == 'entity' ? jsonEntHTML : jsonColHTML;
 
-        const genJSON = (TYPE: string) => {
-            switch (TYPE) {
+        const genJSON = (Mode: string) => {
+            switch (Mode) {
                 case "text":
-                    return jsonTEXT.GenJSON(false);
+                    return text.GenJSON(false);
                 case "html":
-                    return jsonHTML.GenJSON(true);
+                    return html.GenJSON(true);
                 default:
                     return "";
             }
         };
-        const select = (TYPE: string) => {
-            selTYPE.value = TYPE;
+        const select = (Mode: string) => {
+            selMode.value = Mode;
         };
         return {
-            selTYPE,
+            selMode,
             genJSON,
             select,
         };

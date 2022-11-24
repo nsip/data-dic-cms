@@ -1,3 +1,11 @@
+export const space4html = (n: number) => {
+    let rt = ""
+    for (let i = 0; i < n; i++) {
+        rt += "&nbsp;"
+    }
+    return rt
+}
+
 const pad2 = (n: number) => {
     return n < 10 ? "0" + n : n;
 };

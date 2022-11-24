@@ -17,7 +17,7 @@ import { defineComponent, ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 
 export default defineComponent({
     name: "ColDef",
@@ -33,12 +33,12 @@ export default defineComponent({
             quillDef = quill;
 
             // fill existing html text into quill, format could change by quill
-            quillDef.root.innerHTML = jsonCollectionHTML.Definition;
+            quillDef.root.innerHTML = jsonColHTML.Definition;
         };
 
         const textChange = () => {
-            jsonCollectionHTML.SetDefinition(quillDef.root.innerHTML);
-            jsonCollectionTEXT.SetDefinition(quillDef.getText(0, 100000));
+            jsonColHTML.SetDefinition(quillDef.root.innerHTML);
+            jsonColTEXT.SetDefinition(quillDef.getText(0, 100000));
         };
 
         const onToggleVisible = () => {

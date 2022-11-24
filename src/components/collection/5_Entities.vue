@@ -5,14 +5,15 @@
             <font-awesome-icon :icon="icon" />
         </button>
         <div v-if="visEditor">
-            <textarea class="content" ref="taE" v-model="entities" placeholder="collection entities"></textarea>
+            <textarea class="content" ref="taE" v-model="entities" :readonly="Mode == 'edit'" placeholder="collection entities"></textarea>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
+import { Mode } from "@/share/share";
 
 export default defineComponent({
     name: "ColEntities",
@@ -28,13 +29,11 @@ export default defineComponent({
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             entities.value =
-                jsonCollectionTEXT.Entities != null
-                    ? jsonCollectionTEXT.Entities.join("\n")
-                    : "";
+                jsonColTEXT.Entities != null ? jsonColTEXT.Entities.join("\n") : "";
         });
         watchEffect(() => {
-            jsonCollectionTEXT.SetEntities(entities.value);
-            jsonCollectionHTML.SetEntities(entities.value);
+            jsonColTEXT.SetEntities(entities.value);
+            jsonColHTML.SetEntities(entities.value);
 
             // resize textarea
             if (taE.value != null) {
@@ -45,6 +44,7 @@ export default defineComponent({
         });
 
         return {
+            Mode,
             entities,
             taE,
             icon,

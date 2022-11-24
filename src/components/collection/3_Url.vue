@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 
 export default defineComponent({
     name: "ColUrl",
@@ -28,11 +28,11 @@ export default defineComponent({
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
             urls.value =
-                jsonCollectionTEXT.Url != null ? jsonCollectionTEXT.Url.join("\n") : "";
+                jsonColTEXT.URL != null ? jsonColTEXT.URL.join("\n") : "";
         });
         watchEffect(() => {
-            jsonCollectionTEXT.SetUrl(urls.value);
-            jsonCollectionHTML.SetUrl(urls.value);
+            jsonColTEXT.SetUrl(urls.value);
+            jsonColHTML.SetUrl(urls.value);
 
             // resize textarea
             if (taURL.value != null) {

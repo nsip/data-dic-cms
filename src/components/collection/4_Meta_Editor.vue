@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML, jsonCollectionTEXT } from "@/share/CollectionType";
+import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
         const taTP = ref<HTMLTextAreaElement | null>(null);
 
         onMounted(async () => {
-            const meta = jsonCollectionHTML.Metadata;
+            const meta = jsonColHTML.Metadata;
 
             // textarea
             identifier.value = meta.Identifier;
@@ -32,8 +32,8 @@ export default defineComponent({
         });
 
         watchEffect(() => {
-            jsonCollectionHTML.SetMeta(identifier.value, type.value);
-            jsonCollectionTEXT.SetMeta(identifier.value, type.value);
+            jsonColHTML.SetMeta(identifier.value, type.value);
+            jsonColTEXT.SetMeta(identifier.value, type.value);
         });
 
         return {
@@ -53,11 +53,13 @@ export default defineComponent({
 <style scoped>
 .content {
     padding-left: 1%;
-    resize: vertical;
+    padding-top: 1.5%;
+    resize: none;
+    white-space: nowrap;
     display: block;
     overflow: hidden;
     width: 98%;
-    min-height: 15px;
-    line-height: 20px;
+    min-height: 8px;
+    line-height: 8px;
 }
 </style>

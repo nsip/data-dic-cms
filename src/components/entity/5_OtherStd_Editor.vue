@@ -20,7 +20,7 @@ import { defineComponent, ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import TextLine from "../shared/TextLine.vue";
 
 export default defineComponent({
@@ -125,11 +125,14 @@ h2 {
 .content {
     margin-left: 0px;
     padding-left: 1%;
+    /* padding-top: 1%;
+    padding-bottom: 1%; */
     resize: vertical;
     display: block;
     overflow: hidden;
     width: 98%;
     min-height: 15px;
     line-height: 20px;
+    word-wrap: normal;
 }
 </style>

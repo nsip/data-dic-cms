@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from "vue";
-import { jsonCollectionHTML as jsonHTML, jsonCollectionTEXT as jsonTEXT } from "@/share/CollectionType";
+import { jsonColHTML as jsonHTML, jsonColTEXT as jsonTEXT } from "@/share/ColType";
 import { Mode } from "@/share/share";
 
 export default defineComponent({
@@ -16,7 +16,7 @@ export default defineComponent({
         const collection = ref("");
         onMounted(async () => {
             await new Promise((f) => setTimeout(f, 500));
-            collection.value = jsonTEXT.Collection;
+            collection.value = jsonTEXT.Entity;
         });
         watchEffect(() => {
             jsonHTML.SetName(collection.value);

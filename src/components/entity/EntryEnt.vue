@@ -28,7 +28,7 @@ import EntCol from "./7_Col.vue";
 import EntMeta from "./8_Meta.vue";
 
 export default defineComponent({
-    name: "EntryEntity",
+    name: "EntryEnt",
     components: {
         EntName,
         EntOtherNames,

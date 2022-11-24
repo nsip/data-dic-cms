@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { itemName, itemKind } from "@/share/share";
 import TextLine from "../shared/TextLine.vue";
 import EditorLegDef from "./6_LegalDef_Editor.vue";

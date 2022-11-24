@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { jsonEntityHTML as jsonHTML, jsonEntityTEXT as jsonTEXT } from "@/share/EntityType";
+import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { postDataToDic, loginToken } from "@/share/share";
 import { IP_VIEW } from "@/share/ip";
 // import FileSaver from 'file-saver';

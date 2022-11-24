@@ -19,7 +19,7 @@ import ColMeta from "./4_Meta.vue";
 import ColEntities from "./5_Entities.vue";
 
 export default defineComponent({
-    name: "CollectionEntity",
+    name: "EntryCol",
     components: {
         ColName,
         ColDef,

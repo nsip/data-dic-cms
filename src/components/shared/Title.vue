@@ -8,12 +8,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Mode, loginUser } from "@/share/share";
+import { Mode, itemKind, loginUser } from "@/share/share";
 
 export default defineComponent({
     name: "MainTitle",
-    setup() {
-        const title = Mode.value == "edit" ? "Entity Edit:" : "New Entity:";
+    setup() {   
+        const typeName = itemKind.value == "entity" ? "Entity" : "Collection";
+        const title = Mode.value == "edit" ? `${typeName} Edit` : `New ${typeName}`;
         return {
             title,
             loginUser,

@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "./fetch";
-import { EntityType } from "./EntityType";
-import { CollectionType } from "./CollectionType";
+import { EntityType } from "./EntType";
+import { CollectionType } from "./ColType";
 
 export const Mode = ref(""); // 'new' or 'edit'
 export const loginUser = ref("");
@@ -41,11 +41,7 @@ export const postDataToDic = async (data: string) => {
     return true;
 };
 
-export const getItemContent = async (
-    name: string,
-    kind: string,
-    dbcol: string
-) => {
+export const getItemContent = async (name: string, kind: string, dbcol: string) => {
     const mParam = new Map<string, any>([
         ["name", name],
         ["dbcol", dbcol],

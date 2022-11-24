@@ -7,10 +7,11 @@ import {
     validStrTEXTArr,
 } from "./util";
 
-export class CollectionType {
-    Collection = "";
+// identical to db 'collections'
+export class ColType {
+    Entity = "";
     Definition = "";
-    Url: string[] = [];
+    URL: string[] = [];
     Metadata: metaType = new metaType();
     Entities: string[] = [];
 
@@ -19,16 +20,16 @@ export class CollectionType {
     //
 
     SetName(name: string) {
-        this.Collection = validStr(name, this.Collection);
+        this.Entity = validStr(name, this.Entity);
     }
 
     AssignName(TYPE: string, name: string) {
         switch (TYPE) {
             case "html":
-                this.Collection = name;
+                this.Entity = name;
                 break;
             default:
-                this.Collection = cvtHtml2Plain(name);
+                this.Entity = cvtHtml2Plain(name);
         }
     }
 
@@ -55,20 +56,20 @@ export class CollectionType {
     //
 
     SetUrl(urlStr: string) {
-        this.Url = validStrTEXTArr(urlStr, this.Url);
+        this.URL = validStrTEXTArr(urlStr, this.URL);
     }
 
     CntUrl() {
-        return this.Url.length;
+        return this.URL.length;
     }
 
     AssignUrls(TYPE: string, urls: string[]) {
         switch (TYPE) {
             case "html":
-                this.Url = urls != null ? urls : EmptyStrArr;
+                this.URL = urls != null ? urls : EmptyStrArr;
                 break;
             default:
-                this.Url = urls != null ? cvtArrayHtml2Plain(urls) : EmptyStrArr;
+                this.URL = urls != null ? cvtArrayHtml2Plain(urls) : EmptyStrArr;
         }
     }
 
@@ -120,6 +121,22 @@ export class CollectionType {
                     entities != null ? cvtArrayHtml2Plain(entities) : EmptyStrArr;
         }
     }
+
+    ////
+
+    GenJSON(htmlVal: boolean) {
+        let json = JSON.stringify(this, null, 2);
+        if (htmlVal) {
+            json = json.replaceAll("<p><br></p>", "");
+            json = json.replaceAll(/<p>\s*<\/p>/g, "");
+            json = json.replaceAll(/<h\d><br><\/h\d>/g, "");
+            json = json.replaceAll(/<h\d>\s*<\/h\d>/g, "");
+        } else {
+            json = json.replaceAll(/"\s*\\n"/g, '""');
+        }
+        json = json.replaceAll(/\[\s*""\s*\]/g, "[]");
+        return json;
+    }
 }
 
 class metaType {
@@ -129,5 +146,5 @@ class metaType {
 
 const EmptyStrArr: string[] = [];
 
-export const jsonCollectionHTML = reactive(new CollectionType());
-export const jsonCollectionTEXT = reactive(new CollectionType());
+export const jsonColHTML = reactive(new ColType());
+export const jsonColTEXT = reactive(new ColType());

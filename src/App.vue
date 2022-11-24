@@ -3,8 +3,8 @@
         <MainTitle />
         <div id="container">
             <div id="left">
-                <EntryEntity v-if="kind=='entity'" />
-                <EntryCollection v-if="kind=='collection'" />
+                <EntryEnt v-if="kind=='entity'" />
+                <EntryCol v-if="kind=='collection'" />
             </div>
             <div id="right">
                 <Preview :Kind="kind" />
@@ -18,22 +18,22 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "./share/share";
-import { EntityType, jsonEntityHTML, jsonEntityTEXT } from "./share/EntityType";
-import { CollectionType, jsonCollectionHTML, jsonCollectionTEXT } from "./share/CollectionType";
+import { EntType, jsonEntHTML, jsonEntTEXT } from "./share/EntType";
+import { ColType, jsonColHTML, jsonColTEXT } from "./share/ColType";
 
 import MainTitle from "./components/shared/Title.vue";
 import Preview from "./components/shared/Preview.vue";
 import BtnExport from "./components/shared/BtnExport.vue";
 import BtnExit from "./components/shared/BtnExit.vue";
-import EntryEntity from "./components/entity/EntryEntity.vue";
-import EntryCollection from "./components/collection/EntryCollection.vue";
+import EntryEnt from "./components/entity/EntryEnt.vue";
+import EntryCol from "./components/collection/EntryCol.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         MainTitle,
-        EntryEntity,
-        EntryCollection,
+        EntryEnt,
+        EntryCol,
         Preview,
         BtnExport,
         BtnExit,
@@ -88,47 +88,47 @@ export default defineComponent({
                         switch (kind) {
                             case "entity":
                                 {
-                                    const entity = (await getItemContent(name, kind, "existing")) as EntityType;
-                                    const jeh = jsonEntityHTML
-                                    const jet = jsonEntityTEXT
+                                    const entity = (await getItemContent(name, kind, "existing")) as EntType;
+                                    const eh = jsonEntHTML
+                                    const et = jsonEntTEXT
 
-                                    jeh.AssignName("html", entity.Entity);
-                                    jeh.AssignOtherNames("html", entity.OtherNames);
-                                    jeh.AssignDefinition("html", entity.Definition);
-                                    jeh.AssignSIF("html", entity.SIF);
-                                    jeh.AssignOtherStd("html", entity.OtherStandards);
-                                    jeh.AssignLegalDef("html", entity.LegalDefinitions);
-                                    jeh.AssignCol("html", entity.Collections);
-                                    jeh.AssignMeta("html", entity.Metadata);
+                                    eh.AssignName("html", entity.Entity);
+                                    eh.AssignOtherNames("html", entity.OtherNames);
+                                    eh.AssignDefinition("html", entity.Definition);
+                                    eh.AssignSIF("html", entity.SIF);
+                                    eh.AssignOtherStd("html", entity.OtherStandards);
+                                    eh.AssignLegalDef("html", entity.LegalDefinitions);
+                                    eh.AssignCol("html", entity.Collections);
+                                    eh.AssignMeta("html", entity.Metadata);
 
-                                    jet.AssignName("text", entity.Entity);
-                                    jet.AssignOtherNames("text", entity.OtherNames);
-                                    jet.AssignDefinition("text", entity.Definition);
-                                    jet.AssignSIF("text", entity.SIF);
-                                    jet.AssignOtherStd("text", entity.OtherStandards);
-                                    jet.AssignLegalDef("text", entity.LegalDefinitions);
-                                    jet.AssignCol("text", entity.Collections);
-                                    jet.AssignMeta("text", entity.Metadata);
+                                    et.AssignName("text", entity.Entity);
+                                    et.AssignOtherNames("text", entity.OtherNames);
+                                    et.AssignDefinition("text", entity.Definition);
+                                    et.AssignSIF("text", entity.SIF);
+                                    et.AssignOtherStd("text", entity.OtherStandards);
+                                    et.AssignLegalDef("text", entity.LegalDefinitions);
+                                    et.AssignCol("text", entity.Collections);
+                                    et.AssignMeta("text", entity.Metadata);
                                 }
                                 break;
 
                             case "collection":
                                 {
-                                    const collection = (await getItemContent(name, kind, "existing")) as CollectionType;
-                                    const jch = jsonCollectionHTML
-                                    const jct = jsonCollectionTEXT
+                                    const collection = (await getItemContent(name, kind, "existing")) as ColType;
+                                    const ch = jsonColHTML
+                                    const ct = jsonColTEXT
 
-                                    jch.AssignName("html", collection.Collection);
-                                    jch.AssignDefinition("html", collection.Definition);
-                                    jch.AssignUrls("html", collection.Url);
-                                    jch.AssignMeta("html", collection.Metadata);
-                                    jch.AssignEntities("html", collection.Entities);
+                                    ch.AssignName("html", collection.Entity);
+                                    ch.AssignDefinition("html", collection.Definition);
+                                    ch.AssignUrls("html", collection.URL);
+                                    ch.AssignMeta("html", collection.Metadata);
+                                    ch.AssignEntities("html", collection.Entities);
 
-                                    jct.AssignName("text", collection.Collection);
-                                    jct.AssignDefinition("text", collection.Definition);
-                                    jct.AssignUrls("text", collection.Url);
-                                    jct.AssignMeta("text", collection.Metadata);
-                                    jct.AssignEntities("text", collection.Entities);
+                                    ct.AssignName("text", collection.Entity);
+                                    ct.AssignDefinition("text", collection.Definition);
+                                    ct.AssignUrls("text", collection.URL);
+                                    ct.AssignMeta("text", collection.Metadata);
+                                    ct.AssignEntities("text", collection.Entities);
                                 }
                                 break;
 

@@ -7,7 +7,7 @@ import {
     validStrTEXTArr,
 } from "./util";
 
-export class EntityType {
+export class EntType {
     Entity = "";
     OtherNames: string[] = [];
     Definition = "";
@@ -459,9 +459,9 @@ export class EntityType {
 
     ////
 
-    GenJSON(htmlValue: boolean) {
+    GenJSON(htmlVal: boolean) {
         let json = JSON.stringify(this, null, 2);
-        if (htmlValue) {
+        if (htmlVal) {
             json = json.replaceAll("<p><br></p>", "");
             json = json.replaceAll(/<p>\s*<\/p>/g, "");
             json = json.replaceAll(/<h\d><br><\/h\d>/g, "");
@@ -521,5 +521,5 @@ const EmptyOS: otherStdType[] = [];
 const EmptyLD: legalDefType[] = [];
 const EmptyCol: colType[] = [];
 
-export const jsonEntityHTML = reactive(new EntityType());
-export const jsonEntityTEXT = reactive(new EntityType());
+export const jsonEntHTML = reactive(new EntType());
+export const jsonEntTEXT = reactive(new EntType());
