@@ -25,18 +25,23 @@
 import { ref, onMounted } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue";
-import EditorSIF from "./4_SIF_Editor.vue";
+import TextLine from "@/components/shared/TextLine.vue";
+import EditorSIF from "@/components/entity/4_SIF_Editor.vue";
 
 const icon = ref("chevron-down");
 const visEditor = ref(false);
-const nEditor = ref(1);
+const nEditor = ref(0);
 
 onMounted(async () => {
     await new Promise((f) => setTimeout(f, 500));
     if (itemName.value.length > 0 && itemKind.value.length > 0) {
         if (jsonHTML.SIF.length > 0) {
             nEditor.value = jsonHTML.SIF.length;
+        } else {
+            // add a new empty SIF element in json if empty SIF array loaded
+            jsonHTML.AddSIF();
+            jsonTEXT.AddSIF();
+            nEditor.value = 1
         }
     }
 });
@@ -55,7 +60,7 @@ const onMoreLessClick = (type: string) => {
                     break;
                 }
 
-                // add new OtherStandard element in json
+                // add new SIF element in json
                 jsonHTML.AddSIF();
                 jsonTEXT.AddSIF();
 
@@ -70,7 +75,7 @@ const onMoreLessClick = (type: string) => {
                     break;
                 }
 
-                // remove last OtherStandard element in json
+                // remove last SIF element in json
                 jsonHTML.RmSIFLast();
                 jsonTEXT.RmSIFLast();
 

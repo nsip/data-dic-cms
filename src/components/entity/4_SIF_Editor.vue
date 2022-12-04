@@ -19,7 +19,7 @@ import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
-import TextLine from "../shared/TextLine.vue";
+import TextLine from "@/components/shared/TextLine.vue";
 
 const xpath = ref("");
 const datestamp = ref("");

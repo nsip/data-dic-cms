@@ -14,7 +14,7 @@
 <script setup lang="ts">
 
 import { ref, onMounted } from "vue";
-import EditorMeta from "./8_Meta_Editor.vue";
+import EditorMeta from "@/components/entity/8_Meta_Editor.vue";
 
 let icon = ref("chevron-down");
 let visEditor = ref(false);

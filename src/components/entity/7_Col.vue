@@ -25,18 +25,22 @@
 import { ref, onMounted } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { itemName, itemKind } from "@/share/share";
-import TextLine from "../shared/TextLine.vue";
-import EditorCol from "./7_Col_Editor.vue";
+import TextLine from "@/components/shared/TextLine.vue";
+import EditorCol from "@/components/entity/7_Col_Editor.vue";
 
 let icon = ref("chevron-down");
 let visEditor = ref(false);
-let nEditor = ref(1);
+let nEditor = ref(0);
 
 onMounted(async () => {
     await new Promise((f) => setTimeout(f, 500));
     if (itemName.value.length > 0 && itemKind.value.length > 0) {
         if (jsonHTML.Collections.length > 0) {
             nEditor.value = jsonHTML.Collections.length;
+        } else {
+            jsonHTML.AddCol()
+            jsonTEXT.AddCol()
+            nEditor.value = 1
         }
     }
 });

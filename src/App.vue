@@ -18,15 +18,15 @@
 <script setup lang="ts">
 
 import { onMounted, ref } from "vue";
-import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "./share/share";
-import { EntType, jsonEntHTML, jsonEntTEXT } from "./share/EntType";
-import { ColType, jsonColHTML, jsonColTEXT } from "./share/ColType";
-import MainTitle from "./components/shared/PageTitle.vue";
-import Preview from "./components/shared/PreviewArea.vue";
-import BtnExport from "./components/shared/BtnExport.vue";
-import BtnExit from "./components/shared/BtnExit.vue";
-import EntryEnt from "./components/entity/EntryEnt.vue";
-import EntryCol from "./components/collection/EntryCol.vue";
+import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "@/share/share";
+import { EntType, jsonEntHTML, jsonEntTEXT } from "@/share/EntType";
+import { ColType, jsonColHTML, jsonColTEXT } from "@/share/ColType";
+import MainTitle from "@/components/shared/PageTitle.vue";
+import Preview from "@/components/shared/PreviewArea.vue";
+import BtnExport from "@/components/shared/BtnExport.vue";
+import BtnExit from "@/components/shared/BtnExit.vue";
+import EntryEnt from "@/components/entity/EntryEnt.vue";
+import EntryCol from "@/components/collection/EntryCol.vue";
 
 let disp = ref(false);
 

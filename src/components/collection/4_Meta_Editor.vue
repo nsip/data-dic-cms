@@ -10,7 +10,7 @@
 
 import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
-import TextLine from "../shared/TextLine.vue";
+import TextLine from "@/components/shared/TextLine.vue";
 
 const identifier = ref("");
 const type = ref("");

@@ -19,7 +19,7 @@
 
 import { ref, onMounted, watchEffect } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
-import TextLine from "../shared/TextLine.vue";
+import TextLine from "@/components/shared/TextLine.vue";
 
 const identifier = ref("");
 const type = ref("");

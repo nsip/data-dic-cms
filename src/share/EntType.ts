@@ -1,13 +1,8 @@
 import { reactive } from "vue";
-import {
-    cvtHtml2Plain,
-    cvtArrayHtml2Plain,
-    validStr,
-    validStrHTMLArr,
-    validStrTEXTArr,
-} from "./util";
+import { cvtHtml2Plain, cvtArrayHtml2Plain, validStr, validStrHTMLArr, validStrTEXTArr, } from "@/share/util";
 
 export class EntType {
+
     Entity = "";
     OtherNames: string[] = [];
     Definition = "";
@@ -59,11 +54,10 @@ export class EntType {
     AssignOtherNames(TYPE: string, names: string[]) {
         switch (TYPE) {
             case "html":
-                this.OtherNames = names != null ? names : EmptyStrArr;
+                this.OtherNames = names != null ? names : EmptyStrArr();
                 break;
             default:
-                this.OtherNames =
-                    names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr;
+                this.OtherNames = names != null ? cvtArrayHtml2Plain(names) : EmptyStrArr();
         }
     }
 
@@ -141,10 +135,10 @@ export class EntType {
     AssignSIF(TYPE: string, sif: sifType[]) {
         switch (TYPE) {
             case "html":
-                this.SIF = sif != null ? sif : EmptySIF;
+                this.SIF = sif != null ? sif : EmptySIF();
                 break;
             default:
-                this.SIF = sif != null ? this.PlainSIF(sif) : EmptySIF;
+                this.SIF = sif != null ? this.PlainSIF(sif) : EmptySIF();
         }
     }
 
@@ -221,10 +215,10 @@ export class EntType {
     AssignOtherStd(TYPE: string, os: otherStdType[]) {
         switch (TYPE) {
             case "html":
-                this.OtherStandards = os != null ? os : EmptyOS;
+                this.OtherStandards = os != null ? os : EmptyOS();
                 break;
             default:
-                this.OtherStandards = os != null ? this.PlainOtherStd(os) : EmptyOS;
+                this.OtherStandards = os != null ? this.PlainOtherStd(os) : EmptyOS();
         }
     }
 
@@ -297,10 +291,10 @@ export class EntType {
     AssignLegalDef(TYPE: string, ld: legalDefType[]) {
         switch (TYPE) {
             case "html":
-                this.LegalDefinitions = ld != null ? ld : EmptyLD;
+                this.LegalDefinitions = ld != null ? ld : EmptyLD();
                 break;
             default:
-                this.LegalDefinitions = ld != null ? this.PlainLegalDef(ld) : EmptyLD;
+                this.LegalDefinitions = ld != null ? this.PlainLegalDef(ld) : EmptyLD();
         }
     }
 
@@ -382,10 +376,10 @@ export class EntType {
     AssignCol(TYPE: string, col: colType[]) {
         switch (TYPE) {
             case "html":
-                this.Collections = col != null ? col : EmptyCol;
+                this.Collections = col != null ? col : EmptyCol();
                 break;
             default:
-                this.Collections = col != null ? this.PlainCol(col) : EmptyCol;
+                this.Collections = col != null ? this.PlainCol(col) : EmptyCol();
         }
     }
 
@@ -527,11 +521,11 @@ class metaType {
     CrossrefEntities: string[] = [];
 }
 
-const EmptyStrArr: string[] = [];
-const EmptySIF: sifType[] = [];
-const EmptyOS: otherStdType[] = [];
-const EmptyLD: legalDefType[] = [];
-const EmptyCol: colType[] = [];
+const EmptyStrArr = (): string[] => { return [] }
+const EmptySIF = (): sifType[] => { return [] }
+const EmptyOS = (): otherStdType[] => { return [] }
+const EmptyLD = (): legalDefType[] => { return [] }
+const EmptyCol = (): colType[] => { return [] }
 
 export const jsonEntHTML = reactive(new EntType());
 export const jsonEntTEXT = reactive(new EntType());

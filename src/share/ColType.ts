@@ -1,11 +1,5 @@
 import { reactive } from "vue";
-import {
-    cvtHtml2Plain,
-    cvtArrayHtml2Plain,
-    validStr,
-    validStrHTMLArr,
-    validStrTEXTArr,
-} from "./util";
+import { cvtHtml2Plain, cvtArrayHtml2Plain, validStr, validStrHTMLArr, validStrTEXTArr } from "@/share/util";
 
 // identical to db 'collections'
 export class ColType {
@@ -66,10 +60,10 @@ export class ColType {
     AssignUrls(TYPE: string, urls: string[]) {
         switch (TYPE) {
             case "html":
-                this.URL = urls != null ? urls : EmptyStrArr;
+                this.URL = urls != null ? urls : EmptyStrArr();
                 break;
             default:
-                this.URL = urls != null ? cvtArrayHtml2Plain(urls) : EmptyStrArr;
+                this.URL = urls != null ? cvtArrayHtml2Plain(urls) : EmptyStrArr();
         }
     }
 
@@ -114,11 +108,10 @@ export class ColType {
     AssignEntities(TYPE: string, entities: string[]) {
         switch (TYPE) {
             case "html":
-                this.Entities = entities != null ? entities : EmptyStrArr;
+                this.Entities = entities != null ? entities : EmptyStrArr();
                 break;
             default:
-                this.Entities =
-                    entities != null ? cvtArrayHtml2Plain(entities) : EmptyStrArr;
+                this.Entities = entities != null ? cvtArrayHtml2Plain(entities) : EmptyStrArr();
         }
     }
 
@@ -144,7 +137,9 @@ class metaType {
     Type = "";
 }
 
-const EmptyStrArr: string[] = [];
+const EmptyStrArr = (): string[] => {
+    return []
+}
 
 export const jsonColHTML = reactive(new ColType());
 export const jsonColTEXT = reactive(new ColType());

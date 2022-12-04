@@ -1,7 +1,7 @@
 import { ref } from "vue";
-import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "./fetch";
-import { EntType } from "./EntType";
-import { ColType } from "./ColType";
+import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "@/share/fetch";
+import { EntType } from "@/share/EntType";
+import { ColType } from "@/share/ColType";
 
 export const Mode = ref(""); // 'new' or 'edit'
 export const loginUser = ref("");
