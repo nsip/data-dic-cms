@@ -103,6 +103,9 @@ export class EntType {
         commentary: string,
         datestamp: string
     ) {
+        if (this.CntSIF() == 0) {
+            return
+        }
         const ele = this.SIF[i];
         ele.Definition = validStr(definition, ele.Definition);
         ele.Commentary = validStr(commentary, ele.Commentary);
@@ -132,7 +135,7 @@ export class EntType {
     }
     IsLastSIFEmpty() {
         const n = this.CntSIF();
-        return this.IsSIFEmpty(n - 1);
+        return n == 0 || this.IsSIFEmpty(n - 1);
     }
 
     AssignSIF(TYPE: string, sif: sifType[]) {
@@ -177,6 +180,9 @@ export class EntType {
         definition: string,
         commentary: string
     ) {
+        if (this.CntOtherStd() == 0) {
+            return
+        }
         const ele = this.OtherStandards[i];
         ele.Standard = validStr(std, ele.Standard);
         ele.Definition = validStr(definition, ele.Definition);
@@ -209,7 +215,7 @@ export class EntType {
     }
     IsLastOtherStdEmpty() {
         const n = this.CntOtherStd();
-        return this.IsOtherStdEmpty(n - 1);
+        return n == 0 || this.IsOtherStdEmpty(n - 1);
     }
 
     AssignOtherStd(TYPE: string, os: otherStdType[]) {
@@ -255,6 +261,9 @@ export class EntType {
         commentary: string,
         datestamp: string
     ) {
+        if (this.CntLegalDef() == 0) {
+            return
+        }
         const ele = this.LegalDefinitions[i];
         ele.LegislationName = validStr(legislationName, ele.LegislationName);
         ele.Citation = validStr(citation, ele.Citation);
@@ -282,7 +291,7 @@ export class EntType {
     }
     IsLastLegalDefEmpty() {
         const n = this.CntLegalDef();
-        return this.IsLegalDefEmpty(n - 1);
+        return n == 0 || this.IsLegalDefEmpty(n - 1);
     }
 
     AssignLegalDef(TYPE: string, ld: legalDefType[]) {
@@ -330,6 +339,9 @@ export class EntType {
         bizruleStr: string,
         defmod: string
     ) {
+        if (this.CntCol() == 0) {
+            return
+        }
         const ele = this.Collections[i];
         ele.Name = validStr(name, ele.Name);
         ele.Description = validStr(description, ele.Description);
@@ -364,7 +376,7 @@ export class EntType {
     }
     IsLastColEmpty() {
         const n = this.CntCol();
-        return this.IsColEmpty(n - 1);
+        return n == 0 || this.IsColEmpty(n - 1);
     }
 
     AssignCol(TYPE: string, col: colType[]) {

@@ -36,14 +36,16 @@ const props = defineProps({
 
 onMounted(async () => {
     const sif = jsonHTML.SIF[props.idx || 0];
+    if (sif != undefined && sif != null) {
+        
+        // textarea
+        xpath.value = sif.XPath != null ? sif.XPath.join("\n") : "";
+        datestamp.value = sif.Datestamp;
 
-    // textarea
-    xpath.value = sif.XPath != null ? sif.XPath.join("\n") : "";
-    datestamp.value = sif.Datestamp;
-
-    // quill
-    quillDef.root.innerHTML = sif.Definition;
-    quillCmt.root.innerHTML = sif.Commentary;
+        // quill
+        quillDef.root.innerHTML = sif.Definition;
+        quillCmt.root.innerHTML = sif.Commentary;
+    }
 });
 
 const onReadyDef = (quill: Quill) => {

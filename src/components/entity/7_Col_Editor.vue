@@ -45,17 +45,18 @@ const props = defineProps({
 
 onMounted(async () => {
     const col = jsonHTML.Collections[props.idx || 0];
+    if (col != undefined && col != null) {
 
-    // textarea
-    name.value = col.Name;
-    standard.value = col.Standard;
-    elements.value = col.Elements != null ? col.Elements.join("\n") : "";
+        // textarea
+        name.value = col.Name;
+        standard.value = col.Standard;
+        elements.value = col.Elements != null ? col.Elements.join("\n") : "";
 
-    // quill
-    quillDes.root.innerHTML = col.Description;
-    quillBR.root.innerHTML =
-        col.BusinessRules != null ? col.BusinessRules.join("\n") : "";
-    quillDM.root.innerHTML = col.DefinitionModification;
+        // quill
+        quillDes.root.innerHTML = col.Description;
+        quillBR.root.innerHTML = col.BusinessRules != null ? col.BusinessRules.join("\n") : "";
+        quillDM.root.innerHTML = col.DefinitionModification;
+    }
 });
 
 const onReadyDes = (quill: Quill) => {

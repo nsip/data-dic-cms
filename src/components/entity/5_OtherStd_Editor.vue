@@ -41,15 +41,17 @@ const props = defineProps({
 
 onMounted(async () => {
     const os = jsonHTML.OtherStandards[props.idx || 0];
+    if (os != undefined && os != null) {
 
-    // textarea
-    std.value = os.Standard;
-    links.value = os.Link != null ? os.Link.join("\n") : "";
-    paths.value = os.Path != null ? os.Path.join("\n") : "";
+        // textarea
+        std.value = os.Standard;
+        links.value = os.Link != null ? os.Link.join("\n") : "";
+        paths.value = os.Path != null ? os.Path.join("\n") : "";
 
-    // quill
-    quillDef.root.innerHTML = os.Definition;
-    quillCmt.root.innerHTML = os.Commentary;
+        // quill
+        quillDef.root.innerHTML = os.Definition;
+        quillCmt.root.innerHTML = os.Commentary;
+    }
 });
 
 const onReadyDef = (quill: Quill) => {

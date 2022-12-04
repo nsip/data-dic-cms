@@ -35,7 +35,9 @@ const nEditor = ref(1);
 onMounted(async () => {
     await new Promise((f) => setTimeout(f, 500));
     if (itemName.value.length > 0 && itemKind.value.length > 0) {
-        nEditor.value = jsonHTML.SIF.length;
+        if (jsonHTML.SIF.length > 0) {
+            nEditor.value = jsonHTML.SIF.length;
+        }
     }
 });
 
@@ -63,7 +65,7 @@ const onMoreLessClick = (type: string) => {
 
         case "-":
             {
-                if (nEditor.value == 1) {
+                if (nEditor.value <= 1) {
                     alert("no more editor group to remove");
                     break;
                 }

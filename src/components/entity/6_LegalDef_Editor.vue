@@ -45,16 +45,18 @@ const props = defineProps({
 
 onMounted(async () => {
     const ld = jsonHTML.LegalDefinitions[props.idx || 0];
+    if (ld != undefined && ld != null) {
 
-    // textarea
-    legname.value = ld.LegislationName;
-    link.value = ld.Link;
-    datestamp.value = ld.Datestamp;
+        // textarea
+        legname.value = ld.LegislationName;
+        link.value = ld.Link;
+        datestamp.value = ld.Datestamp;
 
-    // quill
-    quillCit.root.innerHTML = ld.Citation;
-    quillDef.root.innerHTML = ld.Definition;
-    quillCmt.root.innerHTML = ld.Commentary;
+        // quill
+        quillCit.root.innerHTML = ld.Citation;
+        quillDef.root.innerHTML = ld.Definition;
+        quillCmt.root.innerHTML = ld.Commentary;
+    }
 });
 
 const onReadyCit = (quill: Quill) => {
