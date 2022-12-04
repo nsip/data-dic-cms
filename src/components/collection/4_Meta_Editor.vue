@@ -6,47 +6,30 @@
     <textarea class="content" ref="taTP" v-model="type" placeholder="type"></textarea>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import TextLine from "../shared/TextLine.vue";
 
-export default defineComponent({
-    name: "ColMetaEditor",
-    components: {
-        TextLine,
-    },
-    setup() {
-        const identifier = ref("");
-        const type = ref("");
+const identifier = ref("");
+const type = ref("");
+const taID = ref<HTMLTextAreaElement | null>(null);
+const taTP = ref<HTMLTextAreaElement | null>(null);
 
-        const taID = ref<HTMLTextAreaElement | null>(null);
-        const taTP = ref<HTMLTextAreaElement | null>(null);
+onMounted(async () => {
+    const meta = jsonColHTML.Metadata;
 
-        onMounted(async () => {
-            const meta = jsonColHTML.Metadata;
-
-            // textarea
-            identifier.value = meta.Identifier;
-            type.value = meta.Type;
-        });
-
-        watchEffect(() => {
-            jsonColHTML.SetMeta(identifier.value, type.value);
-            jsonColTEXT.SetMeta(identifier.value, type.value);
-        });
-
-        return {
-            // bind variable
-            identifier,
-            type,
-
-            // textarea ref
-            taID,
-            taTP,
-        };
-    },
+    // textarea
+    identifier.value = meta.Identifier;
+    type.value = meta.Type;
 });
+
+watchEffect(() => {
+    jsonColHTML.SetMeta(identifier.value, type.value);
+    jsonColTEXT.SetMeta(identifier.value, type.value);
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

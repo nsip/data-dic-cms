@@ -15,78 +15,56 @@
     <textarea class="content" ref="taRE" v-model="refentities" placeholder="cross ref entities"></textarea>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted, watchEffect } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import TextLine from "../shared/TextLine.vue";
 
-export default defineComponent({
-    name: "EntMetaEditor",
-    components: {
-        TextLine,
-    },
-    setup() {
-        const identifier = ref("");
-        const type = ref("");
-        const attributes = ref("");
-        const superclasses = ref("");
-        const refentities = ref("");
+const identifier = ref("");
+const type = ref("");
+const attributes = ref("");
+const superclasses = ref("");
+const refentities = ref("");
 
-        const taID = ref<HTMLTextAreaElement | null>(null);
-        const taTP = ref<HTMLTextAreaElement | null>(null);
-        const taEA = ref<HTMLTextAreaElement | null>(null);
-        const taSC = ref<HTMLTextAreaElement | null>(null);
-        const taRE = ref<HTMLTextAreaElement | null>(null);
+const taID = ref<HTMLTextAreaElement | null>(null);
+const taTP = ref<HTMLTextAreaElement | null>(null);
+const taEA = ref<HTMLTextAreaElement | null>(null);
+const taSC = ref<HTMLTextAreaElement | null>(null);
+const taRE = ref<HTMLTextAreaElement | null>(null);
 
-        onMounted(async () => {
-            const meta = jsonHTML.Metadata;
+onMounted(async () => {
+    const meta = jsonHTML.Metadata;
 
-            // textarea
-            identifier.value = meta.Identifier;
-            type.value = meta.Type;
-            attributes.value = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join("\n") : "";
-            superclasses.value = meta.Superclass != null ? meta.Superclass.join("\n") : "";
-            refentities.value = meta.CrossrefEntities != null ? meta.CrossrefEntities.join("\n") : "";
-        });
-
-        watchEffect(() => {
-            jsonHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
-            jsonTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
-
-            if (taEA.value != null) {
-                const numberOfLineBreaks = (attributes.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taEA.value!.style.height = newHeight + "px";
-            }
-            if (taSC.value != null) {
-                const numberOfLineBreaks = (superclasses.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taSC.value!.style.height = newHeight + "px";
-            }
-            if (taRE.value != null) {
-                const numberOfLineBreaks = (refentities.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taRE.value!.style.height = newHeight + "px";
-            }
-        });
-
-        return {
-            // bind variable
-            identifier,
-            type,
-            attributes,
-            superclasses,
-            refentities,
-
-            // textarea ref
-            taID,
-            taTP,
-            taEA,
-            taSC,
-            taRE,
-        };
-    },
+    // textarea
+    identifier.value = meta.Identifier;
+    type.value = meta.Type;
+    attributes.value = meta.ExpectedAttributes != null ? meta.ExpectedAttributes.join("\n") : "";
+    superclasses.value = meta.Superclass != null ? meta.Superclass.join("\n") : "";
+    refentities.value = meta.CrossrefEntities != null ? meta.CrossrefEntities.join("\n") : "";
 });
+
+watchEffect(() => {
+    jsonHTML.SetMeta("html", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+    jsonTEXT.SetMeta("", identifier.value, type.value, attributes.value, superclasses.value, refentities.value);
+
+    if (taEA.value != null) {
+        const numberOfLineBreaks = (attributes.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taEA.value!.style.height = newHeight + "px";
+    }
+    if (taSC.value != null) {
+        const numberOfLineBreaks = (superclasses.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taSC.value!.style.height = newHeight + "px";
+    }
+    if (taRE.value != null) {
+        const numberOfLineBreaks = (refentities.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taRE.value!.style.height = newHeight + "px";
+    }
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

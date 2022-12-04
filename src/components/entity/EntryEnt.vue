@@ -16,8 +16,7 @@
     <EntMeta />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import EntName from "./1_Name.vue";
 import EntOtherNames from "./2_OtherNames.vue";
 import EntDef from "./3_Def.vue";
@@ -26,23 +25,6 @@ import EntOtherStd from "./5_OtherStd.vue";
 import EntLegalDef from "./6_LegalDef.vue";
 import EntCol from "./7_Col.vue";
 import EntMeta from "./8_Meta.vue";
-
-export default defineComponent({
-    name: "EntryEnt",
-    components: {
-        EntName,
-        EntOtherNames,
-        EntDef,
-        EntSIF,
-        EntOtherStd,
-        EntLegalDef,
-        EntCol,
-        EntMeta,
-    },
-    setup() {
-        return {};
-    },
-});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

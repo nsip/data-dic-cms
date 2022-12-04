@@ -6,21 +6,13 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+
 import { Mode, itemKind, loginUser } from "@/share/share";
 
-export default defineComponent({
-    name: "MainTitle",
-    setup() {   
-        const typeName = itemKind.value == "entity" ? "Entity" : "Collection";
-        const title = Mode.value == "edit" ? `${typeName} Edit` : `New ${typeName}`;
-        return {
-            title,
-            loginUser,
-        };
-    },
-});
+const typeName = itemKind.value == "entity" ? "Entity" : "Collection";
+const title = Mode.value == "edit" ? `${typeName} Edit` : `New ${typeName}`;
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

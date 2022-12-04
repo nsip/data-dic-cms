@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { fetchBodyJsonStr, fetchNoBody, mEmpty } from "./fetch";
-import { EntityType } from "./EntType";
-import { CollectionType } from "./ColType";
+import { EntType } from "./EntType";
+import { ColType } from "./ColType";
 
 export const Mode = ref(""); // 'new' or 'edit'
 export const loginUser = ref("");
@@ -58,9 +58,9 @@ export const getItemContent = async (name: string, kind: string, dbcol: string) 
     }
     switch (kind) {
         case "entity":
-            return rt[0] as EntityType;
+            return rt[0] as EntType;
         case "collection":
-            return rt[0] as CollectionType;
+            return rt[0] as ColType;
         default:
             return null;
     }

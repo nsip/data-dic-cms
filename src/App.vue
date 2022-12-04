@@ -3,8 +3,8 @@
         <MainTitle />
         <div id="container">
             <div id="left">
-                <EntryEnt v-if="kind=='entity'" />
-                <EntryCol v-if="kind=='collection'" />
+                <EntryEnt v-if="kind    ==    'entity'" />
+                <EntryCol v-if="kind    ==    'collection'" />
             </div>
             <div id="right">
                 <Preview :Kind="kind" />
@@ -15,144 +15,126 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+<script setup lang="ts">
+
+import { onMounted, ref } from "vue";
 import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "./share/share";
 import { EntType, jsonEntHTML, jsonEntTEXT } from "./share/EntType";
 import { ColType, jsonColHTML, jsonColTEXT } from "./share/ColType";
-
-import MainTitle from "./components/shared/Title.vue";
-import Preview from "./components/shared/Preview.vue";
+import MainTitle from "./components/shared/PageTitle.vue";
+import Preview from "./components/shared/PreviewArea.vue";
 import BtnExport from "./components/shared/BtnExport.vue";
 import BtnExit from "./components/shared/BtnExit.vue";
 import EntryEnt from "./components/entity/EntryEnt.vue";
 import EntryCol from "./components/collection/EntryCol.vue";
 
-export default defineComponent({
-    name: "App",
-    components: {
-        MainTitle,
-        EntryEnt,
-        EntryCol,
-        Preview,
-        BtnExport,
-        BtnExit,
-    },
-    setup() {
-        let disp = ref(false);
+let disp = ref(false);
 
-        // ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
+// ref: https://www.samanthaming.com/tidbits/86-window-location-cheatsheet/
 
-        const pName = window.location.href.indexOf("name=");
-        const pKind = window.location.href.indexOf("kind=");
-        const pAuth = window.location.href.indexOf("auth=");
+const pName = window.location.href.indexOf("name=");
+const pKind = window.location.href.indexOf("kind=");
+const pAuth = window.location.href.indexOf("auth=");
 
-        // alert(`${pName} : ${pKind} : ${pAuth}`)
+// alert(`${pName} : ${pKind} : ${pAuth}`)
 
-        const name = pName >= 0 ? decodeURI(window.location.href.substring(pName + 5, pKind - 1)) : "";
-        const kind = pKind >= 0 ? decodeURI(window.location.href.substring(pKind + 5, pAuth - 1)) : "";
-        const auth = pAuth >= 0 ? decodeURI(window.location.href.substring(pAuth + 5)) : "";
+const name = pName >= 0 ? decodeURI(window.location.href.substring(pName + 5, pKind - 1)) : "";
+const kind = pKind >= 0 ? decodeURI(window.location.href.substring(pKind + 5, pAuth - 1)) : "";
+const auth = pAuth >= 0 ? decodeURI(window.location.href.substring(pAuth + 5)) : "";
 
-        loginToken.value = auth;
-        loginAuth.value = "Bearer " + auth;
+loginToken.value = auth;
+loginAuth.value = "Bearer " + auth;
 
-        itemName.value = name;
-        itemKind.value = kind;
+itemName.value = name;
+itemKind.value = kind;
 
-        onMounted(async () => {
+onMounted(async () => {
 
-            if (loginToken.value.length < 32) {
+    if (loginToken.value.length < 32) {
 
-                alert("invalid auth info");
-                disp.value = false;
+        alert("invalid auth info");
+        disp.value = false;
+
+    } else {
+
+        // fill loginUser, already 'ping' back-end api
+
+        getUname(); // in this, need to read 'loginAuth.value'
+
+        await new Promise((f) => setTimeout(f, 500));
+
+        if (loginUser.value.length > 0) {
+            disp.value = true;
+
+            if (name.length > 0 && kind.length > 0) {
+                // *** edit mode ***
+
+                Mode.value = "edit";
+
+                // console.log("edit mode");
+                // console.log(`${name} : ${kind}`)
+
+                switch (kind) {
+                    case "entity":
+                        {
+                            const entity = (await getItemContent(name, kind, "existing")) as EntType;
+                            const eh = jsonEntHTML
+                            const et = jsonEntTEXT
+
+                            eh.AssignName("html", entity.Entity);
+                            eh.AssignOtherNames("html", entity.OtherNames);
+                            eh.AssignDefinition("html", entity.Definition);
+                            eh.AssignSIF("html", entity.SIF);
+                            eh.AssignOtherStd("html", entity.OtherStandards);
+                            eh.AssignLegalDef("html", entity.LegalDefinitions);
+                            eh.AssignCol("html", entity.Collections);
+                            eh.AssignMeta("html", entity.Metadata);
+
+                            et.AssignName("text", entity.Entity);
+                            et.AssignOtherNames("text", entity.OtherNames);
+                            et.AssignDefinition("text", entity.Definition);
+                            et.AssignSIF("text", entity.SIF);
+                            et.AssignOtherStd("text", entity.OtherStandards);
+                            et.AssignLegalDef("text", entity.LegalDefinitions);
+                            et.AssignCol("text", entity.Collections);
+                            et.AssignMeta("text", entity.Metadata);
+                        }
+                        break;
+
+                    case "collection":
+                        {
+                            const collection = (await getItemContent(name, kind, "existing")) as ColType;
+                            const ch = jsonColHTML
+                            const ct = jsonColTEXT
+
+                            ch.AssignName("html", collection.Entity);
+                            ch.AssignDefinition("html", collection.Definition);
+                            ch.AssignUrls("html", collection.URL);
+                            ch.AssignMeta("html", collection.Metadata);
+                            ch.AssignEntities("html", collection.Entities);
+
+                            ct.AssignName("text", collection.Entity);
+                            ct.AssignDefinition("text", collection.Definition);
+                            ct.AssignUrls("text", collection.URL);
+                            ct.AssignMeta("text", collection.Metadata);
+                            ct.AssignEntities("text", collection.Entities);
+                        }
+                        break;
+
+                    default:
+                }
 
             } else {
+                // *** create mode ***
 
-                // fill loginUser, already 'ping' back-end api
+                Mode.value = "new";
 
-                getUname(); // in this, need to read 'loginAuth.value'
-
-                await new Promise((f) => setTimeout(f, 500));
-
-                if (loginUser.value.length > 0) {
-                    disp.value = true;
-
-                    if (name.length > 0 && kind.length > 0) {
-                        // *** edit mode ***
-
-                        Mode.value = "edit";
-
-                        // console.log("edit mode");
-                        // console.log(`${name} : ${kind}`)
-
-                        switch (kind) {
-                            case "entity":
-                                {
-                                    const entity = (await getItemContent(name, kind, "existing")) as EntType;
-                                    const eh = jsonEntHTML
-                                    const et = jsonEntTEXT
-
-                                    eh.AssignName("html", entity.Entity);
-                                    eh.AssignOtherNames("html", entity.OtherNames);
-                                    eh.AssignDefinition("html", entity.Definition);
-                                    eh.AssignSIF("html", entity.SIF);
-                                    eh.AssignOtherStd("html", entity.OtherStandards);
-                                    eh.AssignLegalDef("html", entity.LegalDefinitions);
-                                    eh.AssignCol("html", entity.Collections);
-                                    eh.AssignMeta("html", entity.Metadata);
-
-                                    et.AssignName("text", entity.Entity);
-                                    et.AssignOtherNames("text", entity.OtherNames);
-                                    et.AssignDefinition("text", entity.Definition);
-                                    et.AssignSIF("text", entity.SIF);
-                                    et.AssignOtherStd("text", entity.OtherStandards);
-                                    et.AssignLegalDef("text", entity.LegalDefinitions);
-                                    et.AssignCol("text", entity.Collections);
-                                    et.AssignMeta("text", entity.Metadata);
-                                }
-                                break;
-
-                            case "collection":
-                                {
-                                    const collection = (await getItemContent(name, kind, "existing")) as ColType;
-                                    const ch = jsonColHTML
-                                    const ct = jsonColTEXT
-
-                                    ch.AssignName("html", collection.Entity);
-                                    ch.AssignDefinition("html", collection.Definition);
-                                    ch.AssignUrls("html", collection.URL);
-                                    ch.AssignMeta("html", collection.Metadata);
-                                    ch.AssignEntities("html", collection.Entities);
-
-                                    ct.AssignName("text", collection.Entity);
-                                    ct.AssignDefinition("text", collection.Definition);
-                                    ct.AssignUrls("text", collection.URL);
-                                    ct.AssignMeta("text", collection.Metadata);
-                                    ct.AssignEntities("text", collection.Entities);
-                                }
-                                break;
-
-                            default:
-                        }
-
-                    } else {
-                        // *** create mode ***
-
-                        Mode.value = "new";
-
-                        // console.log("new mode");
-                    }
-                }
+                // console.log("new mode");
             }
-        });
-
-        return {
-            loginUser,
-            disp,
-            kind,
-        };
-    },
+        }
+    }
 });
+
 </script>
 
 <style>

@@ -2,99 +2,89 @@
     <div v-html="wholeContent()"></div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+
 import { jsonColHTML as jsonHTML, jsonColTEXT as jsonTEXT } from "@/share/ColType";
 import { space4html } from "@/share/util";
 
-export default defineComponent({
-    name: "ColVisualContent",
-    setup() {
-        const nonEmptyHtml = (label4: string, text: string, html: string) => {
+const nonEmptyHtml = (label4: string, text: string, html: string) => {
 
-            if (text == undefined || text.trim().length == 0) {
-                return "";
-            }
+    if (text == undefined || text.trim().length == 0) {
+        return "";
+    }
 
-            html = html.replaceAll("<p><br></p>", "");
-            html = html.replaceAll(/<h\d><br><\/h\d>/g, "");
+    html = html.replaceAll("<p><br></p>", "");
+    html = html.replaceAll(/<h\d><br><\/h\d>/g, "");
 
-            if (label4 == undefined || label4.length == 0) {
-                return space4html(2) + html;
-            }
-            return "<h4 style='margin-left:10px; font-style:italic'>" + label4 + "</h4>" + space4html(2) + html;
-        };
+    if (label4 == undefined || label4.length == 0) {
+        return space4html(2) + html;
+    }
+    return "<h4 style='margin-left:10px; font-style:italic'>" + label4 + "</h4>" + space4html(2) + html;
+};
 
-        // /////////////////////////////////////////////////
+const previewCollection = () => {
+    return (
+        "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Collection</pre></h4>" +
+        nonEmptyHtml("", jsonTEXT.Entity, jsonHTML.Entity)
+    );
+};
 
-        const previewCollection = () => {
-            return (
-                "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Collection</pre></h4>" +
-                nonEmptyHtml("", jsonTEXT.Entity, jsonHTML.Entity)
-            );
-        };
+const previewDefinition = () => {
+    return ("<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h4>" +
+        nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
+    );
+};
 
-        const previewDefinition = () => {
-            return ("<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Definition</pre></h4>" +
-                nonEmptyHtml("", jsonTEXT.Definition, jsonHTML.Definition)
-            );
-        };
+const previewURLs = () => {
+    const head = "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Url</pre></h4>";
+    const n = jsonTEXT.CntUrl()
+    const eles: string[] = [];
+    for (let i = 0; i < n; i++) {
+        const ele = nonEmptyHtml("", jsonTEXT.URL[i], jsonHTML.URL[i]);
+        eles.push(ele);
+    }
+    const body = eles.join("<br>"); // here, other names' html value is plain text
+    if (body.length > 0) {
+        return head + body;
+    }
+    return head;
+};
 
-        const previewURLs = () => {
-            const head = "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Url</pre></h4>";
-            const n = jsonTEXT.CntUrl()
-            const eles: string[] = [];
-            for (let i = 0; i < n; i++) {
-                const ele = nonEmptyHtml("", jsonTEXT.URL[i], jsonHTML.URL[i]);
-                eles.push(ele);
-            }
-            const body = eles.join("<br>"); // here, other names' html value is plain text
-            if (body.length > 0) {
-                return head + body;
-            }
-            return head;
-        };
+const previewMetadata = () => {
+    const jt = jsonTEXT.Metadata;
+    const jh = jsonHTML.Metadata;
+    const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier);
+    const type = nonEmptyHtml(">> type:", jt.Type, jh.Type);
+    return ("<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Meta Data</pre></h4>" + id + type);
+};
 
-        const previewMetadata = () => {
-            const jt = jsonTEXT.Metadata;
-            const jh = jsonHTML.Metadata;
-            const id = nonEmptyHtml(">> identifier:", jt.Identifier, jh.Identifier);
-            const type = nonEmptyHtml(">> type:", jt.Type, jh.Type);
-            return ("<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Meta Data</pre></h4>" + id + type);
-        };
+const previewEntities = () => {
+    const head = "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Entities</pre></h4>";
+    const n = jsonTEXT.CntEntities();
+    const eles: string[] = [];
+    for (let i = 0; i < n; i++) {
+        const ele = nonEmptyHtml("", jsonTEXT.Entities[i], jsonHTML.Entities[i]);
+        eles.push(ele);
+    }
+    const body = eles.join("<br>"); // here, other names' html value is plain text
+    if (body.length > 0) {
+        return head + body;
+    }
+    return head;
+};
 
-        const previewEntities = () => {
-            const head = "<h4 style='font-size:large; font-style:italic; background-color: darkgray'><pre> Entities</pre></h4>";
-            const n = jsonTEXT.CntEntities();
-            const eles: string[] = [];
-            for (let i = 0; i < n; i++) {
-                const ele = nonEmptyHtml("", jsonTEXT.Entities[i], jsonHTML.Entities[i]);
-                eles.push(ele);
-            }
-            const body = eles.join("<br>"); // here, other names' html value is plain text
-            if (body.length > 0) {
-                return head + body;
-            }
-            return head;
-        };
+// //////////
 
-        // //////////
+const wholeContent = () => {
+    return (
+        previewCollection() +
+        previewDefinition() +
+        previewURLs() +
+        previewMetadata() +
+        previewEntities()
+    );
+};
 
-        const wholeContent = () => {
-            return (
-                previewCollection() +
-                previewDefinition() +
-                previewURLs() +
-                previewMetadata() +
-                previewEntities()
-            );
-        };
-
-        return {
-            wholeContent,
-        };
-    },
-});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

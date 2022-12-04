@@ -5,29 +5,23 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML as jsonHTML, jsonColTEXT as jsonTEXT } from "@/share/ColType";
 import { Mode } from "@/share/share";
 
-export default defineComponent({
-    name: "ColName",
-    setup() {
-        const collection = ref("");
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            collection.value = jsonTEXT.Entity;
-        });
-        watchEffect(() => {
-            jsonHTML.SetName(collection.value);
-            jsonTEXT.SetName(collection.value);
-        });
-        return {
-            collection,
-            Mode,
-        };
-    },
+const collection = ref("");
+
+onMounted(async () => {
+    await new Promise((f) => setTimeout(f, 500));
+    collection.value = jsonTEXT.Entity;
 });
+
+watchEffect(() => {
+    jsonHTML.SetName(collection.value);
+    jsonTEXT.SetName(collection.value);
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

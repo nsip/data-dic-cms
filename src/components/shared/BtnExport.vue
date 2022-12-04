@@ -4,8 +4,8 @@
     </a>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { postDataToDic, loginToken } from "@/share/share";
 import { IP_VIEW } from "@/share/ip";
@@ -18,55 +18,45 @@ import { IP_VIEW } from "@/share/ip";
 // npm install --save @fortawesome/free-solid-svg-icons
 // npm install --save @fortawesome/vue-fontawesome@latest-3
 
-export default defineComponent({
-    name: "BtnExport",
-    setup() {
-        const btnName = "export to dictionary";
+// const ckeditor = document.createElement('script');
+// ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
+// document.head.appendChild(ckeditor);
 
-        // const ckeditor = document.createElement('script');
-        // ckeditor.setAttribute('src', "https://use.fontawesome.com/536e0c9b50.js");
-        // document.head.appendChild(ckeditor);
+const redirect = async () => {
+    const page_view = `${IP_VIEW}?auth=${loginToken.value}`;
+    location.replace(page_view);
+};
 
-        const redirect = async () => {
-            const page_view = `${IP_VIEW}?auth=${loginToken.value}`;
-            location.replace(page_view);
-        };
+const saveJSON = async () => {
+    
+    // const htmlValData = jsonHTML.GenJSON(true)
+    // const textValData = jsonTEXT.GenJSON(false)
 
-        const saveJSON = async () => {
-            // const htmlValData = jsonHTML.GenJSON(true)
-            // const textValData = jsonTEXT.GenJSON(false)
+    // var blobHTML = new Blob([htmlValData], { type: "text/plain;charset=utf-8" });
+    // FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
 
-            // var blobHTML = new Blob([htmlValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobHTML, "dd_html_" + jsonTEXT.Entity + ".json");
+    // var blobTEXT = new Blob([textValData], { type: "text/plain;charset=utf-8" });
+    // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
 
-            // var blobTEXT = new Blob([textValData], { type: "text/plain;charset=utf-8" });
-            // FileSaver.saveAs(blobTEXT, "dd_txt_" + jsonTEXT.Entity + ".json");
+    //////////////////////////////////////////////////
 
-            //////////////////////////////////////////////////
+    const textValData = jsonTEXT.GenJSON(false);
+    const okText = await postDataToDic(textValData);
+    if (!okText) {
+        return;
+    }
 
-            const textValData = jsonTEXT.GenJSON(false);
-            const okText = await postDataToDic(textValData);
-            if (!okText) {
-                return;
-            }
+    const htmlValData = jsonHTML.GenJSON(true);
+    const okHtml = await postDataToDic(htmlValData);
+    if (!okHtml) {
+        return;
+    }
 
-            const htmlValData = jsonHTML.GenJSON(true);
-            const okHtml = await postDataToDic(htmlValData);
-            if (!okHtml) {
-                return;
-            }
+    alert(`[${jsonTEXT.Entity}] has been uploaded, redirecting to main page`);
 
-            alert(`[${jsonTEXT.Entity}] has been uploaded, redirecting to main page`);
+    redirect();
+};
 
-            redirect();
-        };
-
-        return {
-            btnName,
-            saveJSON,
-        };
-    },
-});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

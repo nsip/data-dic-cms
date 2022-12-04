@@ -10,46 +10,38 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted, watchEffect } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 
-export default defineComponent({
-    name: "EntOtherNames",
-    setup() {
-        const icon = ref("chevron-down");
-        const visEditor = ref(false);
-        const othernames = ref("");
-        const taON = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            othernames.value = jsonTEXT.OtherNames != null ? jsonTEXT.OtherNames.join("\n") : "";
-        });
-        watchEffect(() => {
-            jsonTEXT.SetOtherName(othernames.value);
-            jsonHTML.SetOtherName(othernames.value);
+const icon = ref("chevron-down");
+const visEditor = ref(false);
+const othernames = ref("");
+const taON = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-            // resize textarea
-            if (taON.value != null) {
-                const numberOfLineBreaks = (othernames.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taON.value!.style.height = newHeight + "px";
-            }
-        });
+const onToggleVisible = () => {
+    visEditor.value = !visEditor.value;
+    icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
+};
 
-        return {
-            othernames,
-            taON,
-            icon,
-            visEditor,
-            onToggleVisible,
-        };
-    },
+onMounted(async () => {
+    await new Promise((f) => setTimeout(f, 500));
+    othernames.value = jsonTEXT.OtherNames != null ? jsonTEXT.OtherNames.join("\n") : "";
 });
+
+watchEffect(() => {
+    jsonTEXT.SetOtherName(othernames.value);
+    jsonHTML.SetOtherName(othernames.value);
+
+    // resize textarea
+    if (taON.value != null) {
+        const numberOfLineBreaks = (othernames.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taON.value!.style.height = newHeight + "px";
+    }
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

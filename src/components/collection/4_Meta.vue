@@ -11,32 +11,23 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted } from "vue";
 import EditorMeta from "./4_Meta_Editor.vue";
 
-export default defineComponent({
-    name: "ColMeta",
-    components: {
-        EditorMeta,
-    },
-    setup() {
-        let icon = ref("chevron-down");
-        let visEditor = ref(false);
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500)); // textarea needs to wait, quill in 'onReady'
-        });
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
-        return {
-            icon,
-            visEditor,
-            onToggleVisible,
-        };
-    },
+let icon = ref("chevron-down");
+let visEditor = ref(false);
+
+onMounted(async () => {
+    await new Promise((f) => setTimeout(f, 500)); // textarea needs to wait, quill in 'onReady'
 });
+
+const onToggleVisible = () => {
+    visEditor.value = !visEditor.value;
+    icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
+};
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

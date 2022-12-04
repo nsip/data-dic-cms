@@ -14,49 +14,38 @@
     <ColVisualContent v-if="selMode == 'preview' && Kind == 'collection'" />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+
+import { ref } from "vue";
 import { jsonEntHTML, jsonEntTEXT } from "@/share/EntType";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import EntVisualContent from "@/components/entity/VisualContent.vue";
 import ColVisualContent from "@/components/collection/VisualContent.vue";
 
-export default defineComponent({
-    name: "EntryPreview",
-    props: {
-        Kind: String,
-    },
-    components: {
-        EntVisualContent,
-        ColVisualContent,
-    },
-    setup(props) {
+const props = defineProps({
+    Kind: String,
+})
 
-        let selMode = ref("text"); // default (checked) json type
- 
-        const text = props.Kind == 'entity' ? jsonEntTEXT : jsonColTEXT;
-        const html = props.Kind == 'entity' ? jsonEntHTML : jsonColHTML;
+let selMode = ref("text"); // default (checked) json type
 
-        const genJSON = (Mode: string) => {
-            switch (Mode) {
-                case "text":
-                    return text.GenJSON(false);
-                case "html":
-                    return html.GenJSON(true);
-                default:
-                    return "";
-            }
-        };
-        const select = (Mode: string) => {
-            selMode.value = Mode;
-        };
-        return {
-            selMode,
-            genJSON,
-            select,
-        };
-    },
-});
+const text = props.Kind == 'entity' ? jsonEntTEXT : jsonColTEXT;
+const html = props.Kind == 'entity' ? jsonEntHTML : jsonColHTML;
+
+const genJSON = (Mode: string) => {
+    switch (Mode) {
+        case "text":
+            return text.GenJSON(false);
+        case "html":
+            return html.GenJSON(true);
+        default:
+            return "";
+    }
+};
+
+const select = (Mode: string) => {
+    selMode.value = Mode;
+};
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

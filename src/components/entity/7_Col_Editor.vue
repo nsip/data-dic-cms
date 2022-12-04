@@ -18,117 +18,96 @@
     <QuillEditor theme="snow" toolbar="essential" placeholder="definition modification" @ready="onReadyDM" @textChange="textChangeDM(idx || 0)" />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import TextLine from "../shared/TextLine.vue";
 
-export default defineComponent({
-    name: "EntColEditor",
-    components: {
-        QuillEditor,
-        TextLine,
-    },
-    props: {
-        idx: Number,
-    },
-    setup(props) {
-        const name = ref("");
-        const standard = ref("");
-        const elements = ref("");
+const name = ref("");
+const standard = ref("");
+const elements = ref("");
 
-        const taN = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const taS = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
+const taN = ref<HTMLTextAreaElement | null>(null); // fetch element
+const taS = ref<HTMLTextAreaElement | null>(null); // fetch element
+const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        let quillDes: Quill;
-        let quillBR: Quill;
-        let quillDM: Quill;
+let quillDes: Quill;
+let quillBR: Quill;
+let quillDM: Quill;
 
-        onMounted(async () => {
-            const col = jsonHTML.Collections[props.idx || 0];
+const props = defineProps({
+    idx: Number,
+})
 
-            // textarea
-            name.value = col.Name;
-            standard.value = col.Standard;
-            elements.value = col.Elements != null ? col.Elements.join("\n") : "";
+onMounted(async () => {
+    const col = jsonHTML.Collections[props.idx || 0];
 
-            // quill
-            quillDes.root.innerHTML = col.Description;
-            quillBR.root.innerHTML =
-                col.BusinessRules != null ? col.BusinessRules.join("\n") : "";
-            quillDM.root.innerHTML = col.DefinitionModification;
-        });
+    // textarea
+    name.value = col.Name;
+    standard.value = col.Standard;
+    elements.value = col.Elements != null ? col.Elements.join("\n") : "";
 
-        const onReadyDes = (quill: Quill) => {
-            quillDes = quill;
-        };
-        const onReadyBR = (quill: Quill) => {
-            quillBR = quill;
-        };
-        const onReadyDM = (quill: Quill) => {
-            quillDM = quill;
-        };
-
-        const textChangeDes = (idx: number) => {
-            const html = quillDes.root.innerHTML;
-            const text = quillDes.getText(0, 100000);
-            jsonHTML.SetCol("html", idx, "", html, "", "", "", "");
-            jsonTEXT.SetCol("", idx, "", text, "", "", "", "");
-        };
-        const textChangeBR = (idx: number) => {
-            const html = quillBR.root.innerHTML;
-            const text = quillBR.getText(0, 100000);
-            jsonHTML.SetCol("html", idx, "", "", "", "", html, "");
-            jsonTEXT.SetCol("", idx, "", "", "", "", text, "");
-        };
-        const textChangeDM = (idx: number) => {
-            const html = quillDM.root.innerHTML;
-            const text = quillDM.getText(0, 100000);
-            jsonHTML.SetCol("html", idx, "", "", "", "", "", html);
-            jsonTEXT.SetCol("", idx, "", "", "", "", "", text);
-        };
-
-        watchEffect(() => {
-            jsonHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
-            jsonTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
-
-            if (taN.value != null) {
-                const numberOfLineBreaks = (name.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taN.value!.style.height = newHeight + "px";
-            }
-            if (taS.value != null) {
-                const numberOfLineBreaks = (standard.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taS.value!.style.height = newHeight + "px";
-            }
-            if (taE.value != null) {
-                const numberOfLineBreaks = (elements.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 20 + 2;
-                taE.value!.style.height = newHeight + "px";
-            }
-        });
-
-        return {
-            name,
-            standard,
-            elements,
-            taN,
-            taS,
-            taE,
-            onReadyDes,
-            onReadyBR,
-            onReadyDM,
-            textChangeDes,
-            textChangeBR,
-            textChangeDM,
-        };
-    },
+    // quill
+    quillDes.root.innerHTML = col.Description;
+    quillBR.root.innerHTML =
+        col.BusinessRules != null ? col.BusinessRules.join("\n") : "";
+    quillDM.root.innerHTML = col.DefinitionModification;
 });
+
+const onReadyDes = (quill: Quill) => {
+    quillDes = quill;
+};
+const onReadyBR = (quill: Quill) => {
+    quillBR = quill;
+};
+const onReadyDM = (quill: Quill) => {
+    quillDM = quill;
+};
+
+const textChangeDes = (idx: number) => {
+    const html = quillDes.root.innerHTML;
+    const text = quillDes.getText(0, 100000);
+    jsonHTML.SetCol("html", idx, "", html, "", "", "", "");
+    jsonTEXT.SetCol("", idx, "", text, "", "", "", "");
+};
+const textChangeBR = (idx: number) => {
+    const html = quillBR.root.innerHTML;
+    const text = quillBR.getText(0, 100000);
+    jsonHTML.SetCol("html", idx, "", "", "", "", html, "");
+    jsonTEXT.SetCol("", idx, "", "", "", "", text, "");
+};
+const textChangeDM = (idx: number) => {
+    const html = quillDM.root.innerHTML;
+    const text = quillDM.getText(0, 100000);
+    jsonHTML.SetCol("html", idx, "", "", "", "", "", html);
+    jsonTEXT.SetCol("", idx, "", "", "", "", "", text);
+};
+
+watchEffect(() => {
+    jsonHTML.SetCol("html", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+    jsonTEXT.SetCol("", props.idx || 0, name.value, "", standard.value, elements.value, "", "");
+
+    if (taN.value != null) {
+        const numberOfLineBreaks = (name.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taN.value!.style.height = newHeight + "px";
+    }
+    if (taS.value != null) {
+        const numberOfLineBreaks = (standard.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taS.value!.style.height = newHeight + "px";
+    }
+    if (taE.value != null) {
+        const numberOfLineBreaks = (elements.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 20 + 2;
+        taE.value!.style.height = newHeight + "px";
+    }
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

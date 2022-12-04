@@ -18,116 +18,95 @@
     <textarea class="content" ref="taDS" v-model="datestamp" placeholder="standard"></textarea>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, watchEffect } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import TextLine from "../shared/TextLine.vue";
 
-export default defineComponent({
-    name: "EntLegalDefEditor",
-    components: {
-        QuillEditor,
-        TextLine,
-    },
-    props: {
-        idx: Number,
-    },
-    setup(props) {
-        const legname = ref("");
-        const link = ref("");
-        const datestamp = ref("");
 
-        const taLN = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const taLK = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const taDS = ref<HTMLTextAreaElement | null>(null); // fetch element
+const legname = ref("");
+const link = ref("");
+const datestamp = ref("");
 
-        let quillCit: Quill;
-        let quillDef: Quill;
-        let quillCmt: Quill;
+const taLN = ref<HTMLTextAreaElement | null>(null); // fetch element
+const taLK = ref<HTMLTextAreaElement | null>(null); // fetch element
+const taDS = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-        onMounted(async () => {
-            const ld = jsonHTML.LegalDefinitions[props.idx || 0];
+let quillCit: Quill;
+let quillDef: Quill;
+let quillCmt: Quill;
 
-            // textarea
-            legname.value = ld.LegislationName;
-            link.value = ld.Link;
-            datestamp.value = ld.Datestamp;
+const props = defineProps({
+    idx: Number,
+})
 
-            // quill
-            quillCit.root.innerHTML = ld.Citation;
-            quillDef.root.innerHTML = ld.Definition;
-            quillCmt.root.innerHTML = ld.Commentary;
-        });
+onMounted(async () => {
+    const ld = jsonHTML.LegalDefinitions[props.idx || 0];
 
-        const onReadyCit = (quill: Quill) => {
-            quillCit = quill;
-        };
-        const onReadyDef = (quill: Quill) => {
-            quillDef = quill;
-        };
-        const onReadyCmt = (quill: Quill) => {
-            quillCmt = quill;
-        };
+    // textarea
+    legname.value = ld.LegislationName;
+    link.value = ld.Link;
+    datestamp.value = ld.Datestamp;
 
-        const textChangeCit = (idx: number) => {
-            const html = quillCit.root.innerHTML;
-            const text = quillCit.getText(0, 100000);
-            jsonHTML.SetLegalDef(idx, "", html, "", "", "", "");
-            jsonTEXT.SetLegalDef(idx, "", text, "", "", "", "");
-        };
-        const textChangeDef = (idx: number) => {
-            const html = quillDef.root.innerHTML;
-            const text = quillDef.getText(0, 100000);
-            jsonHTML.SetLegalDef(idx, "", "", "", html, "", "");
-            jsonTEXT.SetLegalDef(idx, "", "", "", text, "", "");
-        };
-        const textChangeCmt = (idx: number) => {
-            const html = quillCmt.root.innerHTML;
-            const text = quillCmt.getText(0, 100000);
-            jsonHTML.SetLegalDef(idx, "", "", "", "", html, "");
-            jsonTEXT.SetLegalDef(idx, "", "", "", "", text, "");
-        };
-
-        watchEffect(() => {
-            jsonHTML.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
-            jsonTEXT.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
-
-            if (taLN.value != null) {
-                const numberOfLineBreaks = (legname.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taLN.value!.style.height = newHeight + "px";
-            }
-            if (taLK.value != null) {
-                const numberOfLineBreaks = (link.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taLK.value!.style.height = newHeight + "px";
-            }
-            if (taDS.value != null) {
-                const numberOfLineBreaks = (datestamp.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taDS.value!.style.height = newHeight + "px";
-            }
-        });
-
-        return {
-            legname,
-            link,
-            datestamp,
-            taLN,
-            taLK,
-            taDS,
-            onReadyCit,
-            onReadyDef,
-            onReadyCmt,
-            textChangeCit,
-            textChangeDef,
-            textChangeCmt,
-        };
-    },
+    // quill
+    quillCit.root.innerHTML = ld.Citation;
+    quillDef.root.innerHTML = ld.Definition;
+    quillCmt.root.innerHTML = ld.Commentary;
 });
+
+const onReadyCit = (quill: Quill) => {
+    quillCit = quill;
+};
+const onReadyDef = (quill: Quill) => {
+    quillDef = quill;
+};
+const onReadyCmt = (quill: Quill) => {
+    quillCmt = quill;
+};
+
+const textChangeCit = (idx: number) => {
+    const html = quillCit.root.innerHTML;
+    const text = quillCit.getText(0, 100000);
+    jsonHTML.SetLegalDef(idx, "", html, "", "", "", "");
+    jsonTEXT.SetLegalDef(idx, "", text, "", "", "", "");
+};
+const textChangeDef = (idx: number) => {
+    const html = quillDef.root.innerHTML;
+    const text = quillDef.getText(0, 100000);
+    jsonHTML.SetLegalDef(idx, "", "", "", html, "", "");
+    jsonTEXT.SetLegalDef(idx, "", "", "", text, "", "");
+};
+const textChangeCmt = (idx: number) => {
+    const html = quillCmt.root.innerHTML;
+    const text = quillCmt.getText(0, 100000);
+    jsonHTML.SetLegalDef(idx, "", "", "", "", html, "");
+    jsonTEXT.SetLegalDef(idx, "", "", "", "", text, "");
+};
+
+watchEffect(() => {
+    jsonHTML.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
+    jsonTEXT.SetLegalDef(props.idx || 0, legname.value, "", link.value, "", "", datestamp.value);
+
+    if (taLN.value != null) {
+        const numberOfLineBreaks = (legname.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taLN.value!.style.height = newHeight + "px";
+    }
+    if (taLK.value != null) {
+        const numberOfLineBreaks = (link.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taLK.value!.style.height = newHeight + "px";
+    }
+    if (taDS.value != null) {
+        const numberOfLineBreaks = (datestamp.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taDS.value!.style.height = newHeight + "px";
+    }
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

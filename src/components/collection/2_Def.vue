@@ -12,49 +12,35 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+
+import { ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 
-export default defineComponent({
-    name: "ColDef",
-    components: {
-        QuillEditor,
-    },
-    setup() {
-        let icon = ref("chevron-down");
-        let quillDef: Quill;
-        let visEditor = ref(false);
+let icon = ref("chevron-down");
+let quillDef: Quill;
+let visEditor = ref(false);
 
-        const onReady = (quill: Quill) => {
-            quillDef = quill;
+const onReady = (quill: Quill) => {
+    quillDef = quill;
 
-            // fill existing html text into quill, format could change by quill
-            quillDef.root.innerHTML = jsonColHTML.Definition;
-        };
+    // fill existing html text into quill, format could change by quill
+    quillDef.root.innerHTML = jsonColHTML.Definition;
+};
 
-        const textChange = () => {
-            jsonColHTML.SetDefinition(quillDef.root.innerHTML);
-            jsonColTEXT.SetDefinition(quillDef.getText(0, 100000));
-        };
+const textChange = () => {
+    jsonColHTML.SetDefinition(quillDef.root.innerHTML);
+    jsonColTEXT.SetDefinition(quillDef.getText(0, 100000));
+};
 
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
+const onToggleVisible = () => {
+    visEditor.value = !visEditor.value;
+    icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
+};
 
-        return {
-            icon,
-            visEditor,
-            textChange,
-            onReady,
-            onToggleVisible,
-        };
-    },
-});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

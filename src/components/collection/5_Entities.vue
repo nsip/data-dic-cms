@@ -10,49 +10,40 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from "vue";
+<script setup lang="ts">
+
+import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import { Mode } from "@/share/share";
 
-export default defineComponent({
-    name: "ColEntities",
-    setup() {
-        const icon = ref("chevron-down");
-        const visEditor = ref(false);
-        const entities = ref("");
-        const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
-        onMounted(async () => {
-            await new Promise((f) => setTimeout(f, 500));
-            entities.value =
-                jsonColTEXT.Entities != null ? jsonColTEXT.Entities.join("\n") : "";
-        });
-        watchEffect(() => {
-            jsonColTEXT.SetEntities(entities.value);
-            jsonColHTML.SetEntities(entities.value);
+const icon = ref("chevron-down");
+const visEditor = ref(false);
+const entities = ref("");
+const taE = ref<HTMLTextAreaElement | null>(null); // fetch element
 
-            // resize textarea
-            if (taE.value != null) {
-                const numberOfLineBreaks = (entities.value.match(/\n/g) || []).length;
-                const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
-                taE.value!.style.height = newHeight + "px";
-            }
-        });
+const onToggleVisible = () => {
+    visEditor.value = !visEditor.value;
+    icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
+};
 
-        return {
-            Mode,
-            entities,
-            taE,
-            icon,
-            visEditor,
-            onToggleVisible,
-        };
-    },
+onMounted(async () => {
+    await new Promise((f) => setTimeout(f, 500));
+    entities.value =
+        jsonColTEXT.Entities != null ? jsonColTEXT.Entities.join("\n") : "";
 });
+
+watchEffect(() => {
+    jsonColTEXT.SetEntities(entities.value);
+    jsonColHTML.SetEntities(entities.value);
+
+    // resize textarea
+    if (taE.value != null) {
+        const numberOfLineBreaks = (entities.value.match(/\n/g) || []).length;
+        const newHeight = 10 + numberOfLineBreaks * 20 + 12 + 2;
+        taE.value!.style.height = newHeight + "px";
+    }
+});
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

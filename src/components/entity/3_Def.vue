@@ -12,51 +12,36 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+
+import { ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 
-export default defineComponent({
-    name: "EntDef",
-    components: {
-        QuillEditor,
-    },
-    setup() {
-        const holder = "entity definition";
-        let icon = ref("chevron-down");
-        let quillDef: Quill;
-        let visEditor = ref(false);
+const holder = "entity definition";
+let icon = ref("chevron-down");
+let quillDef: Quill;
+let visEditor = ref(false);
 
-        const onReady = (quill: Quill) => {
-            quillDef = quill;
+const onReady = (quill: Quill) => {
+    quillDef = quill;
 
-            // fill existing html text into quill, format could change by quill
-            quillDef.root.innerHTML = jsonHTML.Definition;
-        };
+    // fill existing html text into quill, format could change by quill
+    quillDef.root.innerHTML = jsonHTML.Definition;
+};
 
-        const textChange = () => {
-            jsonHTML.SetDefinition(quillDef.root.innerHTML);
-            jsonTEXT.SetDefinition(quillDef.getText(0, 100000));
-        };
+const textChange = () => {
+    jsonHTML.SetDefinition(quillDef.root.innerHTML);
+    jsonTEXT.SetDefinition(quillDef.getText(0, 100000));
+};
 
-        const onToggleVisible = () => {
-            visEditor.value = !visEditor.value;
-            icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
-        };
+const onToggleVisible = () => {
+    visEditor.value = !visEditor.value;
+    icon.value = icon.value == "chevron-down" ? "chevron-up" : "chevron-down";
+};
 
-        return {
-            holder,
-            icon,
-            visEditor,
-            textChange,
-            onReady,
-            onToggleVisible,
-        };
-    },
-});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
