@@ -3,8 +3,8 @@
         <MainTitle />
         <div id="container">
             <div id="left">
-                <EntryEnt v-if="kind    ==    'entity'" />
-                <EntryCol v-if="kind    ==    'collection'" />
+                <EntryEnt v-if="kind == 'entity'" />
+                <EntryCol v-if="kind == 'collection'" />
             </div>
             <div id="right">
                 <Preview :Kind="kind" />
@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 
-import { onMounted, ref } from "vue";
 import { Mode, loginAuth, loginToken, loginUser, getUname, itemName, itemKind, getItemContent } from "@/share/share";
 import { EntType, jsonEntHTML, jsonEntTEXT } from "@/share/EntType";
 import { ColType, jsonColHTML, jsonColTEXT } from "@/share/ColType";
@@ -130,6 +129,9 @@ onMounted(async () => {
                 Mode.value = "new";
 
                 // console.log("new mode");
+
+                
+
             }
         }
     }

@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 
 const icon = ref("chevron-down");

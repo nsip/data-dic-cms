@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted, watchEffect } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 
 const icon = ref("chevron-down");

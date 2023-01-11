@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted } from "vue";
 import EditorMeta from "@/components/collection/4_Meta_Editor.vue";
 
 let icon = ref("chevron-down");

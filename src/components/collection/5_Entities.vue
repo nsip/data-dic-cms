@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import { Mode } from "@/share/share";
 

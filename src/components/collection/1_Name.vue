@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML as jsonHTML, jsonColTEXT as jsonTEXT } from "@/share/ColType";
 import { Mode } from "@/share/share";
 

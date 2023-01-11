@@ -8,7 +8,6 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted, watchEffect } from "vue";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import TextLine from "@/components/shared/TextLine.vue";
 

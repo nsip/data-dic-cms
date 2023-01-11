@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted } from "vue";
 import { jsonEntHTML as jsonHTML, jsonEntTEXT as jsonTEXT } from "@/share/EntType";
 import { itemName, itemKind } from "@/share/share";
 import TextLine from "@/components/shared/TextLine.vue";

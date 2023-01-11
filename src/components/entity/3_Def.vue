@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 
-import { ref } from "vue";
 import { QuillEditor, Quill } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";

@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 
-import { ref } from "vue";
 import { jsonEntHTML, jsonEntTEXT } from "@/share/EntType";
 import { jsonColHTML, jsonColTEXT } from "@/share/ColType";
 import EntVisualContent from "@/components/entity/VisualContent.vue";
